@@ -15,31 +15,17 @@
         <title>Login</title>
     </head>
     <body>
-        <div class="header row">
-            <div class="logo col-md-2">
-                <img src="resource/images/logo.png" alt="logo"/>
-            </div>
-            <div class="search-container col-md-6">
-                <input type="text" placeholder="Search">
-                <button class="search-button">
-                    <i class="fa fa-search"></i>
-                </button>                
-            </div>
-            <div class="startBtn col-md-4 row">
-                <button id="loginBtn">Log In</button>
-                <button id="signupBtn">Sign Up</button>
-            </div>
-        </div>
+        <jsp:include page="/component/header.jsp" />
         <div class="login-form row">
             <div class="col-md-6">
                 <img src="resource/images/banner-login.jpg" alt="banner-login">
             </div>
             <div class="login-form-right col-md-6">
-                ${error}
+                <p>${error}</p>
                 <form action="login" method="POST">
                     <h1>Log in to continue your learning journey</h1>
                     <input type="text" name="username" placeholder="Username" />
-                    <input type="text" name="password" placeholder="Password" />
+                    <input type="password" name="password" placeholder="Password" />
                     <input type="submit" value="SIGN IN" id="signinBtn"/>
                 </form> 
                 <div class="separator text-center my-3">
@@ -62,9 +48,6 @@
                 </div>
             </div>
         </div>
-        <div class="footer">
-            <img src="resource/images/logo.png" alt="logo"/>
-            <h6>&copy; 2025 EduBridge<h6>
-        </div>
+        <%@ include file="/component/footer.jsp" %>
     </body>
 </html>
