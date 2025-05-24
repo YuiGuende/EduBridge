@@ -83,17 +83,27 @@ body {
 #loginBtn, #signupBtn{
     width: 22%;
     padding: 1%;
-    background: none;
-    color: #1a2a6c;
+
     align-items: center;
     border: 1px solid #1a2a6c;
     font-size: 1.1rem;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.2s, color 0.2s ease-in-out, border 0.2s ease-in-out;
+    transition: background-color 0.2s, color 0.2s ease-in-out;
 }
-#loginBtn:hover, #signupBtn:hover{
+#loginBtn{
+    background: none;
+    color: #1a2a6c;
+}
+#signupBtn{
     background: #1a2a6c;
+    color: white;
+}
+#signupBtn:hover{
+    background: #03479e;
+}
+#loginBtn:hover{
+    background: #03479e;
     color: white;
 }
 .separator {

@@ -52,3 +52,7 @@ body {
 #signinBtn:hover{
     background-color: #1a3aa6;
 }
+.login-form-right p{
+    text-align: center;
+    color: red;
+}

@@ -15,12 +15,13 @@
         <title>Login</title>
     </head>
     <body>
+        <jsp:include page="/component/header.jsp" />
         <div class="login-form row">
             <div class="col-md-6">
                 <img src="resource/images/banner-login.jpg" alt="banner-login">
             </div>
             <div class="login-form-right col-md-6">
-                ${error}
+                <p>${error}</p>
                 <form action="login" method="POST">
                     <h1>Log in to continue your learning journey</h1>
                     <input type="text" name="username" placeholder="Username" />
@@ -47,5 +48,6 @@
                 </div>
             </div>
         </div>
+        <%@ include file="/component/footer.jsp" %>
     </body>
 </html>
