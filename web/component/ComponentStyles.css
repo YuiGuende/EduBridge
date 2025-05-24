@@ -83,7 +83,7 @@ body {
 #loginBtn, #signupBtn{
     width: 22%;
     padding: 1%;
-
+    font-weight: bold;
     align-items: center;
     border: 1px solid #1a2a6c;
     font-size: 1.1rem;
