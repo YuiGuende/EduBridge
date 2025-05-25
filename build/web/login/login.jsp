@@ -9,6 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="login/LoginStyles.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
@@ -21,11 +22,22 @@
                 <img src="resource/images/banner-login.jpg" alt="banner-login">
             </div>
             <div class="login-form-right col-md-6">
-                <p>${error}</p>
+                <c:choose>
+                    <c:when test="${not empty successMessage}">
+                        <p id="successMsg" id="successMsg">
+                            ${successMessage}
+                        </p>
+                    </c:when>
+                    <c:when test="${not empty error}">
+                        <p id="errorMsg" id="errorMsg">
+                            ${error}
+                        </p>
+                    </c:when>
+                </c:choose>
                 <form action="login" method="POST">
                     <h1>Log in to continue your learning journey</h1>
-                    <input type="text" name="username" placeholder="Username" />
-                    <input type="password" name="password" placeholder="Password" />
+                    <input type="text" name="email" placeholder="Email" required/>
+                    <input type="password" name="password" placeholder="Password" required/>
                     <input type="submit" value="SIGN IN" id="signinBtn"/>
                 </form> 
                 <div class="separator text-center my-3">
@@ -44,7 +56,7 @@
                 </div>
                 <div class="text-center mt-4">
                     <span>Don't have an account?</span>
-                    <a href="signup.jsp">Sign Up</a>
+                    <a href="${pageContext.request.contextPath}/signup">Sign Up</a>
                 </div>
             </div>
         </div>

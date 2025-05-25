@@ -9,13 +9,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="component/ComponentStyles.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
         <title>Header</title>
     </head>
     <body>
-        <div class="header row">
+        <header class="header row">
             <div class="logo col-md-2">
                 <img src="resource/images/logo.png" alt="logo"/>
             </div>
@@ -29,6 +30,14 @@
                 <button id="loginBtn">Log In</button>
                 <button id="signupBtn">Sign Up</button>
             </div>
-        </div>    
+        </header>    
     </body>
+    <script>
+        document.getElementById("loginBtn").onclick = function () {
+            window.location.href = "${pageContext.request.contextPath}/login";
+        };
+        document.getElementById("signupBtn").onclick = function () {
+            window.location.href = "${pageContext.request.contextPath}/signup";
+        };
+    </script>
 </html>

@@ -1,6 +1,6 @@
 <%-- 
-    Document   : Login
-    Created on : May 21, 2025, 9:00:48 AM
+    Document   : signup.jsp
+    Created on : May 24, 2025, 10:46:45 AM
     Author     : DELL
 --%>
 
@@ -10,38 +10,29 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="login/LoginStyles.css">
+        <link rel="stylesheet" href="signup/SignupStyles.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-        <title>Login</title>
+        <title>Signup</title>
     </head>
     <body>
         <jsp:include page="/component/header.jsp" />
-        <div class="login-form row">
+        <div class="signup-form row">
             <div class="col-md-6">
-                <img src="resource/images/banner-login.jpg" alt="banner-login">
+                <img src="resource/images/banner-login.jpg" alt="banner-signup">
             </div>
-            <div class="login-form-right col-md-6">
-                <c:choose>
-                    <c:when test="${not empty successMessage}">
-                        <p id="successMsg" id="successMsg">
-                            ${successMessage}
-                        </p>
-                    </c:when>
-                    <c:when test="${not empty error}">
-                        <p id="errorMsg" id="errorMsg">
-                            ${error}
-                        </p>
-                    </c:when>
-                </c:choose>
-                <form action="login" method="POST">
-                    <h1>Log in to continue your learning journey</h1>
+            <div class="signup-form-right col-md-6">
+                <p>${error}</p>
+                <form action="signup" method="POST">
+                    <h1>Sign up to start your learning journey</h1>
                     <input type="text" name="email" placeholder="Email" required/>
+                    <input type="text" name="fullname" placeholder="Full Name" required/>
                     <input type="password" name="password" placeholder="Password" required/>
-                    <input type="submit" value="SIGN IN" id="signinBtn"/>
+                    <input type="password" name="confirm" placeholder="Confirm Password" required/>
+                    <input type="submit" value="SIGN UP" id="signup"/>
                 </form> 
                 <div class="separator text-center my-3">
-                    <span>Other login options</span>
+                    <span>Other options</span>
                 </div>
                 <div class="other-options">
                     <button class="btn btn-outline-danger">
@@ -55,11 +46,11 @@
                     </button>
                 </div>
                 <div class="text-center mt-4">
-                    <span>Don't have an account?</span>
-                    <a href="${pageContext.request.contextPath}/signup">Sign Up</a>
+                    <span>Already have an account?</span>
+                    <a href="${pageContext.request.contextPath}/login">Log In</a>
                 </div>
             </div>
         </div>
-        <%@ include file="/component/footer.jsp" %>
+        <%@ include file="/component/footer.jsp" %>   
     </body>
 </html>
