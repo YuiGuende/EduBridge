@@ -3,15 +3,22 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/Yna/Study/TERM_4/PRJ301/Assignment/EduBridgeNew/EduBridge/web/WEB-INF/web.xml</file>
+            <file>file:/D:/Yna/Study/TERM_4/PRJ301/Assignment/EduBridgeNew/EduBridge/src/java/filter/AlreadyLoggedInFilter.java</file>
             <file>file:/D:/Yna/Study/TERM_4/PRJ301/Assignment/EduBridgeNew/EduBridge/src/java/dal/UserDAO.java</file>
             <file>file:/D:/Yna/Study/TERM_4/PRJ301/Assignment/EduBridgeNew/EduBridge/src/java/service/login/LoginServiceImpl.java</file>
             <file>file:/D:/Yna/Study/TERM_4/PRJ301/Assignment/EduBridgeNew/EduBridge/src/java/service/signup/SignupService.java</file>
             <file>file:/D:/Yna/Study/TERM_4/PRJ301/Assignment/EduBridgeNew/EduBridge/src/java/controller/SignupServlet.java</file>
+            <file>file:/D:/Yna/Study/TERM_4/PRJ301/Assignment/EduBridgeNew/EduBridge/web/component/ComponentStyles.css</file>
+            <file>file:/D:/Yna/Study/TERM_4/PRJ301/Assignment/EduBridgeNew/EduBridge/src/java/service/login/LoginService.java</file>
+            <file>file:/D:/Yna/Study/TERM_4/PRJ301/Assignment/EduBridgeNew/EduBridge/web/login/LoginStyles.css</file>
+            <file>file:/D:/Yna/Study/TERM_4/PRJ301/Assignment/EduBridgeNew/EduBridge/web/signup/SignupStyles.css</file>
             <file>file:/D:/Yna/Study/TERM_4/PRJ301/Assignment/EduBridgeNew/EduBridge/web/signup/signup.jsp</file>
             <file>file:/D:/Yna/Study/TERM_4/PRJ301/Assignment/EduBridgeNew/EduBridge/web/component/header.jsp</file>
             <file>file:/D:/Yna/Study/TERM_4/PRJ301/Assignment/EduBridgeNew/EduBridge/web/login/login.jsp</file>
             <file>file:/D:/Yna/Study/TERM_4/PRJ301/Assignment/EduBridgeNew/EduBridge/src/java/model/User.java</file>
             <file>file:/D:/Yna/Study/TERM_4/PRJ301/Assignment/EduBridgeNew/EduBridge/src/java/controller/LoginServlet.java</file>
+            <file>file:/D:/Yna/Study/TERM_4/PRJ301/Assignment/EduBridgeNew/EduBridge/src/java/dal/DBContext.java</file>
             <file>file:/D:/Yna/Study/TERM_4/PRJ301/Assignment/EduBridgeNew/EduBridge/src/java/service/signup/SignupServiceImpl.java</file>
         </group>
     </open-files>
