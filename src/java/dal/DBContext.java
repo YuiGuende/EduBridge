@@ -12,7 +12,7 @@ import java.sql.*;  // <-- Câu này đúng
  */
 public class DBContext {
 
-    public Connection getConnection() throws SQLWarning  {
+    public static Connection getConnection() throws SQLWarning  {
         try {
             String serverName = "localhost";
             String dbName = "EduBridge_database";
