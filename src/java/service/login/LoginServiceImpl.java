@@ -16,11 +16,11 @@ import model.*;
 public class LoginServiceImpl implements LoginService {
 
     @Override
-    public User login(String username, String password) {
+    public User login(String email, String password) {
         UserDAO dao = new UserDAO();
-        User user = dao.findByUsernameAndPassword(username, password);
+        User user = dao.findByEmailAndPassword(email, password);
         if (user == null) {
-            throw new RuntimeException("account not found!");
+            throw new RuntimeException("Account not found!");
         }
         return user;
     }

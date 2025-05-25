@@ -19,11 +19,11 @@ public class UserDAO {
         List<User> list = new ArrayList<>();
         String sql = "select * from userTbl";
         try {
-            DBContext db= new DBContext();
+            DBContext db = new DBContext();
             PreparedStatement st = db.getConnection().prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                User user = new User(rs.getInt("id"), rs.getString("username"), rs.getString("password"));
+                User user = new User(rs.getInt("id"), rs.getNString("fullname"), rs.getString("email"), rs.getString("password"), rs.getString("role"));
                 list.add(user);
             }
         } catch (SQLException e) {
@@ -32,25 +32,56 @@ public class UserDAO {
         return list;
     }
 
-    public User findByUsernameAndPassword(String username, String password) {
+    public User findByEmailAndPassword(String email, String password) {
 
-        String sql = "select * from userTbl where username=? and password=?";
+        String sql = "select * from userTbl where email=? and password=?";
 
         try {
-            DBContext db= new DBContext();
+            DBContext db = new DBContext();
             PreparedStatement st = db.getConnection().prepareStatement(sql);
-            st.setString(1, username);
+            st.setString(1, email);
             st.setString(2, password);
             ResultSet rs = st.executeQuery();
 
             if (rs.next()) {
-                return new User(rs.getInt("id"), rs.getString("username"), rs.getString("password"));
+                return new User(rs.getInt("id"), rs.getNString("fullname"), rs.getString("email"), rs.getString("password"), rs.getString("role"));
 
             }
         } catch (SQLException e) {
 
         }
         return null;
+    }
+
+    public boolean isEmailExisted(String email) {
+        String sql = "select * from userTbl where email=?";
+
+        try {
+            DBContext db = new DBContext();
+            PreparedStatement st = db.getConnection().prepareStatement(sql);
+            st.setString(1, email);
+            ResultSet rs = st.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+
+        }
+        return false;
+    }
+
+    public void insertUser(User user) {
+        String sql = "insert into userTbl (email, fullname, password, role) values (?, ?, ?, ?)";
+
+        try {
+            DBContext db = new DBContext();
+            PreparedStatement st = db.getConnection().prepareStatement(sql);
+            st.setString(1, user.getEmail());
+            st.setNString(2, user.getFullname());
+            st.setString(3, user.getPassword());
+            st.setString(4, user.getRole());
+            st.executeUpdate();
+        } catch (SQLException e) {
+
+        }
     }
 
 }

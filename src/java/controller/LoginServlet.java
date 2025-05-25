@@ -11,10 +11,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.User;
 import service.login.LoginServiceImpl;
 
-public class Login extends HttpServlet {
+public class LoginServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,10 +34,10 @@ public class Login extends HttpServlet {
 //            out.println("<!DOCTYPE html>");
 //            out.println("<html>");
 //            out.println("<head>");
-//            out.println("<title>Servlet Login</title>");  
+//            out.println("<title>Servlet LoginServlet</title>");  
 //            out.println("</head>");
 //            out.println("<body>");
-//            out.println("<h1>Servlet Login at " + request.getContextPath () + "</h1>");
+//            out.println("<h1>Servlet LoginServlet at " + request.getContextPath () + "</h1>");
 //            out.println("</body>");
 //            out.println("</html>");
 //        }
@@ -70,13 +71,25 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         LoginServiceImpl service = new LoginServiceImpl();
         try {
-            String username = request.getParameter("username");
+            String email = request.getParameter("email");
             String password = request.getParameter("password");
 
-            User user = service.login(username, password);
-            
-            request.setAttribute("user", user);
-            request.getRequestDispatcher("login/test.jsp").forward(request, response);
+            User user = service.login(email, password);
+            HttpSession session = request.getSession();
+            session.setAttribute("user", user);
+//            request.setAttribute("user", user);
+            switch (user.getRole()) {
+                case "learner":
+                    request.getRequestDispatcher("home/learner.jsp").forward(request, response);
+                    break;
+//            request.getRequestDispatcher("login/test.jsp").forward(request, response);
+                case "instructor":
+                    request.getRequestDispatcher("home/instructor.jsp").forward(request, response);
+                    break;
+                default:
+                    request.getRequestDispatcher("home/admin.jsp").forward(request, response);
+                    break;
+            }
         } catch (Exception e) {
             request.setAttribute("error", e.getMessage());
             request.getRequestDispatcher("login/login.jsp").forward(request, response);

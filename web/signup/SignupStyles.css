@@ -1,9 +1,9 @@
 /*
 Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
 */
 /* 
-    Created on : May 21, 2025, 10:20:37 AM
+    Created on : May 24, 2025, 3:01:40 PM
     Author     : DELL
 */
 body, html{
@@ -11,40 +11,40 @@ body, html{
     padding: 0;
 }
 body {
-    font-family: Arial, Helvetica, sans-serif !important;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif !important;
 }
-.login-form {
+.signup-form {
     width: 100%;
     padding: 2% !important;
 }
-.login-form h1{
+.signup-form h1{
     text-align: center;
+    font-weight: bold;
     margin-top: 0;
     margin-bottom: 10px;
-    font-weight: bold;
 }
-.login-form img{
+.signup-form img{
     width: 100%;
-    height: 500px;
+    height: 550px;
 }
 
-.login-form form{
+.signup-form form{
     display: flex;
     flex-direction: column;
     padding: 0 50px;
 }
-.login-form input{
+.signup-form input{
     display: flex;
     width: 70%;
-    padding: 10px 7px;
-    margin: 10px auto;
+    padding: 7px;
+    margin: 7px auto;
     border-radius: 7px;
     border: 1px solid #ccc;
 }
-#signinBtn{
+#signup{
     border: none;
     background-color: #1A2A6C;
     color: white;
@@ -52,8 +52,13 @@ body {
     transition: background-color 0.2s;
     font-weight: bold;
 }
-#signinBtn:hover{
+#signup:hover{
     background-color: #1a3aa6;
+}
+.signup-form-right p{
+    text-align: center;
+    color: red;
+    font-weight: 600;
 }
 .separator {
     position: relative;
@@ -101,14 +106,4 @@ body {
 .btn-outline-linkedln:hover {
     background-color: #0077B5 !important;
     color: #fff !important;
-}
-#successMsg{
-    color: green;
-    text-align: center;
-    font-weight: 600;
-}
-#errorMsg{
-    color: red;
-    text-align: center;
-    font-weight: 600;
 }
