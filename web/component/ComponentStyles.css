@@ -16,6 +16,7 @@ body {
     min-height: 100vh;
 }
 .header{
+
     width: 100%;
     background-color: #FFFFFF;
     box-shadow: 0 4px 8px rgba(26, 42, 108, 0.4);
@@ -27,7 +28,12 @@ body {
     margin-bottom: 50px !important;
 }
 .logo img{
-    width: 75%;
+    width: 60%;
+    height: 90px;
+}
+.logo {
+    display: flex;
+    justify-content: center;
 }
 
 .search-container {
