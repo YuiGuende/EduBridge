@@ -36,13 +36,17 @@ body {
     flex-direction: column;
     padding: 0 50px;
 }
-.login-form input{
+form > input{
     display: flex;
     width: 70%;
     padding: 10px 7px;
     margin: 10px auto;
     border-radius: 7px;
     border: 1px solid #ccc;
+}
+form > label{
+    width: 70%;
+    margin: 10px auto;
 }
 #signinBtn{
     border: none;

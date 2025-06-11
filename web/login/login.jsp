@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -36,27 +38,32 @@
                 </c:choose>
                 <form action="login" method="POST">
                     <h1>Log in to continue your learning journey</h1>
-                    <input type="text" name="email" placeholder="Email" required/>
-                    <input type="password" name="password" placeholder="Password" required/>
+                    <input type="text" name="email" placeholder="Email" value="${savedEmail}" required/>
+                    <input type="password" name="password" placeholder="Password" value="${savedPassword}" required/>
+                    <label>
+                        <input type="checkbox" name="remember" value="on"
+                               <c:if test="${not empty savedEmail}">checked</c:if> id="remember"/>
+                               Remember me
+                    </label>
                     <input type="submit" value="SIGN IN" id="signinBtn"/>
                 </form> 
-                <div class="separator text-center my-3">
-                    <span>Other login options</span>
-                </div>
-                <div class="other-options">
-                    <button class="btn btn-outline-danger">
-                        <i class="fab fa-google"></i>
-                    </button>
-                    <button class="btn btn-outline-primary">
-                        <i class="fab fa-facebook-f"></i>
-                    </button>
-                    <button class="btn btn-outline-linkedln">
-                        <i class="fab fa-linkedin-in"></i>
-                    </button>
-                </div>
-                <div class="text-center mt-4">
-                    <span>Don't have an account?</span>
-                    <a href="${pageContext.request.contextPath}/signup">Sign Up</a>
+                    <div class="separator text-center my-3">
+                        <span>Other login options</span>
+                    </div>
+                    <div class="other-options">
+                        <button class="btn btn-outline-danger">
+                            <i class="fab fa-google"></i>
+                        </button>
+                        <button class="btn btn-outline-primary">
+                            <i class="fab fa-facebook-f"></i>
+                        </button>
+                        <button class="btn btn-outline-linkedln">
+                            <i class="fab fa-linkedin-in"></i>
+                        </button>
+                    </div>
+                    <div class="text-center mt-4">
+                        <span>Don't have an account?</span>
+                        <a href="${pageContext.request.contextPath}/signup">Sign Up</a>
                 </div>
             </div>
         </div>

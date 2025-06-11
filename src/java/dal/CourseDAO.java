@@ -11,7 +11,8 @@ import model.course.Tag;
 public class CourseDAO {
 
     private Connection conn;
-    private final LanguageDAO languageDAO= new LanguageDAO();
+    private final LanguageDAO languageDAO = new LanguageDAO();
+
     public CourseDAO() {
         try {
             conn = DBContext.getConnection(); // Giả định bạn có DBUtil quản lý kết nối
@@ -34,8 +35,7 @@ public class CourseDAO {
         List<Course> list = new ArrayList<>();
         String sql = "SELECT * FROM Course";
 
-        try (PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 list.add(mapResultSetToCourse(rs));
@@ -93,7 +93,7 @@ public class CourseDAO {
                                 language_id, url_thumbnail, is_paid, status, published_time, last_update)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """;
-        
+
         try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, course.getTitle());
             ps.setString(2, course.getHeadLine());
@@ -101,7 +101,7 @@ public class CourseDAO {
             ps.setString(4, course.getStringRequirement());
             ps.setString(5, course.getStringCourseFor());
             ps.setString(6, course.getStringLearningOutcomes());
-            Language l=languageDAO.findByLanguage(course.getLanguage().getLanguage());
+            Language l = languageDAO.findByLanguage(course.getLanguage().getLanguage());
             ps.setObject(7, (l != null) ? l.getId() : null);
             ps.setString(8, course.getThumbnailUrl());
             ps.setBoolean(9, course.isPaid());
@@ -153,7 +153,6 @@ public class CourseDAO {
             // Optional: update tags if needed
             // deleteOldTags(course.getId());
             // insertCourseTags(course);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -161,7 +160,7 @@ public class CourseDAO {
 
     // ---------- Helper: Mapping ResultSet -> Course ----------------
     private Course mapResultSetToCourse(ResultSet rs) throws SQLException {
-        
+
         LanguageDAO languageDAO= new LanguageDAO();
         Course c = new Course();
         c.setId(rs.getInt("id"));
@@ -204,5 +203,97 @@ public class CourseDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Course> findCourses(int instructorID, String status, String keyword, String sort, int offset, int limit) {
+        List<Course> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder(
+            "SELECT c.* FROM Course c " +
+            "INNER JOIN Course_Instructor ci ON c.id = ci.course_id " +
+            "WHERE ci.instructor_id = ? "
+        );
+
+        if (status != null && !status.equals("all")) {
+            sql.append("AND c.status = ? ");
+        }
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            sql.append("AND c.title LIKE ? ");
+        }
+
+        switch (sort) {
+            case "az": sql.append("ORDER BY c.title ASC "); break;
+            case "za": sql.append("ORDER BY c.title DESC "); break;
+            case "newest": sql.append("ORDER BY c.published_time DESC "); break;
+            case "oldest": sql.append("ORDER BY c.published_time ASC "); break;
+            case "popular": sql.append("ORDER BY c.enrollCount DESC "); break;
+            case "rating": sql.append("ORDER BY c.rating DESC "); break;
+            default: sql.append("ORDER BY c.id ASC "); break;
+        }
+
+        sql.append("OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
+
+        try (PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+            int paramIndex = 1;
+            ps.setInt(paramIndex++, instructorID);
+
+            if (status != null && !status.equals("all")) {
+                ps.setString(paramIndex++, status);
+            }
+
+            if (keyword != null && !keyword.trim().isEmpty()) {
+                ps.setString(paramIndex++, "%" + keyword + "%");
+            }
+
+            ps.setInt(paramIndex++, offset);
+            ps.setInt(paramIndex, limit);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(mapResultSetToCourse(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public int countCourses(int instructorID, String status, String keyword) {
+        StringBuilder sql = new StringBuilder(
+            "SELECT COUNT(*) FROM Course c " +
+            "INNER JOIN Course_Instructor ci ON c.id = ci.course_id " +
+            "WHERE ci.instructor_id = ? "
+        );
+
+        if (status != null && !status.equals("all")) {
+            sql.append("AND c.status = ? ");
+        }
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            sql.append("AND c.title LIKE ? ");
+        }
+
+        try (PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+            int paramIndex = 1;
+            ps.setInt(paramIndex++, instructorID);
+
+            if (status != null && !status.equals("all")) {
+                ps.setString(paramIndex++, status);
+            }
+
+            if (keyword != null && !keyword.trim().isEmpty()) {
+                ps.setString(paramIndex++, "%" + keyword + "%");
+            }
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
     }
 }

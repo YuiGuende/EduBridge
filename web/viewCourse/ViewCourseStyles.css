@@ -1,0 +1,25 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : Jun 7, 2025, 4:53:57 PM
+    Author     : DELL
+*/
+.container-fluid{
+    padding: 0!important;
+    min-height: 100vh;
+}
+.container-header{
+    padding: 3% 5%;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-bottom: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: #1A2A6C;
+    color: white;
+}
+i{
+    margin-right: 3px;
+}

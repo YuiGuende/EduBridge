@@ -27,7 +27,7 @@ import jakarta.servlet.annotation.MultipartConfig;
  * @author LEGION
  */
 @MultipartConfig
-public class AddCourse extends HttpServlet {
+public class AddCourseServlet extends HttpServlet {
 
     private final CourseServiceImpl courseService = new CourseServiceImpl();
 

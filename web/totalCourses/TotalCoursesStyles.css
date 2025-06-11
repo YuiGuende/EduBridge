@@ -1,0 +1,164 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+
+ 
+    Created on : Jun 5, 2025, 10:41:13 AM
+    Author     : DELL
+*/
+.container-fluid{
+    padding: 5% !important;
+    min-height: 100vh;
+}
+.container-header{
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+a{
+    font-weight: bold;
+}
+.search-container {
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    overflow: hidden;
+    background-color: #fff;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    transition: border 0.3s ease;
+}
+.search-container:focus-within {
+    border: 1.5px solid #1A2A6C;
+}
+
+.search-container input {
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+}
+.search-button {
+    border-radius: 25px;
+    background-color: white;
+    color: rgb(0, 0, 0);
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+    width: 50px;
+}
+
+.search-button:hover {
+    background-color: #1A2A6C;
+    color: #FFFFFF;
+}
+
+.search-button i {
+    font-size: 16px;
+}
+.nav{
+    margin-left: 0 !important;
+    gap: 5px;
+}
+.createBtn a{
+    text-decoration: none;
+    color: white;
+}
+.filter-btn {
+    width: 95px;
+    border: none;
+    padding: 8px 10px;
+    margin-right: 2px;
+    background-color: #d3d4d6;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    text-align: center;
+    text-decoration: none;
+    color: #1A2A6C;
+}
+
+.filter-btn:hover {
+    background-color: #ddd;
+}
+
+.filter-btn.active {
+    background-color: #1A2A6C;
+    color: white;
+}
+
+.filter-btn.active:hover, .createBtn:hover{
+    background-color: #03479e;
+}
+.createBtn{
+    width: 30px;
+    border: none;
+    padding: 8px 12px;
+    background-color: dodgerblue;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+}
+.createBtn i{
+    margin-right: 5px;
+}
+.filter-btn:hover {
+    background-color: #bababa;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 50px;
+}
+
+table th,
+table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+table th {
+    background-color: #f4f6f8;
+}
+
+#emptyList{
+    text-align: center;
+    margin-top: 50px;
+    font-weight: bold;
+    color: #1A2A6C;
+}
+/* Pagination links */
+.paging{
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+}
+.paging a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+}
+
+/* Style the active/current link */
+.paging a.active-page {
+  background-color: dodgerblue;
+  color: white;
+}
+
+/* Add a grey background color on mouse-over */
+.paging a:hover:not(.active-page) {background-color: #ddd;}

@@ -23,4 +23,10 @@ public class SignupServiceImpl implements SignupService {
         dao.insertUser(user);
     }
 
+    public static void main(String[] args) {
+        UserDAO dao = new UserDAO();
+        User user = new User("abc", "abc", "abc", "learner");
+        dao.insertUser(user);
+    }
+
 }
