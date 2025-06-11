@@ -30,7 +30,7 @@ import service.language.ILanguageImpl;
  * @author LEGION
  */
 @MultipartConfig
-public class AddCourse extends HttpServlet {
+public class AddCourseServlet extends HttpServlet {
 
     private final CourseServiceImpl courseService = new CourseServiceImpl();
     private final ILanguage languageService = new ILanguageImpl();

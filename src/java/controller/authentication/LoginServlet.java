@@ -2,12 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.authentication;
 
 import dal.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -54,10 +55,27 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String savedEmail = "";
+        String savedPassword = "";
+
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("email".equals(cookie.getName())) {
+                    savedEmail = cookie.getValue();
+                }
+                if ("password".equals(cookie.getName())) {
+                    savedPassword = cookie.getValue();
+                }
+            }
+        }
+
+        request.setAttribute("savedEmail", savedEmail);
+        request.setAttribute("savedPassword", savedPassword);
+
         request.getRequestDispatcher("login/login.jsp").forward(request, response);
     }
 
-    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -65,16 +83,32 @@ public class LoginServlet extends HttpServlet {
         try {
             String email = request.getParameter("email");
             String password = request.getParameter("password");
-
+            String remember = request.getParameter("remember");
             User user = service.login(email, password);
+
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
-//            request.setAttribute("user", user);
+            if ("on".equals(remember)) {
+                try {
+//                    String encodedUsername = URLEncoder.encode(email, "UTF-8");
+//                    String encodedPassword = URLEncoder.encode(password, "UTF-8");
+
+                    Cookie cEmail = new Cookie("email", email);
+                    Cookie cPass = new Cookie("password", password);
+
+                    cEmail.setMaxAge(60 * 60 * 24 * 7);
+                    cPass.setMaxAge(60 * 60 * 24 * 7);
+
+                    response.addCookie(cEmail);
+                    response.addCookie(cPass);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             switch (user.getRole()) {
                 case "learner":
-                    request.getRequestDispatcher("home/learner.jsp").forward(request, response);
+                    request.getRequestDispatcher("signup/signup.jsp").forward(request, response);
                     break;
-//            request.getRequestDispatcher("login/test.jsp").forward(request, response);
                 case "instructor":
                     request.getRequestDispatcher("home/instructor.jsp").forward(request, response);
                     break;

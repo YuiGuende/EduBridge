@@ -18,7 +18,7 @@ public class UserDAO {
 
     public List<User> getALl() {
         List<User> list = new ArrayList<>();
-        String sql = "select * from userTbl";
+        String sql = "select * from [user]";
         try {
             DBContext db = new DBContext();
             PreparedStatement st = db.getConnection().prepareStatement(sql);
@@ -35,7 +35,7 @@ public class UserDAO {
 
     public User findByEmailAndPassword(String email, String password) {
 
-        String sql = "select * from userTbl where email=? and password=?";
+        String sql = "select * from [user] where email=? and password=?";
 
         try {
             DBContext db = new DBContext();
@@ -55,7 +55,7 @@ public class UserDAO {
     }
 
     public boolean isEmailExisted(String email) {
-        String sql = "select * from userTbl where email=?";
+        String sql = "select * from [user] where email=?";
 
         try {
             DBContext db = new DBContext();
@@ -70,9 +70,10 @@ public class UserDAO {
     }
 
     public void insertUser(User user) {
-        String sql = "insert into userTbl (email, fullname, password, role) values (?, ?, ?, ?)";
+        String sql = "insert into [user] (email, fullname, password, role) values (?, ?, ?, ?)";
 
         try {
+            System.out.println("user" + user);
             DBContext db = new DBContext();
             PreparedStatement st = db.getConnection().prepareStatement(sql);
             st.setString(1, user.getEmail());
@@ -81,7 +82,7 @@ public class UserDAO {
             st.setString(4, user.getRole());
             st.executeUpdate();
         } catch (SQLException e) {
-
+            e.printStackTrace();
         }
     }
 

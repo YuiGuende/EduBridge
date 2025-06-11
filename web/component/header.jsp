@@ -4,6 +4,7 @@
     Author     : DELL
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -26,10 +27,19 @@
                     <i class="fa fa-search"></i>
                 </button>                
             </div>
-            <div class="startBtn col-md-4 row">
-                <button id="loginBtn">Log In</button>
-                <button id="signupBtn">Sign Up</button>
-            </div>
+            <c:if test="${empty user}">
+                <div class="startBtn col-md-4 row">
+                    <button id="loginBtn">Log In</button>
+                    <button id="signupBtn">Sign Up</button>
+                </div>
+            </c:if>
+            <c:if test="${not empty user && user.role == 'instructor'}">
+                <div class="col-md-4">
+                    <i class="far fa-envelope"></i>
+                    <i class="fa-regular fa-bell"></i>
+                    <i class="fa-solid fa-circle-user"></i>
+                </div>
+            </c:if>
         </header>    
     </body>
     <script>
