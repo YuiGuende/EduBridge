@@ -40,4 +40,17 @@ public class CloudinaryUtil {
         return (String) uploadResult.get("secure_url");
     }
 
+    public String uploadVideo(Part filePart) throws IOException {
+        File tempFile = File.createTempFile("upload-", filePart.getSubmittedFileName());
+        filePart.write(tempFile.getAbsolutePath());
+
+        // Gán resource_type là video
+        Map uploadResult = cloudinary.uploader().upload(tempFile, ObjectUtils.asMap(
+                "resource_type", "video"
+        ));
+
+        tempFile.delete();
+        return (String) uploadResult.get("secure_url");
+    }
+
 }

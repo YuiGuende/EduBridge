@@ -21,6 +21,9 @@ import model.course.Language;
 import service.course.CourseServiceImpl;
 import util.CloudinaryUtil;
 import jakarta.servlet.annotation.MultipartConfig;
+import java.util.Optional;
+import service.language.ILanguage;
+import service.language.ILanguageImpl;
 
 /**
  *
@@ -30,6 +33,7 @@ import jakarta.servlet.annotation.MultipartConfig;
 public class AddCourse extends HttpServlet {
 
     private final CourseServiceImpl courseService = new CourseServiceImpl();
+    private final ILanguage languageService = new ILanguageImpl();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -52,6 +56,8 @@ public class AddCourse extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setAttribute("languages", languageService.findALl());
+//        System.out.println("Language"+languageService.findALl().get(0));
         request.getRequestDispatcher("addCourse/AddCourse.jsp").forward(request, response);
 
     }
@@ -70,16 +76,27 @@ public class AddCourse extends HttpServlet {
             throws ServletException, IOException {
         String title = request.getParameter("title");
         String headline = request.getParameter("headline");
-        String[] requirement = request.getParameterValues("requirements");
-        String[] learningOutCome = request.getParameterValues("outcome");
+        List<String> requirement = Arrays.asList(request.getParameterValues("requirements"));
+        List<String> learningOutCome = Arrays.asList(request.getParameterValues("outcome"));
         String description = request.getParameter("description");
-        String[] courseFors = request.getParameterValues("courseFors");
+        List<String> courseFors = Arrays.asList(request.getParameterValues("courseFors"));
         Part filePart = request.getPart("image");
-        CloudinaryUtil coCloudinaryUtil= new CloudinaryUtil();
+        CloudinaryUtil coCloudinaryUtil = new CloudinaryUtil();
+        Long languageId = Long.valueOf(request.getParameter("primaryLanguageId"));
+        Optional<Language> languageOp = languageService.findById(languageId);//ktra lai dieu kien
+        if(languageOp.isEmpty()){
+            System.out.println("Language is empty");
+        }
+        Language language=languageOp.get();
         
-        Course c = new Course(title, headline, description, requirement, courseFors, learningOutCome, new Language("Vietnamese"), coCloudinaryUtil.upload(filePart), CourseStatus.DRAFT);
-        System.out.println("COURSE INFOR " +c.toString());
-        courseService.addCourse(c);
+
+        Course course = new Course(title, headline, description , coCloudinaryUtil.upload(filePart), CourseStatus.DRAFT);
+        language.setCourses(Arrays.asList(course));
+        course.setLanguage(language);
+        course.setCourseFor(courseFors);
+        course.setRequirements(requirement);
+        course.setLearningOutcomes(learningOutCome);
+        courseService.addCourse(course);
     }
 
     /**

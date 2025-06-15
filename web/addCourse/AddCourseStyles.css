@@ -13,20 +13,21 @@ body, html{
 }
 .container{
     border: 2px solid #1A2A6C;
+    background-color: #eeeeee;
+    padding: 20px 20px 10px 20px;
 }
 .title{
     width: 800px;
-    height:70px;
-    font-size: xx-large;
+    height:40px;
+    font-size: x-large;
 }
 .title-div ,
 .requirement-input{
-    padding: 10px;
+    padding: 7px;
     display: flex;
     color:#1A2A6C;
     align-items: center;
     justify-content: center;
-
     gap: 20px;
 }
 
@@ -60,7 +61,7 @@ body, html{
 #requirementList input,
 #courseForList input,
 #outcomeList input{
-    padding: 15px;
+    padding: 12px;
 }
 .newBtn{
     height: 40px;

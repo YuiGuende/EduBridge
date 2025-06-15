@@ -4,16 +4,21 @@
  */
 package service.course;
 
-import dal.CourseDAO;
+import DAO.course.CourseDAO;
 import model.course.Course;
 
-
 public class CourseServiceImpl implements CourseService {
+
     private final CourseDAO courseDAO = new CourseDAO();
 
     @Override
     public void addCourse(Course course) {
         courseDAO.save(course);
     }
-    
+
+    @Override
+    public Course findCourse(Long id) {
+        return courseDAO.findById(id);
+    }
+
 }

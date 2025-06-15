@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -17,13 +18,25 @@
     <body>
         <jsp:include page="/component/header.jsp" />
         <div class="container">
-            <form action="add-course" method="POST" enctype="multipart/form-data">
+            <form action="add-course" method="POST" enctype="multipart/form-data" accept-charset="UTF-8">
                 <h5  >Course title</h5>
+
+                <label for="languages">Primary Language:</label>
+                <select name="primaryLanguageId" id="languages" required>
+                    <option value="">-- Select a language --</option>
+                    <c:forEach var="language" items="${languages}">
+                        <option value="${language.id}" 
+                                <c:if test="${param.primaryLanguageId == language.id}">selected</c:if>>
+                            ${language.name} (${language.code})
+                        </option>
+                    </c:forEach>
+                </select>
+
                 <div class="title-div row">
 
                     <input class="title" type="text" name="title"/>
                 </div>
-                <h4  >Headline</h4>
+                <h6  >Headline</h6>
                 <div class="title-div row">
 
                     <input class="title" type="text" name="headline"/>
@@ -117,12 +130,10 @@
                         }
                         tinymce.init({
                             selector: 'textarea',
+                            license_key: 'gpl',
                             plugins: [
                                 // Core editing features
-                                'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
-                                // Your account includes a free trial of TinyMCE premium features
-                                // Try the most popular premium features until Jun 7, 2025:
-                                'checklist', 'mediaembed', 'casechange', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown', 'importword', 'exportword', 'exportpdf'
+                                'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount'
                             ],
                             toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
                             tinycomments_mode: 'embedded',

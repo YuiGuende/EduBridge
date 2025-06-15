@@ -11,5 +11,8 @@ import model.course.Course;
  * @author LEGION
  */
 public interface CourseService {
+
     void addCourse(Course course);
+
+    Course findCourse(Long id);
 }
