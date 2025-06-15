@@ -9,6 +9,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 .container-fluid{
     padding: 0!important;
     min-height: 100vh;
+    margin: 10px auto !important;
 }
 .container-header{
     padding: 3% 5%;
@@ -22,4 +23,112 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 }
 i{
     margin-right: 3px;
+}
+.rating-stars{
+    color: #ffcc00;
+}
+.learning-outcome{
+    padding: 5%;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    min-height: 150px;
+}
+.container-content h4 {
+    color: #1A2A6C;
+}
+.container-content>div{
+    margin-bottom: 30px;
+}
+.description p {
+    transition: max-height 0.3s ease;
+    overflow: hidden;
+    margin-bottom: 0;
+}
+
+.description p.collapsed {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* show 3 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.description p.expanded {
+    display: block;
+}
+
+#toggle-button {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+#toggle-button:hover{
+    background-color: #e3f0fe;
+}
+.accordion-button::after {
+    display: none !important; /* Ẩn icon mặc định của Bootstrap */
+}
+
+.accordion-button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f8f9fa;
+    font-weight: 600;
+    box-shadow: none;
+    position: relative;
+}
+
+.toggle-icon {
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+    color: #333;
+    width: 1.2rem;
+    text-align: center;
+}
+
+.accordion-button.collapsed .toggle-icon {
+    transform: rotate(0deg);
+    content: "\f0da";
+}
+
+.accordion-button:not(.collapsed) .toggle-icon {
+    transform: rotate(90deg);
+}
+
+.section-duration {
+    margin-left: auto;
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.content-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.content-item:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+.content-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.duration {
+    color: #888;
+    font-size: 0.9rem;
+    white-space: nowrap;
 }
