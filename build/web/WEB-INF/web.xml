@@ -28,10 +28,13 @@
     <servlet>
         <servlet-name>TotalCoursesServlet</servlet-name>
         <servlet-class>controller.Course.TotalCoursesServlet</servlet-class>
+<<<<<<< HEAD
     </servlet>
     <servlet>
         <servlet-name>CourseInforServlet</servlet-name>
         <servlet-class>controller.instructor.CourseInforServlet</servlet-class>
+=======
+>>>>>>> b83ed42 (update new)
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
