@@ -101,7 +101,7 @@ import util.ResponseFormatter;
 
 public class GroqAIAgent {
 
-    private final String GROQ_API_KEY = "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";
+    private final String GROQ_API_KEY = "";
     private final String GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
     private final ResponseFormatter formatter = new ResponseFormatter();
 
