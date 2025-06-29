@@ -7,11 +7,11 @@ package controller;
 import DAO.Lesson.LessonDAOImpl;
 import DAO.LessonItem.LessonItemDAOImpl;
 import DAO.Module.ModuleDAOImpl;
-import DAO.course.CourseDAO;
+import DAO.course.CourseDAOImpl;
 import java.util.Optional;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import model.course.Course;
 import model.course.CourseStatus;
 import model.course.Language;
@@ -27,8 +27,8 @@ public class Main1 {
 
     public static void main(String[] args) throws Exception {
         // Chỉ cần dòng này là đủ để tạo bảng (nếu cấu hình hbm2ddl.auto là create hoặc update)
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("coursePU");
-//        CourseDAO courseDAO = new CourseDAO();
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("coursePU");
+//        CourseDAOImpl courseDAO = new CourseDAOImpl();
 //        ModuleDAOImpl moduleDAO = new ModuleDAOImpl();
 //        LessonDAOImpl lessonDAO = new LessonDAOImpl();
 //        LessonItemDAOImpl lessonItemDAOImpl = new LessonItemDAOImpl();

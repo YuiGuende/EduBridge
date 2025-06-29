@@ -4,7 +4,7 @@
  */
 package model.course.courseContent;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

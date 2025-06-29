@@ -16,15 +16,15 @@ import java.sql.*;
  */
 public class UserDAO {
 
-    public List<User> getALl() {
-        List<User> list = new ArrayList<>();
+    public List<UserOld> getALl() {
+        List<UserOld> list = new ArrayList<>();
         String sql = "select * from [user]";
         try {
             DBContext db = new DBContext();
             PreparedStatement st = db.getConnection().prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                User user = new User(rs.getInt("id"), rs.getNString("fullname"), rs.getString("email"), rs.getString("password"), rs.getString("role"));
+                UserOld user = new UserOld(rs.getInt("id"), rs.getNString("fullname"), rs.getString("email"), rs.getString("password"), rs.getString("role"));
                 list.add(user);
             }
         } catch (SQLException e) {
@@ -33,7 +33,7 @@ public class UserDAO {
         return list;
     }
 
-    public User findByEmailAndPassword(String email, String password) {
+    public UserOld findByEmailAndPassword(String email, String password) {
 
         String sql = "select * from [user] where email=? and password=?";
 
@@ -45,7 +45,7 @@ public class UserDAO {
             ResultSet rs = st.executeQuery();
 
             if (rs.next()) {
-                return new User(rs.getInt("id"), rs.getNString("fullname"), rs.getString("email"), rs.getString("password"), rs.getString("role"));
+                return new UserOld(rs.getInt("id"), rs.getNString("fullname"), rs.getString("email"), rs.getString("password"), rs.getString("role"));
 
             }
         } catch (SQLException e) {
@@ -69,7 +69,7 @@ public class UserDAO {
         return false;
     }
 
-    public void insertUser(User user) {
+    public void insertUser(UserOld user) {
         String sql = "insert into [user] (email, fullname, password, role) values (?, ?, ?, ?)";
 
         try {

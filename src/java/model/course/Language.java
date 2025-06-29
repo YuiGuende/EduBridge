@@ -1,6 +1,6 @@
 package model.course;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ public class Language {
     @Column(name = "is_active", nullable = false)
     private boolean active = true;
 
-    @OneToMany(mappedBy = "languages", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "languages", fetch = FetchType.LAZY)
     private List<Course> courses = new ArrayList<>();
 
     @OneToMany(mappedBy = "language", fetch = FetchType.LAZY)

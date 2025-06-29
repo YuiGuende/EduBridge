@@ -4,7 +4,11 @@
  */
 package service.course;
 
-import DAO.course.CourseDAO;
+import DAO.course.CourseDAOImpl;
+import DAO.course.ICourseDAO;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import java.util.Collections;
 import java.util.Comparator;
 import model.course.Course;
@@ -13,11 +17,15 @@ import java.util.List;
 
 public class CourseServiceImpl implements CourseService {
 
-    private final CourseDAO courseDAO = new CourseDAO();
+    private final CourseDAOImpl courseDAO;
+
+    public CourseServiceImpl() {
+        this.courseDAO = new CourseDAOImpl(Course.class);
+    }
 
     @Override
     public void addCourse(Course course) {
-        courseDAO.save(course);
+        courseDAO.insert(course);
     }
 
     @Override
@@ -76,5 +84,34 @@ public class CourseServiceImpl implements CourseService {
         }
 
         return courses;
+    }
+
+    public static void main(String[] args) {
+        try {
+            System.out.println(Persistence.class.getProtectionDomain().getCodeSource());
+            System.out.println(Class.forName("org.eclipse.persistence.jpa.PersistenceProvider"));
+            // Tạo EntityManagerFactory từ persistence.xml
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("EduBridgePU");
+            EntityManager em = emf.createEntityManager();
+
+            // Bắt đầu transaction (không cần nếu chỉ test select)
+            em.getTransaction().begin();
+
+            // Thử lấy course ID = 1
+            Course c = em.find(Course.class, 1L);
+            if (c != null) {
+                System.out.println("Course found: " + c.getTitle());
+            } else {
+                System.out.println("Course not found.");
+            }
+
+            em.getTransaction().commit();
+            em.close();
+            emf.close();
+        } catch (Exception e) {
+            System.err.println("JPA test failed: " + e.getMessage());
+            
+            e.printStackTrace();
+        }
     }
 }

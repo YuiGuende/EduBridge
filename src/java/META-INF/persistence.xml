@@ -1,26 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" 
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence 
-                                 http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-  <persistence-unit name="coursePU" transaction-type="RESOURCE_LOCAL">
-    <!-- Thay đổi provider từ EclipseLink sang Hibernate -->
-    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+<persistence version="3.0" xmlns="https://jakarta.ee/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence                                  https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
+  <persistence-unit name="EduBridgePU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>model.Instructor</class>
+    <class>model.User</class>
+    <class>model.course.Language</class>
+    <class>model.course.Course</class>
+    <class>model.course.CourseInstructor</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
-      <!-- MSSQL Connection Properties -->
-      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=EduBridge;encrypt=true;trustServerCertificate=true"/>
-      <property name="javax.persistence.jdbc.user" value="sa"/>
-      <property name="javax.persistence.jdbc.password" value="thanhduy123"/>
-      <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
-      
-      <!-- Hibernate Properties -->
-      <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServer2012Dialect"/>
-      <property name="hibernate.show_sql" value="true"/>
-      <property name="hibernate.format_sql" value="true"/>
-      
-      
-      <!-- Tự động tạo/cập nhật bảng -->
-      <property name="hibernate.hbm2ddl.auto" value="update"/>
+      <property name="jakarta.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=EduBridge_database;encrypt=true;trustServerCertificate=true"/>
+      <property name="jakarta.persistence.jdbc.user" value="sa"/>
+      <property name="jakarta.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+      <property name="jakarta.persistence.jdbc.password" value="123456"/>
+      <!-- Optional: bật log -->
+      <property name="eclipselink.logging.level" value="FINE"/>
     </properties>
   </persistence-unit>
 </persistence>

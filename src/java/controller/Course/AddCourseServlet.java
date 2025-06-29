@@ -23,7 +23,7 @@ import util.CloudinaryUtil;
 import jakarta.servlet.annotation.MultipartConfig;
 import java.util.Optional;
 import service.language.ILanguage;
-import service.language.ILanguageImpl;
+import service.language.LanguageImpl;
 
 /**
  *
@@ -33,7 +33,7 @@ import service.language.ILanguageImpl;
 public class AddCourseServlet extends HttpServlet {
 
     private final CourseServiceImpl courseService = new CourseServiceImpl();
-    private final ILanguage languageService = new ILanguageImpl();
+    private final ILanguage languageService = new LanguageImpl();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

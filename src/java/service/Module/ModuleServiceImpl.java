@@ -12,7 +12,11 @@ import DAO.Module.ModuleDAOImpl;
  * @author LEGION
  */
 public class ModuleServiceImpl {
-    private final IModuleDAO moduleDAO = new ModuleDAOImpl();
+    private final ModuleDAOImpl moduleDAO;
+
+    public ModuleServiceImpl() {
+        this.moduleDAO = new ModuleDAOImpl(model.course.courseContent.Module.class);
+    }
     
     
 }

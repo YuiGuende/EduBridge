@@ -24,7 +24,7 @@ import model.course.CourseStatus;
 import model.course.Language;
 import service.course.CourseServiceImpl;
 import service.language.ILanguage;
-import service.language.ILanguageImpl;
+import service.language.LanguageImpl;
 import util.CloudinaryUtil;
 
 /**
@@ -36,7 +36,7 @@ import util.CloudinaryUtil;
 public class CourseInforServlet extends HttpServlet {
 
     private final CourseServiceImpl courseServiceImpl = new CourseServiceImpl();
-    private final ILanguage languageService = new ILanguageImpl();
+    private final ILanguage languageService = new LanguageImpl();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

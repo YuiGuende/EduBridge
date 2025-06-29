@@ -33,6 +33,10 @@
         <servlet-name>CourseInforServlet</servlet-name>
         <servlet-class>controller.instructor.CourseInforServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SignupInstructorServlet</servlet-name>
+        <servlet-class>controller.authentication.SignupInstructorServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>TotalCoursesServlet</servlet-name>
         <url-pattern>/total-courses</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SignupInstructorServlet</servlet-name>
+        <url-pattern>/signup-instructor</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>36000</session-timeout>

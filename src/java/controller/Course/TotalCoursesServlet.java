@@ -50,14 +50,14 @@ public class TotalCoursesServlet extends HttpServlet {
             throws ServletException, IOException {
 //        int instructorID = Integer.parseInt(request.getParameter("id"));
         List<Course> courseList;
-        String action = request.getParameter("action");
+        String status = request.getParameter("action");
         String keyword = request.getParameter("keyword");
         String sort = request.getParameter("sort");
         if (sort == null) {
             sort = "";
         }
-        if (action == null || action.isEmpty()) {
-            action = "all";
+        if (status == null || status.isEmpty()) {
+            status = "all";
         }
         int page = 1;
         int limit = 5;
@@ -70,10 +70,10 @@ public class TotalCoursesServlet extends HttpServlet {
         }
         int offset = (page - 1) * limit;
         int totalRecords;
-        totalRecords = courseService.countCoursesOfInstructor(1, action, keyword);
+        totalRecords = courseService.countCoursesOfInstructor(1, status, keyword);
         int totalPages = (int) Math.ceil((double) totalRecords / limit);
         if (keyword == null) {
-            courseList = courseService.getCoursesOfInstructorByStatus(1, action, offset, limit);
+            courseList = courseService.getCoursesOfInstructorByStatus(1, status, offset, limit);
         } else {
             courseList = courseService.getCourseByKeywordAndStatus(1, keyword, sort, offset, limit);
         }
@@ -81,7 +81,7 @@ public class TotalCoursesServlet extends HttpServlet {
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("listCourse", courseList);
-        request.setAttribute("action", action);
+        request.setAttribute("action", status);
         request.setAttribute("keyword", keyword);
         request.setAttribute("sort", sort);
         request.getRequestDispatcher("totalCourses/totalCourses.jsp").forward(request, response);
