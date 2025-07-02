@@ -40,6 +40,26 @@ public class GenericDAO<T> extends BaseDAO {
         }
     }
 
+    public T save(T entity) {
+        EntityTransaction tx = null;
+        try (EntityManager em = getEntityManager();) {
+            tx = em.getTransaction();
+            tx.begin();
+            if (entityClass.getMethod("getId").invoke(entity) == null) {
+                em.persist(entity);
+            } else {
+                entity = em.merge(entity);
+            }
+            tx.commit();
+            return entity;
+        } catch (Exception e) {
+            if (tx != null && tx.isActive()) {
+                tx.rollback();
+            }
+            throw new RuntimeException("Error saving " + entityClass.getSimpleName() + ": " + e.getMessage(), e);
+        }
+    }
+
     public void insert(T entity) {
         EntityTransaction tx = null;
         try (EntityManager em = getEntityManager()) {
@@ -52,7 +72,7 @@ public class GenericDAO<T> extends BaseDAO {
                 tx.rollback();
             }
             e.printStackTrace();
-            throw new RuntimeException("Error inserting entity: " + e.getMessage(), e);
+            throw new RuntimeException("Error inserting " + entityClass.getSimpleName() + ": " + e.getMessage(), e);
         }
     }
 
@@ -68,7 +88,7 @@ public class GenericDAO<T> extends BaseDAO {
             if (tx != null && tx.isActive()) {
                 tx.rollback();
             }
-            throw new RuntimeException("Error updating entity: " + e.getMessage(), e);
+            throw new RuntimeException("Error updating " + entityClass.getSimpleName() + ": " + e.getMessage(), e);
         }
     }
 
@@ -82,7 +102,7 @@ public class GenericDAO<T> extends BaseDAO {
                 em.remove(em.merge(entity));
                 tx.commit();
             } else {
-                throw new Exception("Not found");
+                throw new IllegalArgumentException("Not found");
             }
         } catch (Exception e) {
             if (tx != null && tx.isActive()) {
@@ -105,7 +125,7 @@ public class GenericDAO<T> extends BaseDAO {
                 tx.rollback();
             }
             e.printStackTrace();
-            throw new RuntimeException("Error deleting entity: " + e.getMessage(), e);
+            throw new RuntimeException("Error deleting " + entityClass.getSimpleName() + ": " + e.getMessage(), e);
         }
     }
 
@@ -116,14 +136,14 @@ public class GenericDAO<T> extends BaseDAO {
             return query.getSingleResult();
         }
     }
-    
+
     public Optional<T> findByIdReturnOptional(Long id) {
         try (EntityManager em = getEntityManager();) {
             T entity = em.find(entityClass, id);
             return Optional.ofNullable(entity);
         }
     }
-    
+
     public boolean exists(Long id) {
         return findByIdReturnOptional(id).isPresent();
     }

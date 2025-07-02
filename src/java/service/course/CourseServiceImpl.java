@@ -25,7 +25,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public void addCourse(Course course) {
-        courseDAO.insert(course);
+        courseDAO.save(course);
     }
 
     @Override
