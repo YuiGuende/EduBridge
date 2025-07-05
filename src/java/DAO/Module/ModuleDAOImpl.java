@@ -53,6 +53,7 @@ public class ModuleDAOImpl implements IModuleDAO {
         EntityManager em = getEntityManager();
         try {
             Module module = em.find(Module.class, id);
+            module.getLessons().size();
             return Optional.ofNullable(module);
         } finally {
             em.close();
@@ -270,4 +271,29 @@ public class ModuleDAOImpl implements IModuleDAO {
             emf.close();
         }
     }
+
+    @Override
+    public Module findByIndexAndCourseId(int index, Long courseId) {
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Module> query = em.createQuery(
+                    "SELECT m FROM Module m WHERE m.index = :index AND m.course.id = :courseId",
+                    Module.class
+            );
+            query.setParameter("index", index);
+            query.setParameter("courseId", courseId);
+            List<Module> result = query.getResultList();
+            if (result.isEmpty()) {
+                return null;
+            } else {
+                Module module = result.get(0);
+                module.getLessons().size();
+                return module;
+            }
+
+        } finally {
+            em.close();
+        }
+    }
+
 }

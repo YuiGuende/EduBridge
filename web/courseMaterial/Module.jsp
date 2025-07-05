@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -27,9 +28,7 @@
                             <a class="nav-link dropdown-toggle " href="#" role="button" aria-haspopup="true"
                                aria-expanded="false" onclick="displayModule(this)">
                                 <span class="dropdown-icon bi bi-chevron-right" style="margin-right: 5px;"></span>
-                                <span class="module-name">You pick a color and boom - instant, expected results. This week you will...</span>
-
-
+                                <span class="module-name">Module name ${module.title}</span>
                             </a>
                             <div id="dropdown-module" class="row col-md-12">
 
@@ -52,79 +51,109 @@
 
                                 </div>
                                 <div class="btn-group dropend add-lesson-dropdown">
-                                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Add new lesson item
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Reading</a></li>
-                                        <li><a class="dropdown-item" href="#">Video</a></li>
-                                        <li><a class="dropdown-item" href="#">Quizz</a></li>
-                                        <li><a class="dropdown-item" href="#">Assignment</a></li>
-                                    </ul>
+                                       <a href="lesson?action=add&courseId=${module.course.id}&moduleId=${module.id}" class="btn btn-success">
+                                        <i class="bi bi-plus-circle"></i> Add Lesson
+                                    </a>
+
                                 </div>
                                 <hr class="hr-left col-md-12">
 
-                                <a  class=" nav-link dropdown-lesson-item" href="#">
-                                    <i class="bi bi-check-circle-fill " style="margin-right: 10px; color: #0d7455 !important;"></i>
-                                    <div class="lesson-item-title">
-                                        <p>Introduction</p>
-                                        <p class="lesson-item-type">Reading • 1 minute</p>
+                                <!--                                <a  class=" nav-link dropdown-lesson-item" href="#">
+                                                                    <i class="bi bi-check-circle-fill " style="margin-right: 10px; color: #0d7455 !important;"></i>
+                                                                    <div class="lesson-item-title">
+                                                                        <p>Introduction</p>
+                                                                        <p class="lesson-item-type">Reading • 1 minute</p>
+                                                                    </div>
+                                                                    <div class="btns">
+                                                                        <button class="edit-btn">
+                                                                            Edit
+                                                                        </button>
+                                                                        <button class="edit-btn">
+                                                                            Delete
+                                                                        </button>
+                                                                    </div>
+                                                                </a>
+                                                                <a class="dropdown-lesson-item nav-link" href="#">
+                                                                    <i class="bi bi-check-circle-fill"style="margin-right: 10px; color: #0d7455 !important;"></i>
+                                                                    <div class="lesson-item-title">
+                                                                        <p>How to</p>
+                                                                        <p class="lesson-item-type">Video • 10 minute</p>
+                                                                    </div>
+                                                                    <div class="btns">
+                                                                        <button class="edit-btn">
+                                                                            Edit
+                                                                        </button>
+                                                                        <button class="edit-btn">
+                                                                            Delete
+                                                                        </button>
+                                                                    </div>
+                                                                </a>
+                                                                <a class="dropdown-lesson-item nav-link" href="#">
+                                                                    <i class="bi bi-check-circle-fill"style="margin-right: 10px; color: #0d7455 !important;"></i>
+                                                                    <div class="lesson-item-title">
+                                                                        <p>Programmatic Prompting for Agents</p>
+                                                                        <p class="lesson-item-type">Video • 10 minute</p>
+                                                                    </div>
+                                                                    <div class="btns">
+                                                                        <button class="edit-btn">
+                                                                            Edit
+                                                                        </button>
+                                                                        <button class="edit-btn">
+                                                                            Delete
+                                                                        </button>
+                                                                    </div>
+                                                                </a>
+                                                                <a class="dropdown-lesson-item nav-link" href="#">
+                                                                    <i class="bi bi-check-circle-fill"style="margin-right: 10px; color: #0d7455 !important;"></i>
+                                                                    <div class="lesson-item-title">
+                                                                        <p>Try Out Programmatic Prompting</p>
+                                                                        <p class="lesson-item-type">Video • 10 minute</p>
+                                                                    </div>
+                                                                    <div class="btns">
+                                                                        <button class="edit-btn">
+                                                                            Edit
+                                                                        </button>
+                                                                        <button class="edit-btn">
+                                                                            Delete
+                                                                        </button>
+                                                                    </div>
+                                                                </a>-->
+                                <!-- Nút Add Lesson -->
+                                <!-- Add Lesson -->
+                                <c:forEach var="lesson" items="${module.lessons}">
+                                    <div class="dropdown-lesson col-md-12 mb-2">
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" onclick="toggleLesson(this)">
+                                            <span class="dropdown-icon bi bi-chevron-right" style="margin-right: 5px;"></span>
+                                            <span class="lesson-title">${lesson.title}</span>
+                                        </a>
+
+                                        <div class="lesson-content collapse px-3 py-2" style="background-color: #f9f9f9; border-left: 2px solid #0d6efd; border-radius: 4px;">
+                                            <div><strong>Description:</strong> ${lesson.description}</div>
+                                            <div><strong>Index:</strong> ${lesson.index}</div>
+
+                                            <!-- Lesson Items -->
+                                            <div class="btn-group dropend mt-2">
+                                                <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    Add new lesson item
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#">Reading</a></li>
+                                                    <li><a class="dropdown-item" href="#">Video</a></li>
+                                                    <li><a class="dropdown-item" href="#">Quiz</a></li>
+                                                    <li><a class="dropdown-item" href="#">Assignment</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="btns">
-                                        <button class="edit-btn">
-                                            Edit
-                                        </button>
-                                        <button class="edit-btn">
-                                            Delete
-                                        </button>
-                                    </div>
-                                </a>
-                                <a class="dropdown-lesson-item nav-link" href="#">
-                                    <i class="bi bi-check-circle-fill"style="margin-right: 10px; color: #0d7455 !important;"></i>
-                                    <div class="lesson-item-title">
-                                        <p>How to</p>
-                                        <p class="lesson-item-type">Video • 10 minute</p>
-                                    </div>
-                                    <div class="btns">
-                                        <button class="edit-btn">
-                                            Edit
-                                        </button>
-                                        <button class="edit-btn">
-                                            Delete
-                                        </button>
-                                    </div>
-                                </a>
-                                <a class="dropdown-lesson-item nav-link" href="#">
-                                    <i class="bi bi-check-circle-fill"style="margin-right: 10px; color: #0d7455 !important;"></i>
-                                    <div class="lesson-item-title">
-                                        <p>Programmatic Prompting for Agents</p>
-                                        <p class="lesson-item-type">Video • 10 minute</p>
-                                    </div>
-                                    <div class="btns">
-                                        <button class="edit-btn">
-                                            Edit
-                                        </button>
-                                        <button class="edit-btn">
-                                            Delete
-                                        </button>
-                                    </div>
-                                </a>
-                                <a class="dropdown-lesson-item nav-link" href="#">
-                                    <i class="bi bi-check-circle-fill"style="margin-right: 10px; color: #0d7455 !important;"></i>
-                                    <div class="lesson-item-title">
-                                        <p>Try Out Programmatic Prompting</p>
-                                        <p class="lesson-item-type">Video • 10 minute</p>
-                                    </div>
-                                    <div class="btns">
-                                        <button class="edit-btn">
-                                            Edit
-                                        </button>
-                                        <button class="edit-btn">
-                                            Delete
-                                        </button>
-                                    </div>
-                                </a>
+
+                                </c:forEach>
+                                
+
+                                <!-- Danh sách Lessons bên trong dropdown-module -->
+
+
                             </div>
+
                         </li>
 
                     </ul>
@@ -154,6 +183,19 @@
                     } else {
                         dropdown.classList.add('show');
                         link.setAttribute("aria-expanded", "true");
+                    }
+                }
+                function toggleLesson(link) {
+                    const dropdownIcon = link.querySelector(".dropdown-icon");
+                    const lessonContent = link.nextElementSibling;
+                    if (lessonContent.classList.contains("collapse")) {
+                        lessonContent.classList.remove("collapse");
+                        dropdownIcon.classList.remove("bi-chevron-right");
+                        dropdownIcon.classList.add("bi-chevron-down");
+                    } else {
+                        lessonContent.classList.add("collapse");
+                        dropdownIcon.classList.remove("bi-chevron-down");
+                        dropdownIcon.classList.add("bi-chevron-right");
                     }
                 }
             </script>

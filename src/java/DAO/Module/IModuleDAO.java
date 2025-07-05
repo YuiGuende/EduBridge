@@ -28,6 +28,8 @@ public interface IModuleDAO {
     List<Module> findPreviewModules();
 
     List<Module> findByTitleContaining(String title);
+    
+    Module findByIndexAndCourseId(int index, Long courseId);
 
     Module findByIdWithLessons(Long id);
 

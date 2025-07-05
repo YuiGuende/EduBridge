@@ -1,5 +1,6 @@
 package DAO.course;
 
+import java.util.ArrayList;
 import javax.persistence.*;
 import javax.persistence.criteria.*;
 import java.util.List;
@@ -27,6 +28,10 @@ public class CourseDAO {
         EntityManager emna = JpaConfig.getEntityManager();
         try {
             Course course = emna.find(Course.class, courseId);
+            if (course == null) {
+                System.out.println("Không tìm thấy Course với ID: " + courseId);
+                return null;
+            }
             course.getModules().size();
             course.getLearningOutcomes().size();
             course.getRequirements().size();
@@ -43,60 +48,60 @@ public class CourseDAO {
     }
 
     public Course save(Course course) {
-    EntityManager em = JpaConfig.getEntityManager();
-    EntityTransaction transaction = em.getTransaction();
-    try {
-        transaction.begin();
-        
-        Course savedCourse;
-        if (course.getId() == null) {
-            // New course
-            em.persist(course);
-            savedCourse = course;
-            System.out.println("New course persisted: " + course.getTitle());
-        } else {
-            // Update existing course
-            System.out.println("Merging course: " + course.getTitle());
-            
-            // Make sure the entity is in managed state
-            Course managedCourse = em.find(Course.class, course.getId());
-            if (managedCourse == null) {
-                throw new RuntimeException("Course not found for update: " + course.getId());
+        EntityManager em = JpaConfig.getEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+        try {
+            transaction.begin();
+
+            Course savedCourse;
+            if (course.getId() == null) {
+                // New course
+                em.persist(course);
+                savedCourse = course;
+                System.out.println("New course persisted: " + course.getTitle());
+            } else {
+                // Update existing course
+                System.out.println("Merging course: " + course.getTitle());
+
+                // Make sure the entity is in managed state
+                Course managedCourse = em.find(Course.class, course.getId());
+                if (managedCourse == null) {
+                    throw new RuntimeException("Course not found for update: " + course.getId());
+                }
+
+                // Update fields
+                managedCourse.setTitle(course.getTitle());
+                managedCourse.setHeadline(course.getHeadline());
+                managedCourse.setDescription(course.getDescription());
+                managedCourse.setThumbnailUrl(course.getThumbnailUrl());
+                managedCourse.setLanguage(course.getLanguage());
+                managedCourse.setCourseFor(course.getCourseFor());
+                managedCourse.setRequirements(course.getRequirements());
+                managedCourse.setLearningOutcomes(course.getLearningOutcomes());
+                managedCourse.setStatus(course.getStatus());
+
+                // Flush to ensure changes are written
+                em.flush();
+                savedCourse = managedCourse;
+                System.out.println("Course merged successfully: " + savedCourse.getTitle());
             }
-            
-            // Update fields
-            managedCourse.setTitle(course.getTitle());
-            managedCourse.setHeadline(course.getHeadline());
-            managedCourse.setDescription(course.getDescription());
-            managedCourse.setThumbnailUrl(course.getThumbnailUrl());
-            managedCourse.setLanguage(course.getLanguage());
-            managedCourse.setCourseFor(course.getCourseFor());
-            managedCourse.setRequirements(course.getRequirements());
-            managedCourse.setLearningOutcomes(course.getLearningOutcomes());
-            managedCourse.setStatus(course.getStatus());
-            
-            // Flush to ensure changes are written
-            em.flush();
-            savedCourse = managedCourse;
-            System.out.println("Course merged successfully: " + savedCourse.getTitle());
+
+            transaction.commit();
+            System.out.println("Transaction committed successfully");
+            return savedCourse;
+
+        } catch (Exception e) {
+            System.err.println("Error saving course: " + e.getMessage());
+            if (transaction.isActive()) {
+                transaction.rollback();
+                System.out.println("Transaction rolled back");
+            }
+            e.printStackTrace();
+            throw new RuntimeException("Failed to save course: " + e.getMessage(), e);
+        } finally {
+            em.close();
         }
-        
-        transaction.commit();
-        System.out.println("Transaction committed successfully");
-        return savedCourse;
-        
-    } catch (Exception e) {
-        System.err.println("Error saving course: " + e.getMessage());
-        if (transaction.isActive()) {
-            transaction.rollback();
-            System.out.println("Transaction rolled back");
-        }
-        e.printStackTrace();
-        throw new RuntimeException("Failed to save course: " + e.getMessage(), e);
-    } finally {
-        em.close();
     }
-}
 
     public void delete(Long courseId) throws Exception {
         EntityManager emna = JpaConfig.getEntityManager();
@@ -129,4 +134,24 @@ public class CourseDAO {
             em.close();
         }
     }
+
+    public List<Course> findCoursesByDynamicSql(String sql) {
+        EntityManager em = JpaConfig.getEntityManager();
+        System.out.println("sql to be processes" + sql);
+        List<Course> results = new ArrayList<>();
+        try {
+            results=em.createNativeQuery(sql, Course.class).getResultList();
+            for (Course result : results) {
+                 Hibernate.initialize(result.getLanguages());
+                 
+            }
+            return results;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return List.of();
+        } finally {
+            em.close();
+        }
+    }
+
 }

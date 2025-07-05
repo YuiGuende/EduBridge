@@ -34,7 +34,7 @@
                     </a>
                     <div id="dropdown-material">
                         <c:forEach var="i" begin="1" end="${numOfModule}" step="1">
-                            <a  class="dropdown-item nav-link" href="#">
+                            <a  class="dropdown-item nav-link" href="module?courseId=${courseId}&index=${i}">
                                 <i class="bi bi-caret-right-fill"style="margin-right: 10px;"></i>
                                 <span>Module ${i}</span>
                             </a>

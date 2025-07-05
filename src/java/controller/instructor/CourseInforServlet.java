@@ -92,6 +92,7 @@ public class CourseInforServlet extends HttpServlet {
                 break;
             default:
                 Course course = courseServiceImpl.findCourse(Long.valueOf(request.getParameter("id")));
+                System.out.println("ID la:"+Long.valueOf(request.getParameter("id")));
                 request.setAttribute("numOfModule", course.getModules().size());
                 System.out.println("Primary language" + course.getPrimaryLanguage().getName());
                 request.setAttribute("languages", languageService.findALl());

@@ -4,7 +4,7 @@
  */
 package controller.instructor;
 
-import DAO.Module.IModuleDAO;
+import model.course.courseContent.Module;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,19 +16,22 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.course.Course;
+import model.course.courseContent.Lesson;
 import service.Module.IModuleService;
 import service.Module.ModuleServiceImpl;
-import model.course.courseContent.Module;
 import service.course.CourseService;
 import service.course.CourseServiceImpl;
+import service.lesson.ILessonService;
+import service.lesson.LessonServiceImpl;
 
 /**
  *
  * @author LEGION
  */
-@WebServlet(name = "ModuleServlet", urlPatterns = {"/module"})
-public class ModuleServlet extends HttpServlet {
+@WebServlet(name = "LessonServlet", urlPatterns = {"/lesson"})
+public class LessonServlet extends HttpServlet {
 
+    private final ILessonService lessonService = new LessonServiceImpl();
     private final IModuleService moduleService = new ModuleServiceImpl();
     private final CourseService courseService = new CourseServiceImpl();
 
@@ -49,10 +52,10 @@ public class ModuleServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ModuleServlet</title>");
+            out.println("<title>Servlet LessonServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ModuleServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet LessonServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -77,13 +80,12 @@ public class ModuleServlet extends HttpServlet {
         }
         switch (action) {
             case "add":
-                getAddModulePage(request, response);
+                getAddLessonPage(request, response);
                 break;
             default:
-                getModulePage(request, response);
+                request.getRequestDispatcher("courseMaterial/Module.jsp").forward(request, response);
                 break;
         }
-
     }
 
     /**
@@ -97,7 +99,6 @@ public class ModuleServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         String action = request.getParameter("action");
         System.out.println("POST IS CALLED");
 
@@ -107,7 +108,7 @@ public class ModuleServlet extends HttpServlet {
         }
         switch (action) {
             case "add":
-                saveModule(request, response);
+                saveLesson(request, response);
                 break;
             case "update":
                 break;
@@ -124,75 +125,80 @@ public class ModuleServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void saveModule(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void getAddLessonPage(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            Long courseId = Long.valueOf(request.getParameter("courseId"));
+            System.out.println("course iD" + courseId);
+            Course course = courseService.findCourse(courseId);
+            if (course != null) {
+                request.setAttribute("course", course);
+            } else {
+                System.out.println("module not found!");
+            }
+            Long moduleId = Long.valueOf(request.getParameter("moduleId"));
+
+            Module module = course.getModules().stream()
+                    .filter(m -> m.getId() == moduleId)
+                    .findFirst()
+                    .orElse(null); // Trả về null nếu không tìm thấy
+
+            if (module != null) {
+                request.setAttribute("module", module);
+            } else {
+                System.out.println("Module not found in course!");
+            }
+            request.getRequestDispatcher("courseMaterial/AddLesson.jsp").forward(request, response);
+        } catch (ServletException ex) {
+            Logger.getLogger(LessonServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(LessonServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    private void saveLesson(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Optional<Module> moduleOp = null;
         try {
             // Lấy dữ liệu từ request
             String title = request.getParameter("title");
-            String description = request.getParameter("description");
             int index = Integer.parseInt(request.getParameter("index"));
-            int estimatedDuration = request.getParameter("estimatedDuration") != null && !request.getParameter("estimatedDuration").isEmpty()
-                    ? Integer.parseInt(request.getParameter("estimatedDuration"))
-                    : 0;
-            boolean isPreview = request.getParameter("preview") != null;
+            String description = request.getParameter("description");
 
-            // Lấy thông tin khóa học
-            Long courseId = Long.valueOf(request.getParameter("courseId"));
+            Long moduleId = Long.valueOf(request.getParameter("moduleId"));
 
-            Course course = courseService.findCourse(courseId);
-            System.out.println("Course name" + course.getTitle());
-            // Tạo module mới
-            Module module = new Module();
-            module.setCourse(course);
-            module.setTitle(title);
-            module.setDescription(description);
-            module.setIndex(index);
-            module.setEstimatedDuration(estimatedDuration);
-            module.setPreview(isPreview);
+            // Lấy module từ moduleId
+            moduleOp = moduleService.findById(moduleId);
+            if (moduleOp.isEmpty()) {
+                request.setAttribute("error", "Module not found!");
+                getAddLessonPage(request, response);
+                return;
+            }
+            Lesson existedLesson = moduleOp.get().getLessons().stream()
+                    .filter(m -> m.getIndex() == index)
+                    .findFirst()
+                    .orElse(null); // Trả về null nếu không tìm thấy
+            if (existedLesson != null) {
+                request.setAttribute("error", "Index is existed, please choose another one");
+                getAddLessonPage(request, response);
+            }
+            // Tạo lesson và gán thông tin
+            Lesson lesson = new Lesson();
+            lesson.setTitle(title);
+            lesson.setIndex(index);
+            lesson.setDescription(description); // Nếu có
+            lesson.setModule(moduleOp.get()); // Quan trọng: gán module
 
-            // Lưu vào database
-            moduleService.save(module);
+            // Lưu lesson
+            lessonService.save(lesson);
 
+            // Chuyển hướng về danh sách bài học của module hoặc trang chi tiết khóa học
+//        response.sendRedirect("lessonList?moduleId=" + moduleId + "&courseId=" + courseId);
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("error.jsp");
+            request.setAttribute("error", "Error saving lesson: " + e.getMessage());
+            
+            getAddLessonPage(request, response);
         }
     }
 
-    private void getAddModulePage(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            Long id = Long.valueOf(request.getParameter("courseId"));
-            Course course = courseService.findCourse(id);
-            if (course != null) {
-                request.setAttribute("course", course);
-                request.getRequestDispatcher("courseMaterial/AddModule.jsp").forward(request, response);
-            } else {
-                System.out.println("module not found!");
-            }
-        } catch (ServletException ex) {
-            Logger.getLogger(ModuleServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(ModuleServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void getModulePage(HttpServletRequest request, HttpServletResponse response) {
-
-        try {
-
-            Long id = Long.valueOf(request.getParameter("courseId"));
-            int index = Integer.parseInt(request.getParameter("index"));
-            Module module = moduleService.findByIndexAndCourseId(index, id);
-            if (module != null) {
-                request.setAttribute("module", module);
-                request.getRequestDispatcher("courseMaterial/Module.jsp").forward(request, response);
-            } else {
-                System.out.println("module not found!");
-            }
-
-        } catch (ServletException ex) {
-            Logger.getLogger(ModuleServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(ModuleServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 }

@@ -71,7 +71,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 }
 
 #dropdown-module.show {
-    max-height: 500px;
+    max-height: 2000px;
 }
 
 .dropdown-module {
@@ -83,7 +83,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     border: solid #7889ce 1px;
 }
 #dropdown-adding-item.show {
-    max-height: 500px;
+    max-height: 2000px;
 }
 
 #dropdown-adding-item {

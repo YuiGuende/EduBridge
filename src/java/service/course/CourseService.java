@@ -15,4 +15,5 @@ public interface CourseService {
     void addCourse(Course course);
 
     Course findCourse(Long id);
+    public String processUserMessage(String message, boolean showMore) throws Exception;
 }

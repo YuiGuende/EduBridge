@@ -23,8 +23,8 @@ public class Module extends CourseComponent {
     @OrderBy("index ASC")
     private List<Lesson> lessons = new ArrayList<>();
 
-    @Column(name = "description", columnDefinition = "TEXT")
-    private String description;
+//    @Column(name = "description", columnDefinition = "TEXT")
+//    private String description;
 
     @Column(name = "estimated_duration")
     private Integer estimatedDuration; // in minutes
@@ -47,18 +47,22 @@ public class Module extends CourseComponent {
 //        this(title, index);
 //        this.description = description;
 //    }
-    public Module(String description, Integer estimatedDuration, int index, String title) {
-        super(index, title);
-        this.description = description;
-        this.estimatedDuration = estimatedDuration;
-    }
 
-    public Module(Course course, String description, Integer estimatedDuration, int index, String title) {
-        super(index, title);
+
+    public Module(Course course, Integer estimatedDuration, int index, String title, String description) {
+        super(index, title, description);
         this.course = course;
-        this.description = description;
         this.estimatedDuration = estimatedDuration;
     }
+    
+    
+
+//    public Module(Course course, String description, Integer estimatedDuration, int index, String title) {
+//        super(index, title);
+//        this.course = course;
+//        this.description = description;
+//        this.estimatedDuration = estimatedDuration;
+//    }
     
 
     // Helper methods

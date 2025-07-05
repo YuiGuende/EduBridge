@@ -34,23 +34,25 @@ public class Lesson extends CourseComponent implements Serializable {
     public Lesson() {
     }
 
-    public Lesson(Long id, int index, String title) {
-        super(id, index, title);
+//    public Lesson(Long id, int index, String title) {
+//        super(id, index, title);
+//    }
+
+    public Lesson(int index, String title, String description) {
+        super(index, title, description);
     }
 
-    public Lesson(Module module, int index, String title) {
-        super(index, title);
+    public Lesson(Module module, int index, String title, String description) {
+        super(index, title, description);
         this.module = module;
     }
 
-    public Lesson(List<LessonItem> lessonItems) {
-        this.lessonItems = lessonItems;
+    public Lesson(Module module, Long id, int index, String title, String description) {
+        super(id, index, title, description);
+        this.module = module;
     }
-
-    public Lesson(List<LessonItem> lessonItems, Long id, int index, String title) {
-        super(id, index, title);
-        this.lessonItems = lessonItems;
-    }
+    
+    
 
     public List<LessonItem> getLessonItems() {
         return lessonItems;

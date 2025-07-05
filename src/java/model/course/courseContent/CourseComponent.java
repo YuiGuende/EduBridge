@@ -20,29 +20,53 @@ public abstract class CourseComponent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
-    
+
     @Column(name = "[index]")
     protected int index;
+    @Column(name = "title", length = 1000, columnDefinition = "nvarchar(255)")
     protected String title;
+    @Column(name = "description", length = 1000, columnDefinition = "nvarchar(255)")
+    protected String description;
 
     public CourseComponent() {
     }
 
-    public CourseComponent(Long id, int index, String title) {
+//    public CourseComponent(Long id, int index, String title) {
+//        this.id = id;
+//        this.index = index;
+//        this.title = title;
+//    }
+//
+//    public CourseComponent(int index, String title) {
+//        this.index = index;
+//        this.title = title;
+//    }
+
+    public CourseComponent(int index, String title, String description) {
+        this.index = index;
+        this.title = title;
+        this.description = description;
+    }
+
+    public CourseComponent(Long id, int index, String title, String description) {
         this.id = id;
         this.index = index;
         this.title = title;
-    }
-
-    public CourseComponent(int index, String title) {
-        this.index = index;
-        this.title = title;
+        this.description = description;
     }
     
 
     // getters và setters
     public Long getId() {
         return id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setId(Long id) {

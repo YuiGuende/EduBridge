@@ -52,7 +52,7 @@ public class Course {
     private Set<Language> languages = new HashSet<>();
 
     // Thêm trường primaryLanguage để lưu ngôn ngữ chính của khóa học
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "primary_language_id")
     private Language primaryLanguage;
 
@@ -92,6 +92,10 @@ public class Course {
 
     @Column(name = "updated_by", length = 100, columnDefinition = "nvarchar(255)")
     private String updatedBy;
+
+    @Embedded
+    @Column(nullable = true)
+    private Rate rate;
 
     @Version
     private Long version;
@@ -168,6 +172,22 @@ public class Course {
     @PreUpdate
     protected void onUpdate() {
         lastUpdate = LocalDateTime.now();
+    }
+
+    public int getEstimatedTime() {
+        return estimatedTime;
+    }
+
+    public void setEstimatedTime(int estimatedTime) {
+        this.estimatedTime = estimatedTime;
+    }
+
+    public Rate getRate() {
+        return rate;
+    }
+
+    public void setRate(Rate rate) {
+        this.rate = rate;
     }
 
     public void addLanguage(Language language) {
