@@ -1,63 +1,54 @@
 package DAO.LessonItem;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
+import DAO.GenericDAO;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 import model.course.courseContent.Lesson;
 import model.course.courseContent.LessonItem;
 
-public class LessonItemDAOImpl implements ILessonItemDAO {
+public class LessonItemDAOImpl extends GenericDAO<LessonItem> implements ILessonItemDAO {
 
-    private static EntityManagerFactory emf;
-
-    static {
-        try {
-            emf = Persistence.createEntityManagerFactory("coursePU");
-        } catch (Exception e) {
-            System.err.println("Error creating EntityManagerFactory: " + e.getMessage());
-            e.printStackTrace();
-        }
+    public LessonItemDAOImpl(Class<LessonItem> entityClass) {
+        super(entityClass);
     }
 
-    private EntityManager getEntityManager() {
-        return emf.createEntityManager();
-    }
 
-    @Override
-    public LessonItem save(LessonItem lessonItem) {
-        EntityManager em = getEntityManager();
-        try {
-            em.getTransaction().begin();
-            if (lessonItem.getId() == null) {
-                em.persist(lessonItem);
-            } else {
-                lessonItem = em.merge(lessonItem);
-            }
-            em.getTransaction().commit();
-            return lessonItem;
-        } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            throw new RuntimeException("Error saving lesson item: " + e.getMessage(), e);
-        } finally {
-            em.close();
-        }
-    }
+//    @Override
+//    public LessonItem save(LessonItem lessonItem) {
+//        EntityManager em = getEntityManager();
+//        try {
+//            em.getTransaction().begin();
+//            if (lessonItem.getId() == null) {
+//                em.persist(lessonItem);
+//            } else {
+//                lessonItem = em.merge(lessonItem);
+//            }
+//            em.getTransaction().commit();
+//            return lessonItem;
+//        } catch (Exception e) {
+//            if (em.getTransaction().isActive()) {
+//                em.getTransaction().rollback();
+//            }
+//            throw new RuntimeException("Error saving lesson item: " + e.getMessage(), e);
+//        } finally {
+//            em.close();
+//        }
+//    }
 
-    @Override
-    public Optional<LessonItem> findById(Long id) {
-        EntityManager em = getEntityManager();
-        try {
-            LessonItem lessonItem = em.find(LessonItem.class, id);
-            return Optional.ofNullable(lessonItem);
-        } finally {
-            em.close();
-        }
-    }
+//    @Override
+//    public Optional<LessonItem> findById(Long id) {
+//        EntityManager em = getEntityManager();
+//        try {
+//            LessonItem lessonItem = em.find(LessonItem.class, id);
+//            return Optional.ofNullable(lessonItem);
+//        } finally {
+//            em.close();
+//        }
+//    }
 
     @Override
     public List<LessonItem> findAll() {
@@ -72,61 +63,61 @@ public class LessonItemDAOImpl implements ILessonItemDAO {
         }
     }
 
-    @Override
-    public LessonItem update(LessonItem lessonItem) {
-        EntityManager em = getEntityManager();
-        try {
-            em.getTransaction().begin();
-            LessonItem updatedLessonItem = em.merge(lessonItem);
-            em.getTransaction().commit();
-            return updatedLessonItem;
-        } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            throw new RuntimeException("Error updating lesson item: " + e.getMessage(), e);
-        } finally {
-            em.close();
-        }
-    }
+//    @Override
+//    public LessonItem update(LessonItem lessonItem) {
+//        EntityManager em = getEntityManager();
+//        try {
+//            em.getTransaction().begin();
+//            LessonItem updatedLessonItem = em.merge(lessonItem);
+//            em.getTransaction().commit();
+//            return updatedLessonItem;
+//        } catch (Exception e) {
+//            if (em.getTransaction().isActive()) {
+//                em.getTransaction().rollback();
+//            }
+//            throw new RuntimeException("Error updating lesson item: " + e.getMessage(), e);
+//        } finally {
+//            em.close();
+//        }
+//    }
 
-    @Override
-    public void delete(LessonItem lessonItem) {
-        EntityManager em = getEntityManager();
-        try {
-            em.getTransaction().begin();
-            LessonItem managedLessonItem = em.merge(lessonItem);
-            em.remove(managedLessonItem);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            throw new RuntimeException("Error deleting lesson item: " + e.getMessage(), e);
-        } finally {
-            em.close();
-        }
-    }
+//    @Override
+//    public void delete(LessonItem lessonItem) {
+//        EntityManager em = getEntityManager();
+//        try {
+//            em.getTransaction().begin();
+//            LessonItem managedLessonItem = em.merge(lessonItem);
+//            em.remove(managedLessonItem);
+//            em.getTransaction().commit();
+//        } catch (Exception e) {
+//            if (em.getTransaction().isActive()) {
+//                em.getTransaction().rollback();
+//            }
+//            throw new RuntimeException("Error deleting lesson item: " + e.getMessage(), e);
+//        } finally {
+//            em.close();
+//        }
+//    }
 
-    @Override
-    public void deleteById(Long id) {
-        EntityManager em = getEntityManager();
-        try {
-            em.getTransaction().begin();
-            LessonItem lessonItem = em.find(LessonItem.class, id);
-            if (lessonItem != null) {
-                em.remove(lessonItem);
-            }
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            throw new RuntimeException("Error deleting lesson item by ID: " + e.getMessage(), e);
-        } finally {
-            em.close();
-        }
-    }
+//    @Override
+//    public void deleteById(Long id) {
+//        EntityManager em = getEntityManager();
+//        try {
+//            em.getTransaction().begin();
+//            LessonItem lessonItem = em.find(LessonItem.class, id);
+//            if (lessonItem != null) {
+//                em.remove(lessonItem);
+//            }
+//            em.getTransaction().commit();
+//        } catch (Exception e) {
+//            if (em.getTransaction().isActive()) {
+//                em.getTransaction().rollback();
+//            }
+//            throw new RuntimeException("Error deleting lesson item by ID: " + e.getMessage(), e);
+//        } finally {
+//            em.close();
+//        }
+//    }
 
     @Override
     public List<LessonItem> findByLesson(Lesson lesson) {
@@ -212,18 +203,18 @@ public class LessonItemDAOImpl implements ILessonItemDAO {
             em.close();
         }
     }
-
-    @Override
-    public long count() {
-        EntityManager em = getEntityManager();
-        try {
-            TypedQuery<Long> query = em.createQuery(
-                    "SELECT COUNT(li) FROM LessonItem li", Long.class);
-            return query.getSingleResult();
-        } finally {
-            em.close();
-        }
-    }
+//
+//    @Override
+//    public long count() {
+//        EntityManager em = getEntityManager();
+//        try {
+//            TypedQuery<Long> query = em.createQuery(
+//                    "SELECT COUNT(li) FROM LessonItem li", Long.class);
+//            return query.getSingleResult();
+//        } finally {
+//            em.close();
+//        }
+//    }
 
     @Override
     public long countByLesson(Lesson lesson) {
@@ -253,10 +244,10 @@ public class LessonItemDAOImpl implements ILessonItemDAO {
 //        }
 //    }
 
-    @Override
-    public boolean exists(Long id) {
-        return findById(id).isPresent();
-    }
+//    @Override
+//    public boolean exists(Long id) {
+//        return findById(id).isPresent();
+//    }
 
     @Override
     public LessonItem findNextLessonItem(LessonItem currentItem) {
@@ -321,10 +312,5 @@ public class LessonItemDAOImpl implements ILessonItemDAO {
         }
     }
 
-    // Cleanup method
-    public static void closeEntityManagerFactory() {
-        if (emf != null && emf.isOpen()) {
-            emf.close();
-        }
-    }
+
 }

@@ -1,4 +1,5 @@
-﻿use EduBridge_database
+CREATE DATABASE EduBridge_database;
+use EduBridge_database
 
 
 CREATE TABLE Tag (
@@ -13,7 +14,7 @@ CREATE TABLE [Language] (
 
 CREATE TABLE [user] (
     id BIGINT PRIMARY KEY IDENTITY(1,1),
-    username NVARCHAR(100) NOT NULL UNIQUE,
+    fullname NVARCHAR(100) NOT NULL UNIQUE,
     email NVARCHAR(255) NOT NULL UNIQUE,
     password NVARCHAR(255) NOT NULL,
     role NVARCHAR(20) CHECK (role IN ('instructor', 'learner','admin')) NOT NULL,
@@ -102,7 +103,7 @@ INSERT INTO Tag (name) VALUES
 (N'Graphic Design');
 
 -- USER
-INSERT INTO [user] (username, email, password, role) VALUES
+INSERT INTO [user] (fullname, email, password, role) VALUES
 (N'Nguyen Luong Hieu Thuan', N'thuan@example.com', N'1', N'instructor'),
 (N'Nguyen Tran Thanh Duy', N'duy@example.com', N'1', N'instructor'),
 (N'admin_user', N'admin@example.com', N'adminpass', N'admin');
@@ -140,6 +141,7 @@ INSERT INTO Course_Instructor (course_id, instructor_id) VALUES
 (3, 1);
 use Edubridge_database
 select * from Course
+select * from [user]
 
 
 

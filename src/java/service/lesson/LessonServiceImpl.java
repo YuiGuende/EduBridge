@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class LessonServiceImpl implements ILessonService {
 
-    private final LessonDAOImpl lessonDAO = new LessonDAOImpl();
+    private final LessonDAOImpl lessonDAO = new LessonDAOImpl(Lesson.class);
 
     @Override
     public Lesson save(Lesson lesson) {
@@ -19,7 +19,7 @@ public class LessonServiceImpl implements ILessonService {
 
     @Override
     public Optional<Lesson> findById(Long id) {
-        return lessonDAO.findById(id);
+        return lessonDAO.findByIdReturnOptional(id);
     }
 
     @Override

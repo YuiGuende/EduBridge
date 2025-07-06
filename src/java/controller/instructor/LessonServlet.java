@@ -157,7 +157,7 @@ public class LessonServlet extends HttpServlet {
     }
 
     private void saveLesson(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Optional<Module> moduleOp = null;
+        Module moduleOp = null;
         try {
             // Lấy dữ liệu từ request
             String title = request.getParameter("title");
@@ -168,12 +168,12 @@ public class LessonServlet extends HttpServlet {
 
             // Lấy module từ moduleId
             moduleOp = moduleService.findById(moduleId);
-            if (moduleOp.isEmpty()) {
+            if (moduleOp==null) {
                 request.setAttribute("error", "Module not found!");
                 getAddLessonPage(request, response);
                 return;
             }
-            Lesson existedLesson = moduleOp.get().getLessons().stream()
+            Lesson existedLesson = moduleOp.getLessons().stream()
                     .filter(m -> m.getIndex() == index)
                     .findFirst()
                     .orElse(null); // Trả về null nếu không tìm thấy
@@ -186,7 +186,7 @@ public class LessonServlet extends HttpServlet {
             lesson.setTitle(title);
             lesson.setIndex(index);
             lesson.setDescription(description); // Nếu có
-            lesson.setModule(moduleOp.get()); // Quan trọng: gán module
+            lesson.setModule(moduleOp); // Quan trọng: gán module
 
             // Lưu lesson
             lessonService.save(lesson);

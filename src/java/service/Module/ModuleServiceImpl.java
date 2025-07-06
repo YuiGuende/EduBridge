@@ -17,7 +17,11 @@ import model.course.courseContent.Module;
  */
 public class ModuleServiceImpl implements IModuleService {
 
-    private final IModuleDAO moduleDAO = new ModuleDAOImpl();
+    private final ModuleDAOImpl moduleDAO;
+
+    public ModuleServiceImpl() {
+        this.moduleDAO = new ModuleDAOImpl(model.course.courseContent.Module.class);
+    }
 
     @Override
     public Module save(Module module) {
@@ -25,7 +29,7 @@ public class ModuleServiceImpl implements IModuleService {
     }
 
     @Override
-    public Optional<Module> findById(Long id) {
+    public Module findById(Long id) {
         return moduleDAO.findById(id);
     }
 
@@ -87,11 +91,6 @@ public class ModuleServiceImpl implements IModuleService {
 
     // Utility Methods
     @Override
-    public long count() {
-        return moduleDAO.count();
-    }
-
-    @Override
     public long countByCourse(Course course) {
         return moduleDAO.countByCourse(course);
     }
@@ -104,5 +103,10 @@ public class ModuleServiceImpl implements IModuleService {
     @Override
     public Module findByIndexAndCourseId(int index, Long courseId) {
         return moduleDAO.findByIndexAndCourseId(index, courseId);
+    }
+
+    @Override
+    public long count() {
+        return moduleDAO.count();
     }
 }

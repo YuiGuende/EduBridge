@@ -33,7 +33,7 @@ public interface IModuleService {
 
     List<Module> findByCourseId(Long courseId);
 
-    Optional<Module> findById(Long id);
+    Module findById(Long id);
 
     Module findByIdWithLessons(Long id);
 

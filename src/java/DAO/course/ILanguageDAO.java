@@ -14,7 +14,4 @@ import model.course.Language;
  */
 public interface ILanguageDAO {
 
-    public List<Language> findAll();
-
-    public Optional<Language> findById(Long id);
 }

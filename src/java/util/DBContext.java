@@ -18,7 +18,7 @@ public class DBContext {
             String dbName = "EduBridge_database";
             String portNumber = "1433";
             String USERNAME = "sa";
-            String PASSWORD = "thanhduy123";
+            String PASSWORD = "123456";
             String url = "jdbc:sqlserver://localhost:1433;databaseName=EduBridge_database;encrypt=true;trustServerCertificate=true";
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             return DriverManager.getConnection(url, USERNAME, PASSWORD);

@@ -16,15 +16,15 @@ import java.sql.*;
  */
 public class UserDAO {
 
-    public List<User> getALl() {
-        List<User> list = new ArrayList<>();
-        String sql = "select * from userTbl";
+    public List<UserOld> getALl() {
+        List<UserOld> list = new ArrayList<>();
+        String sql = "select * from [user]";
         try {
             DBContext db = new DBContext();
             PreparedStatement st = db.getConnection().prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                User user = new User(rs.getInt("id"), rs.getNString("fullname"), rs.getString("email"), rs.getString("password"), rs.getString("role"));
+                UserOld user = new UserOld(rs.getInt("id"), rs.getNString("fullname"), rs.getString("email"), rs.getString("password"), rs.getString("role"));
                 list.add(user);
             }
         } catch (SQLException e) {
@@ -33,9 +33,9 @@ public class UserDAO {
         return list;
     }
 
-    public User findByEmailAndPassword(String email, String password) {
+    public UserOld findByEmailAndPassword(String email, String password) {
 
-        String sql = "select * from userTbl where email=? and password=?";
+        String sql = "select * from [user] where email=? and password=?";
 
         try {
             DBContext db = new DBContext();
@@ -45,7 +45,7 @@ public class UserDAO {
             ResultSet rs = st.executeQuery();
 
             if (rs.next()) {
-                return new User(rs.getInt("id"), rs.getNString("fullname"), rs.getString("email"), rs.getString("password"), rs.getString("role"));
+                return new UserOld(rs.getInt("id"), rs.getNString("fullname"), rs.getString("email"), rs.getString("password"), rs.getString("role"));
 
             }
         } catch (SQLException e) {
@@ -55,7 +55,7 @@ public class UserDAO {
     }
 
     public boolean isEmailExisted(String email) {
-        String sql = "select * from userTbl where email=?";
+        String sql = "select * from [user] where email=?";
 
         try {
             DBContext db = new DBContext();
@@ -69,10 +69,11 @@ public class UserDAO {
         return false;
     }
 
-    public void insertUser(User user) {
-        String sql = "insert into userTbl (email, fullname, password, role) values (?, ?, ?, ?)";
+    public void insertUser(UserOld user) {
+        String sql = "insert into [user] (email, fullname, password, role) values (?, ?, ?, ?)";
 
         try {
+            System.out.println("user" + user);
             DBContext db = new DBContext();
             PreparedStatement st = db.getConnection().prepareStatement(sql);
             st.setString(1, user.getEmail());
@@ -81,7 +82,7 @@ public class UserDAO {
             st.setString(4, user.getRole());
             st.executeUpdate();
         } catch (SQLException e) {
-
+            e.printStackTrace();
         }
     }
 

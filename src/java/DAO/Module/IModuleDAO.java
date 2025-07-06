@@ -7,19 +7,6 @@ import model.course.courseContent.Module;
 
 public interface IModuleDAO {
 
-    // CRUD Operations
-    Module save(Module module);
-
-    Optional<Module> findById(Long id);
-
-    List<Module> findAll();
-
-    Module update(Module module);
-
-    void delete(Module module);
-
-    void deleteById(Long id);
-
     // Specialized Queries
     List<Module> findByCourse(Course course);
 
@@ -38,9 +25,10 @@ public interface IModuleDAO {
     Module findPreviousModule(Module currentModule);
 
     // Utility Methods
-    long count();
 
     long countByCourse(Course course);
+    public void deleteById(Long id);
+    
+    
 
-    boolean exists(Long id);
 }
