@@ -33,25 +33,25 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public boolean signup(User user) {
-        if (userDAO.isEmailExists(user.getEmail())) {
-            return false;
-        } else {
-            userDAO.insert(user);
-            return true;
-        }
+    public void signup(User user) {
+        userDAO.insert(user);
     }
 
     @Override
-    public boolean signupForInstructor(User user, Instructor instructor) {
-        if (userDAO.isEmailExists(user.getEmail())) {
-            return false;
-        } else {
-            user.setInstructor(instructor);
-            instructor.setUser(user);
-            userDAO.insert(user);
-            return true;
-        }
+    public void signupForInstructor(User user, Instructor instructor) {
+        user.setInstructor(instructor);
+        instructor.setUser(user);
+        userDAO.insert(user);
+    }
+
+    @Override
+    public boolean isEmailExists(String emails) {
+        return userDAO.isEmailExists(emails);
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+        return userDAO.findByEmail(email);
     }
 
 }

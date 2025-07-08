@@ -12,6 +12,10 @@ import model.user.User;
  * @author DELL
  */
 public interface IUserDAO {
+
     Optional<User> findByEmailAndPassword(String email, String password);
+
     boolean isEmailExists(String email);
+
+    User findByEmail(String email);
 }

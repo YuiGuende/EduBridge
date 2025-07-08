@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import model.user.User;
 import service.user.IUserService;
 import service.user.UserServiceImpl;
+import util.AuthenticationUtil;
 
 /**
  *
@@ -36,30 +37,52 @@ public class SignupServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            String email = request.getParameter("email").trim();
-            String fullname = request.getParameter("fullname").trim();
-            String password = request.getParameter("password");
-            String confirm = request.getParameter("confirm");
-            if (!password.equals(confirm)) {
-                throw new IllegalArgumentException("Passwords do not match");
-            }
-            User user = new User(fullname, email, password, "learner");
-            if (userService.signup(user)) {
-                request.setAttribute("successMessage", "Sign up successfully. Please log in.");
-                request.getRequestDispatcher("login/login.jsp").forward(request, response);
-            } else {
-                throw new IllegalArgumentException("Email already exists");
-            }
-        } catch (ServletException | IOException | IllegalArgumentException e) {
-            User user = new User();
-            user.setFullname(request.getParameter("fullname"));
-            user.setEmail(request.getParameter("email"));
-            request.setAttribute("user", user);
+        String email = request.getParameter("email").trim();
+        String fullname = request.getParameter("fullname").trim();
+        String password = request.getParameter("password");
+        String confirm = request.getParameter("confirm");
 
-            request.setAttribute("error", e.getMessage());
+        boolean hasError = false;
+
+        User user = new User(fullname, email, password, "learner");
+        request.setAttribute("user", user);
+
+        if (!AuthenticationUtil.isValidEmail(email)) {
+            request.setAttribute("emailError", "Invalid email format.");
+            hasError = true;
+        }
+        if (!AuthenticationUtil.isValidFullName(fullname)) {
+            request.setAttribute("fullnameError", "Full name must be 3-50 characters.");
+            hasError = true;
+        }
+        if (!AuthenticationUtil.isValidPassword(password)) {
+            request.setAttribute("passwordError", "Password must be at least 6 characters.");
+            hasError = true;
+        }
+        if (!AuthenticationUtil.isPasswordConfirmed(password, confirm)) {
+            request.setAttribute("confirmError", "Passwords do not match.");
+            hasError = true;
+        }
+
+        if (userService.isEmailExists(email)) {
+            request.setAttribute("error", "Email already exists");
+            hasError = true;
+        }
+        if (hasError) {
+            request.setAttribute("user", user);
+            request.getRequestDispatcher("signup/signup.jsp").forward(request, response);
+            return;
+        }
+        try {
+            userService.signup(user);
+            request.setAttribute("successMessage", "Sign up successfully. Please log in.");
+            request.getRequestDispatcher("login/login.jsp").forward(request, response);
+        } catch (ServletException | IOException e) {
+            request.setAttribute("error", "Sign up failed");
+            request.setAttribute("user", user);
             request.getRequestDispatcher("signup/signup.jsp").forward(request, response);
         }
+
     }
 
     @Override

@@ -5,32 +5,42 @@
 package util;
 
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
-/**
- *
- * @author DELL
- */
 public class AuthenticationUtil {
 
-    private HashMap<String, String> users = new HashMap<>();
+    private final HashMap<String, String> users = new HashMap<>();
 
-    private boolean isValidEmail(String email) {
-        return email != null && email.matches("^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]{2,}$");
+    // Biểu thức regex cho email, full name
+    private static final Pattern EMAIL_REGEX = Pattern.compile("^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]{2,}$");
+    private static final Pattern NAME_REGEX = Pattern.compile("^[\\p{L}\\s]{3,50}$");
+
+    // Kiểm tra email hợp lệ
+    public static boolean isValidEmail(String email) {
+        return email != null && EMAIL_REGEX.matcher(email).matches();
     }
-    
-    private boolean isValidFullName(String fullName) {
-        if (fullName == null) {
-            return false;
-        }
-        fullName = fullName.trim();
-        return fullName.length() >= 3 && fullName.length() <= 50
-                && fullName.matches("^[a-zA-Z\\s]+$");
+
+    // Kiểm tra họ tên hợp lệ (3–50 ký tự, chỉ chữ và khoảng trắng)
+    public static boolean isValidFullName(String fullName) {
+        return fullName != null && NAME_REGEX.matcher(fullName.trim()).matches();
     }
-    private boolean isValidPassword(String password) {
+
+    // Kiểm tra mật khẩu >= 6 ký tự
+    public static boolean isValidPassword(String password) {
         return password != null && password.length() >= 6;
     }
+
+    // Kiểm tra confirm password
+    public static boolean isPasswordConfirmed(String password, String confirm) {
+        return password != null && password.equals(confirm);
+    }
+
+    // Hàm dùng để test hoặc mô phỏng đăng ký
     public boolean signup(String email, String fullname, String password) {
-        return isValidEmail(email) && isValidFullName(fullname) && isValidPassword(password) && !users.containsKey(email);
+        return isValidEmail(email)
+                && isValidFullName(fullname)
+                && isValidPassword(password)
+                && !users.containsKey(email);
     }
 
     public boolean login(String email, String password) {

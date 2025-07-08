@@ -37,6 +37,18 @@
         <servlet-name>SignupInstructorServlet</servlet-name>
         <servlet-class>controller.authentication.SignupInstructorServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GoogleLoginServlet</servlet-name>
+        <servlet-class>controller.authentication.socialLogin.GoogleLoginServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FacebookLoginServlet</servlet-name>
+        <servlet-class>controller.authentication.socialLogin.FacebookLoginServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LinkedinLoginServlet</servlet-name>
+        <servlet-class>controller.authentication.socialLogin.LinkedinLoginServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -63,6 +75,18 @@
     <servlet-mapping>
         <servlet-name>SignupInstructorServlet</servlet-name>
         <url-pattern>/signup-instructor</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GoogleLoginServlet</servlet-name>
+        <url-pattern>/login-google</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FacebookLoginServlet</servlet-name>
+        <url-pattern>/login-facebook</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LinkedinLoginServlet</servlet-name>
+        <url-pattern>/login-linkedin</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>36000</session-timeout>

@@ -48,4 +48,19 @@ public class UserDAOImpl extends GenericDAO<User> implements IUserDAO {
             return query.getSingleResult() > 0;
         }
     }
+
+    @Override
+    public User findByEmail(String email) {
+        try (EntityManager em = getEntityManager();) {
+            TypedQuery<User> query = em.createQuery(
+                    "SELECT u FROM User u WHERE u.email = :email",
+                    User.class);
+            query.setParameter("email", email);
+            return query.getSingleResult();
+        } catch (Exception e) {
+            System.err.println("Error finding user by email: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

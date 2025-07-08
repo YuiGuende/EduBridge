@@ -16,7 +16,11 @@ public interface IUserService {
 
     Optional<User> login(String username, String password);
 
-    boolean signup(User user);
+    void signup(User user);
 
-    boolean signupForInstructor(User user, Instructor instructor);
+    void signupForInstructor(User user, Instructor instructor);
+    
+    boolean isEmailExists(String emails);
+    
+    User findUserByEmail(String email);
 }
