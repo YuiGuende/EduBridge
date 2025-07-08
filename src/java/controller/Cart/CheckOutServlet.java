@@ -5,6 +5,7 @@
 
 package controller.Cart;
 
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -37,7 +38,8 @@ public class CheckOutServlet extends HttpServlet {
 
         if (cart == null || cart.isEmpty()) {
             request.setAttribute("error", "Cart is empty");
-            request.getRequestDispatcher("cart.jsp").forward(request, response);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/shoppingcart/cart.jsp");
+dispatcher.forward(request, response);
             return;
         }
 
@@ -47,6 +49,6 @@ public class CheckOutServlet extends HttpServlet {
         // Hiện tại: chỉ mô phỏng thành công
 
         cartService.clearCart(request.getSession());
-        response.sendRedirect("thankiu.jsp");
+        response.sendRedirect("shoppingcart/thankiu.jsp");
     }
 }

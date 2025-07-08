@@ -87,7 +87,7 @@ public class CartController extends HttpServlet {
                     handleCheckout(request, response, session);
                     return;
             }
-           RequestDispatcher dispatcher = request.getRequestDispatcher("/shoppingcart/cart.jsp");
+ RequestDispatcher dispatcher = request.getRequestDispatcher("/shoppingcart/cart.jsp");
 dispatcher.forward(request, response);
 
         }
@@ -108,8 +108,8 @@ request.setAttribute("purchasedCourses", purchasedCourses);
         request.setAttribute("discountAmount", cartService.getDiscountAmount(session));
         request.setAttribute("finalTotal", cartService.calculateTotalWithDiscount(session));
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("cart.jsp");
-        dispatcher.forward(request, response);
+ RequestDispatcher dispatcher = request.getRequestDispatcher("/shoppingcart/cart.jsp");
+dispatcher.forward(request, response);
     }
         private void handleAddToCart(HttpServletRequest request, HttpSession session) {
         Long courseId = Long.parseLong(request.getParameter("id"));
@@ -137,7 +137,7 @@ request.setAttribute("purchasedCourses", purchasedCourses);
 
     request.setAttribute("purchasedCourses", purchasedCourses);
     request.setAttribute("message", "Thanh toán thành công!");
-    request.getRequestDispatcher("thankyou.jsp").forward(request, response);
+    request.getRequestDispatcher("shoppingcart/thankyou.jsp").forward(request, response);
 
     }
     @Override

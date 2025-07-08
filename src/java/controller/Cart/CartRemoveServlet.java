@@ -41,6 +41,6 @@ public class CartRemoveServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
-        response.sendRedirect(request.getContextPath() + "/cart.jsp");
+        response.sendRedirect(request.getContextPath() + "shoppingcart/cart.jsp");
     }
 }

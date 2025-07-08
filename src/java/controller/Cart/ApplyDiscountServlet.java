@@ -7,6 +7,7 @@ package controller.Cart;
 
 import DAO.Cart.DiscountDAO;
 import DAO.Cart.DiscountDAOImpl;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -22,7 +23,7 @@ import service.course.CourseServiceImpl;
  *
  * @author GoniperXComputer
  */
-@WebServlet(name="ApplyDiscountServlet", urlPatterns={"/apply-discount"})
+@WebServlet(name="ApplyDiscountServlet", urlPatterns={"/cart/apply-discount"})
 public class ApplyDiscountServlet extends HttpServlet {
    
    
@@ -46,7 +47,8 @@ public class ApplyDiscountServlet extends HttpServlet {
         } else {
             request.setAttribute("discountError", "Invalid or expired discount code.");
         }
+response.sendRedirect(request.getContextPath() + "/cart");
 
-        request.getRequestDispatcher("cart.jsp").forward(request, response);
+
     }
 }

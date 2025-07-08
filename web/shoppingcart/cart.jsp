@@ -432,9 +432,64 @@ label.radio input:checked + span {
   display: flex;
   align-items: center;
 }
+/* Discount Form */
+.discount-section {
+  margin: 15px 0;
+  padding: 10px;
+  background-color: rgba(255,255,255,0.1);
+  border-radius: 5px;
+}
+
+.discount-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.discount-input-wrapper {
+  display: flex;
+  gap: 10px;
+}
+
+.discount-input-wrapper input[type="text"] {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.discount-input-wrapper .apply-btn {
+  padding: 8px 16px;
+  background-color: #00cc99;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.discount-input-wrapper .apply-btn:hover {
+  background-color: #009973;
+}
+
+.discount-success {
+  margin-top: 8px;
+  color: #00ff88;
+  font-size: 13px;
+}
+
+.discount-error {
+  margin-top: 8px;
+  color: #ff4d4d;
+  font-size: 13px;
+}
+
 .px-3{
   margin: 10px 50px  80px;
- 
 }
 
 .px-3 a {
@@ -727,36 +782,38 @@ label.radio input:checked + span {
                 </label>
 
                 <!-- DISCOUNT CODE -->
-                <form method="post" action="cart/apply-discount">
-                    <label for="discountCode">Discount Code</label>
-                    <input type="text" id="discountCode" name="discountCode" placeholder="Enter your code">
-                    <button type="submit" class="btn btn-success">Apply</button>
-                </form>
                 
-                <form action="apply-discount" method="post">
-    <label>Discount Code:</label>
-    <input type="text" name="discountCode" placeholder="Enter code..."/>
-    <button type="submit">Apply</button>
-    <c:if test="${not empty discountSuccess}">
-        <p style="color:green">${discountSuccess}</p>
-    </c:if>
-    <c:if test="${not empty discountError}">
-        <p style="color:red">${discountError}</p>
-    </c:if>
-</form>
+<!-- DISCOUNT CODE SECTION -->
+<div class="discount-section">
+    <form action="${pageContext.request.contextPath}/cart/apply-discount" method="post" class="discount-form">
+        <label for="discountCode">Discount Code:</label>
+        <div class="discount-input-wrapper">
+            <input type="text" id="discountCode" name="discountCode" placeholder="Enter code..." />
+            <button type="submit" class="apply-btn">Apply</button>
+        </div>
+
+        <c:if test="${not empty discountSuccess}">
+            <p class="discount-success">${discountSuccess}</p>
+        </c:if>
+        <c:if test="${not empty discountError}">
+            <p class="discount-error">${discountError}</p>
+        </c:if>
+    </form>
+</div>
+
 
 
                 <!-- PRICE SUMMARY -->
                 <hr class="line">
-                <div class="d-popi"><span>Subtotal:</span><span class="d-block">${cart.subtotal}đ</span></div>
-                <div class="d-popi"><span>VAT + Instructor Bonus:</span><span class="d-block">${cart.tax}đ</span></div>
+                <div class="d-popi"><span>Subtotal:</span><span class="d-block">${cart.subtotal}</span></div>
+                <div class="d-popi"><span>VAT + Instructor Bonus:</span><span class="d-block">${cart.tax}</span></div>
                 <c:if test="${not empty cart.discount}">
                     <div class="d-popi"><span>Discount (${cart.discount.code}):</span>
-                        <span class="d-block">- ${cart.discountAmount}đ</span>
+                        <span class="d-block">- ${cart.discountAmount}</span>
                     </div>
                 </c:if>
                 <div class="d-popi"><strong>Total:</strong>
-                    <strong class="d-block">${cart.totalWithDiscount}đ</strong>
+                    <strong class="d-block">${cart.totalWithDiscount}</strong>
                 </div>
 
                 <form action="checkout" method="post" id="checkout-form">
