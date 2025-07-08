@@ -1,0 +1,113 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Jun 1, 2025, 12:58:01 PM
+    Author     : LEGION
+*/
+.right-body{
+    border: solid 1px #7889ce;
+    border-radius: 3px;
+    margin: 0 auto;
+}
+.title{
+    display: flex;
+    align-items: center;
+}
+
+.title p,
+.duration p{
+    margin: 0px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.title input,
+.duration input{
+    padding: 10px 5px;
+}
+.lesson-title{
+    font-weight: bolder;
+    width: 100%;
+    font-size: large;
+    height: 40px;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+.second-row{
+
+    margin: 20px auto;
+}
+.first-row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.first-row button{
+    width: 70px;
+    border: solid 2px #7889ce;
+    border-radius: 3px;
+    background-color: white;
+
+}
+.question-text{
+    width: 80%;
+    margin: 0 auto;
+}
+.answer-text{
+    width: 70%;
+    margin: 0 auto;
+    margin-bottom: 9px
+}
+.question-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 15px
+}
+.add-answer-btn,
+.delete-answer,
+.remove-question-btn{
+/*    border: solid 2px #1A2A6C;*/
+    border-radius: 5px;
+    background-color: #1A2A6C;
+    color: white;
+    transition: background-color 0.3s;
+}
+.add-answer-btn:hover,
+.delete-answer:hover,
+.remove-question-btn:hover {
+    background-color: #03479e;
+    color: #FFFFFF;
+}
+
+.answer-group{
+    padding-left: 30px;
+}
+
+input{
+    border: solid 1px #a0a0a0;
+    border-radius: 4px;
+    padding-left: 5px;
+    padding: 5px 2px;
+}
+.bi .bi-arrow-right-short{
+    margin-right: 10px;
+}
+.quiz-title{
+    font-size: large;
+    font-weight: bold;
+}
+.add-question-btn{
+    border-radius: 5px;
+    background-color: #1A2A6C;
+    color: white;
+    transition: background-color 0.3s;
+}
+.add-question-btn:hover{
+    background-color: #03479e;
+    color: #FFFFFF;
+}
