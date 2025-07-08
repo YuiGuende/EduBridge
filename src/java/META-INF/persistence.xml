@@ -12,7 +12,7 @@
             <property name="jakarta.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=EduBridge;encrypt=true;trustServerCertificate=true"/>
             <property name="jakarta.persistence.jdbc.user" value="sa"/>
             <property name="jakarta.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
-            <property name="jakarta.persistence.jdbc.password" value="thanhduy123"/>
+            <property name="jakarta.persistence.jdbc.password" value="123"/>
             <!-- Optional: bật log -->
             <property name="eclipselink.logging.level" value="FINE"/>
             <property name="eclipselink.logging.parameters" value="true"/>

@@ -26,6 +26,9 @@ public class Course {
 
     @Column(name = "description", columnDefinition = "nvarchar(255)")
     private String description;
+    
+     @Column(name = "price", nullable = false)
+    private int price;
 
     @ElementCollection
     @CollectionTable(name = "course_requirements",
@@ -44,6 +47,7 @@ public class Course {
             joinColumns = @JoinColumn(name = "course_id"))
     @Column(name = "learning_outcome", length = 1000, columnDefinition = "nvarchar(255)")
     private List<String> learningOutcomes = new ArrayList<>();
+    
 
     // Thay đổi từ ManyToOne thành ManyToMany
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -109,19 +113,19 @@ public class Course {
     // Constructors
     public Course() {
     }
-
-    public Course(String title, String headline, String description,
-            Language primaryLanguage, String thumbnailUrl, CourseStatus status) {
+      
+public Course(String title, String headline, String description, Language primaryLanguage, String thumbnailUrl, CourseStatus status, int price) {
         this.title = title;
         this.headline = headline;
         this.description = description;
         this.primaryLanguage = primaryLanguage;
-        if (primaryLanguage != null) {
-            this.languages.add(primaryLanguage);
-        }
         this.thumbnailUrl = thumbnailUrl;
         this.status = status;
         this.paid = false;
+        this.price = price;
+        if (primaryLanguage != null) {
+            this.languages.add(primaryLanguage);
+        }
     }
 
     public Course(String title, String headline, String description, String thumbnailUrl, CourseStatus status) {
@@ -358,6 +362,13 @@ public class Course {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+       public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     public List<String> getRequirements() {
