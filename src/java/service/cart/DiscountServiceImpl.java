@@ -5,6 +5,7 @@
 package service.cart;
 
 import DAO.Cart.DiscountDAO;
+import DAO.GenericDAO;
 import java.util.List;
 import java.util.Optional;
 import model.cart.Discount;
@@ -14,24 +15,33 @@ import model.cart.Discount;
  * @author GoniperXComputer
  */
 public class DiscountServiceImpl implements DiscountService {
-       private final DiscountDAO discountDAO;
-    
-    public DiscountServiceImpl(DiscountDAO discountDAO) {
+
+    public DiscountServiceImpl(DAO.Cart.DiscountDAO discountDAO) {
         this.discountDAO = discountDAO;
     }
+       private final DiscountDAO discountDAO;
+
+   
+    
+   
 
     @Override
     public Discount createDiscount(Discount discount) {
-           // Validate discount code uniqueness
-        if (discountDAO.findByCode(discount.getCode()).isPresent()) {
-            throw new IllegalArgumentException("Discount code already exists");
+        if (discount == null) {
+            throw new IllegalArgumentException("Discount cannot be null");
         }
-        
-        // Set default values
+
+        // Kiểm tra mã code đã tồn tại chưa
+        Optional<Discount> existing = discountDAO.findByCode(discount.getCode());
+        if (existing.isPresent()) {
+            throw new IllegalArgumentException("Mã giảm giá đã tồn tại!");
+        }
+
+        // Thiết lập giá trị mặc định
         if (discount.getCurrentUses() == null) {
             discount.setCurrentUses(0);
         }
-        
+
         return discountDAO.save(discount);
     }
 
@@ -42,6 +52,9 @@ public class DiscountServiceImpl implements DiscountService {
 
     @Override
     public Optional<Discount> getDiscountByCode(String code) {
+          if (code == null || code.isBlank()) {
+            return Optional.empty();
+        }
         return discountDAO.findByCode(code);
     }
 

@@ -19,6 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.cart.CartItem;
+import model.cart.Discount;
 import model.cart.ShoppingCart;
 import service.cart.CartService;
 import service.cart.CartServiceImpl;
@@ -35,31 +36,15 @@ import service.course.CourseServiceImpl;
 public class CartController extends HttpServlet {
        private CartService cartService;
 
-    @Override
-    public void init() throws ServletException {
-        CourseService courseService = new CourseServiceImpl();
-          DiscountDAO discountDAO = new DiscountDAOImpl();
+@Override
+public void init() throws ServletException {
+    CourseService courseService = new CourseServiceImpl();
+    DiscountDAO discountDAO = new DiscountDAOImpl();
     DiscountService discountService = new DiscountServiceImpl(discountDAO);
 
     cartService = new CartServiceImpl(courseService, discountService);
-    }
+}
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet CartController</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet CartController at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    } 
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -69,7 +54,8 @@ public class CartController extends HttpServlet {
 
         if (action == null) {
             showCartPage(request, response, session);
-        } else {
+            return;
+        } 
             switch (action) {
                 case "add":
                     handleAddToCart(request, session);
@@ -86,11 +72,13 @@ public class CartController extends HttpServlet {
                 case "checkout":
                     handleCheckout(request, response, session);
                     return;
+                default:
+                    break;
             }
  RequestDispatcher dispatcher = request.getRequestDispatcher("/shoppingcart/cart.jsp");
 dispatcher.forward(request, response);
 
-        }
+        
     
     } 
     private void showCartPage(HttpServletRequest request, HttpServletResponse response, HttpSession session)
@@ -112,18 +100,30 @@ request.setAttribute("purchasedCourses", purchasedCourses);
 dispatcher.forward(request, response);
     }
         private void handleAddToCart(HttpServletRequest request, HttpSession session) {
-        Long courseId = Long.parseLong(request.getParameter("id"));
-        cartService.addToCart(session, courseId);
+         try {
+            Long courseId = Long.parseLong(request.getParameter("id"));
+            cartService.addToCart(session, courseId);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
     }
            private void handleRemoveFromCart(HttpServletRequest request, HttpSession session) {
-        Long courseId = Long.parseLong(request.getParameter("id"));
-        cartService.removeFromCart(session, courseId);
+        try {
+            Long courseId = Long.parseLong(request.getParameter("id"));
+            cartService.removeFromCart(session, courseId);
+        } catch (NumberFormatException e) {
+          e.printStackTrace();
+        }
     }
                private void handleApplyDiscount(HttpServletRequest request, HttpSession session) {
         String code = request.getParameter("discountCode");
-        if (code != null && !code.isEmpty()) {
+        if (code != null && !code.trim().isEmpty()) {
             boolean success = cartService.applyDiscount(session, code);
-            request.setAttribute("discountMessage", success ? "Mã đã áp dụng!" : "Mã không hợp lệ hoặc đã hết hạn!");
+            if (success) {
+                request.setAttribute("discountSuccess", "Discount applied successfully!");
+            } else {
+                request.setAttribute("discountError", "Invalid or expired discount code.");
+            }
         }
     }
     private void handleCheckout(HttpServletRequest request, HttpServletResponse response, HttpSession session)
@@ -143,6 +143,17 @@ dispatcher.forward(request, response);
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        String action = request.getParameter("action");
+        HttpSession session = request.getSession();
+        
+        if("applyDiscount".equals(action)){
+             handleApplyDiscount(request, session);
+            showCartPage(request, response, session);
+            
+        } else if(!"checkout".equals(action)){
+   
+            handleCheckout(request, response, session);
+           }
     
     }
 

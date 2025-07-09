@@ -13,7 +13,7 @@ import model.cart.Discount;
  * @author GoniperXComputer
  */
 public interface DiscountDAO {
-      Discount save(Discount discount);
+   Discount save(Discount discount);
     Optional<Discount> findById(Long id);
     Optional<Discount> findByCode(String code);
     List<Discount> findAllActiveDiscounts();

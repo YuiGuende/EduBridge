@@ -7,13 +7,13 @@ package controller.Cart;
 
 import DAO.Cart.DiscountDAO;
 import DAO.Cart.DiscountDAOImpl;
-import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.cart.Discount;
 import service.cart.CartService;
 import service.cart.CartServiceImpl;
 import service.cart.DiscountServiceImpl;
@@ -29,11 +29,14 @@ public class ApplyDiscountServlet extends HttpServlet {
    
     private CartService cartService;
 
-    @Override
-    public void init() {
-        DiscountDAO discountDAO = new DiscountDAOImpl(); // Đảm bảo lớp này đã được tạo
-        this.cartService = new CartServiceImpl(new CourseServiceImpl(), new DiscountServiceImpl(discountDAO));
-    }
+   @Override
+public void init() throws ServletException {
+    DiscountDAO discountDAO = new DiscountDAOImpl(); 
+    this.cartService = new CartServiceImpl(
+        new CourseServiceImpl(),
+        new DiscountServiceImpl(discountDAO)
+    );
+}
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

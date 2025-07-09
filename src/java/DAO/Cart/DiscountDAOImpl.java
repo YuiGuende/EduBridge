@@ -4,6 +4,7 @@
  */
 package DAO.Cart;
 
+import DAO.GenericDAO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -16,67 +17,71 @@ import model.cart.Discount;
  *
  * @author GoniperXComputer
  */
-public class DiscountDAOImpl implements DiscountDAO {
-   @PersistenceContext
-    private EntityManager entityManager;
+public class DiscountDAOImpl extends GenericDAO implements DiscountDAO {
+
+    public DiscountDAOImpl() {
+        super(Discount.class);
+    }
 
     @Override
     public Discount save(Discount discount) {
-        if (discount.getId() == null) {
-            entityManager.persist(discount);
-            return discount;
-        } else {
-            return entityManager.merge(discount);
-        }
+           return (Discount) super.save(discount);
     }
 
     @Override
     public Optional<Discount> findById(Long id) {
-        return Optional.ofNullable(entityManager.find(Discount.class, id));
+          return super.findByIdReturnOptional(id);
     }
+
     @Override
     public Optional<Discount> findByCode(String code) {
-         TypedQuery<Discount> query = entityManager.createQuery(
-            "SELECT d FROM Discount d WHERE d.code = :code", Discount.class);
-        query.setParameter("code", code);
-        
-        try {
+        try (EntityManager em = getEntityManager()) {
+            TypedQuery<Discount> query = em.createQuery(
+                "SELECT d FROM Discount d WHERE d.code = :code", Discount.class);
+            query.setParameter("code", code);
             return Optional.of(query.getSingleResult());
         } catch (Exception e) {
             return Optional.empty();
         }
     }
-    @Override
-    public List<Discount> findAllActiveDiscounts() {
-       LocalDateTime now = LocalDateTime.now();
-        return entityManager.createQuery(
-            "SELECT d FROM Discount d WHERE d.active = true AND " +
-            "d.startDate <= :now AND d.endDate >= :now", Discount.class)
-            .setParameter("now", now)
-            .getResultList();
-    }
 
     @Override
-    public List<Discount> findAll() {
-       return entityManager.createQuery("SELECT d FROM Discount d", Discount.class)
-            .getResultList();
+    public List<Discount> findAllActiveDiscounts() {
+       try (EntityManager em = getEntityManager()) {
+            LocalDateTime now = LocalDateTime.now();
+            return em.createQuery(
+                "SELECT d FROM Discount d WHERE d.active = true AND d.startDate <= :now AND d.endDate >= :now",
+                Discount.class)
+                .setParameter("now", now)
+                .getResultList();
+        }
     }
 
     @Override
     public boolean deactivate(Long id) {
-         int updated = entityManager.createQuery(
-            "UPDATE Discount d SET d.active = false WHERE d.id = :id")
-            .setParameter("id", id)
-            .executeUpdate();
-        return updated > 0;
+        try (EntityManager em = getEntityManager()) {
+            em.getTransaction().begin();
+            int updated = em.createQuery(
+                "UPDATE Discount d SET d.active = false WHERE d.id = :id")
+                .setParameter("id", id)
+                .executeUpdate();
+            em.getTransaction().commit();
+            return updated > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
     public int countUses(String code) {
-        return entityManager.createQuery(
-            "SELECT d.currentUses FROM Discount d WHERE d.code = :code", Integer.class)
-            .setParameter("code", code)
-            .getSingleResult();
+        try (EntityManager em = getEntityManager()) {
+            return em.createQuery(
+                "SELECT d.currentUses FROM Discount d WHERE d.code = :code", Integer.class)
+                .setParameter("code", code)
+                .getSingleResult();
+        }
     }
+  
     
 }
