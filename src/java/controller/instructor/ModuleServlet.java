@@ -4,7 +4,7 @@
  */
 package controller.instructor;
 
-import DAO.Module.IModuleDAO;
+import dao.module.IModuleDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;

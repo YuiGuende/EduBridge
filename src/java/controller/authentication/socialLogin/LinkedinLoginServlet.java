@@ -28,8 +28,8 @@ import service.user.UserServiceImpl;
  */
 public class LinkedinLoginServlet extends HttpServlet {
 
-    private static final String CLIENT_ID = "";
-    private static final String CLIENT_SECRET = "";
+    private static final String CLIENT_ID = "867yqxfh8u77hs";
+    private static final String CLIENT_SECRET = "WPL_AP1.cHq5OkKUvordw62a.U9Frsg==";
     private static final String REDIRECT_URI = "http://localhost:9999/EduBridge/login-linkedin";
 
     private IUserService userService = new UserServiceImpl();
@@ -39,7 +39,7 @@ public class LinkedinLoginServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String code = request.getParameter("code");
-        if (code == null) {
+        if (code == null || code.isEmpty()) {
             response.sendRedirect("login");
             return;
         }
@@ -108,7 +108,7 @@ public class LinkedinLoginServlet extends HttpServlet {
 
         if (email == null) {
             request.setAttribute("error", "LinkedIn account does not provide email.");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            request.getRequestDispatcher("login/login.jsp").forward(request, response);
             return;
         }
 
@@ -138,7 +138,7 @@ public class LinkedinLoginServlet extends HttpServlet {
                     forwardByRole(existingUser.getRole(), request, response);
                 } else {
                     request.setAttribute("error", "This email is already registered as " + existingUser.getRole() + ".");
-                    request.getRequestDispatcher("login.jsp").forward(request, response);
+                    request.getRequestDispatcher("login/login.jsp").forward(request, response);
                 }
                 break;
 
@@ -153,13 +153,13 @@ public class LinkedinLoginServlet extends HttpServlet {
                     forwardByRole(existingUser.getRole(), request, response);
                 } else {
                     request.setAttribute("error", "This email is already registered as " + existingUser.getRole() + ".");
-                    request.getRequestDispatcher("login.jsp").forward(request, response);
+                    request.getRequestDispatcher("login/login.jsp").forward(request, response);
                 }
                 break;
 
             default:
                 request.setAttribute("error", "Invalid login state.");
-                request.getRequestDispatcher("login.jsp").forward(request, response);
+                request.getRequestDispatcher("login/login.jsp").forward(request, response);
                 break;
         }
     }
@@ -177,7 +177,7 @@ public class LinkedinLoginServlet extends HttpServlet {
                 request.getRequestDispatcher("home/admin.jsp").forward(request, response);
                 break;
             default:
-                response.sendRedirect("login.jsp");
+                response.sendRedirect("login");
                 break;
         }
     }

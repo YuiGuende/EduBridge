@@ -1,7 +1,7 @@
 package service.lesson;
 
 
-import DAO.Lesson.LessonDAOImpl;
+import dao.lesson.LessonDAOImpl;
 import model.course.courseContent.Lesson;
 import model.course.courseContent.Module;
 

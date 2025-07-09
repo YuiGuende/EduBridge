@@ -27,7 +27,8 @@ import service.user.UserServiceImpl;
  */
 public class GoogleLoginServlet extends HttpServlet {
 
-    
+    private static final String CLIENT_ID = "975399677929-35j8qjkastop507e5d4gc6r3bielu4ur.apps.googleusercontent.com";
+    private static final String CLIENT_SECRET = "OCSPX-bMoHzrKa6Dya9LN7Uy-UiKsqJdty";
     private static final String REDIRECT_URI = "http://localhost:9999/EduBridge/login-google";
     private IUserService userService;
 
@@ -124,7 +125,7 @@ public class GoogleLoginServlet extends HttpServlet {
                     forwardByRole(existingUser.getRole(), request, response);
                 } else {
                     request.setAttribute("error", "This email is already registered as " + existingUser.getRole() + ".");
-                    request.getRequestDispatcher("login.jsp").forward(request, response);
+                    request.getRequestDispatcher("login/login.jsp").forward(request, response);
                 }
                 break;
 
@@ -139,13 +140,13 @@ public class GoogleLoginServlet extends HttpServlet {
                     forwardByRole(existingUser.getRole(), request, response);
                 } else {
                     request.setAttribute("error", "This email is already registered as " + existingUser.getRole() + ".");
-                    request.getRequestDispatcher("login.jsp").forward(request, response);
+                    request.getRequestDispatcher("login/login.jsp").forward(request, response);
                 }
                 break;
 
             default:
                 request.setAttribute("error", "Invalid login state.");
-                request.getRequestDispatcher("login.jsp").forward(request, response);
+                request.getRequestDispatcher("login/login.jsp").forward(request, response);
                 break;
         }
     }
@@ -163,7 +164,7 @@ public class GoogleLoginServlet extends HttpServlet {
                 request.getRequestDispatcher("home/admin.jsp").forward(request, response);
                 break;
             default:
-                response.sendRedirect("login.jsp");
+                response.sendRedirect("login");
                 break;
         }
     }

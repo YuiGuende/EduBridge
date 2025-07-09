@@ -38,7 +38,7 @@ public class FacebookLoginServlet extends HttpServlet {
 
         String code = request.getParameter("code");
         if (code == null || code.isEmpty()) {
-            response.sendRedirect("login.jsp");
+            response.sendRedirect("login");
             return;
         }
 
@@ -79,7 +79,7 @@ public class FacebookLoginServlet extends HttpServlet {
 
         if (email == null) {
             request.setAttribute("error", "Facebook account does not provide email.");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            request.getRequestDispatcher("login/login.jsp").forward(request, response);
             return;
         }
 
@@ -108,7 +108,7 @@ public class FacebookLoginServlet extends HttpServlet {
                     forwardByRole(existingUser.getRole(), request, response);
                 } else {
                     request.setAttribute("error", "This email is already registered as " + existingUser.getRole() + ".");
-                    request.getRequestDispatcher("login.jsp").forward(request, response);
+                    request.getRequestDispatcher("login/login.jsp").forward(request, response);
                 }
                 break;
 
@@ -123,13 +123,13 @@ public class FacebookLoginServlet extends HttpServlet {
                     forwardByRole(existingUser.getRole(), request, response);
                 } else {
                     request.setAttribute("error", "This email is already registered as " + existingUser.getRole() + ".");
-                    request.getRequestDispatcher("login.jsp").forward(request, response);
+                    request.getRequestDispatcher("login/login.jsp").forward(request, response);
                 }
                 break;
 
             default:
                 request.setAttribute("error", "Invalid login state.");
-                request.getRequestDispatcher("login.jsp").forward(request, response);
+                request.getRequestDispatcher("login/login.jsp").forward(request, response);
                 break;
         }
     }
@@ -147,7 +147,7 @@ public class FacebookLoginServlet extends HttpServlet {
                 request.getRequestDispatcher("home/admin.jsp").forward(request, response);
                 break;
             default:
-                response.sendRedirect("login.jsp");
+                response.sendRedirect("login");
                 break;
         }
     }

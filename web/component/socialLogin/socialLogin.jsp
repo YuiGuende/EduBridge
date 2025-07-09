@@ -29,7 +29,7 @@
                class="btn btn-outline-primary">
                 <i class="fab fa-facebook-f"></i>
             </a>            
-            <a href="https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=867yqxfh8u77hs&redirect_uri=http://localhost:9999/EduBridge/login-linkedin&&scope=r_liteprofile+r_emailaddress&state=<%=role%>" 
+            <a href="https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=867yqxfh8u77hs&redirect_uri=http://localhost:9999/EduBridge/login-linkedin&scope=r_liteprofile%20r_emailaddress&state=<%=role%>" 
                class="btn btn-outline-linkedin">
                 <i class="fab fa-linkedin"></i>
             </a>

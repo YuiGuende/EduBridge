@@ -4,8 +4,8 @@
  */
 package service.Module;
 
-import DAO.Module.IModuleDAO;
-import DAO.Module.ModuleDAOImpl;
+import dao.module.IModuleDAO;
+import dao.module.ModuleDAOImpl;
 import java.util.List;
 import java.util.Optional;
 import model.course.Course;

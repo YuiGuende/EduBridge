@@ -108,12 +108,12 @@ public class LoginServlet extends HttpServlet {
                 User user = new User();
                 user.setEmail(email);
                 request.setAttribute("user", user);
-                request.setAttribute("error", "No account found with this email address.");
+                request.setAttribute("error", "Invalid email or password.");
                 request.getRequestDispatcher("login/login.jsp").forward(request, response);
             }
 
         } catch (Exception e) {
-            request.setAttribute("error", "An error occurs during login.");
+            request.setAttribute("error", "Something went wrong. Please try again later.");
             request.getRequestDispatcher("login/login.jsp").forward(request, response);
         }
 

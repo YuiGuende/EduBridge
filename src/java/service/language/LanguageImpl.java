@@ -4,8 +4,8 @@
  */
 package service.language;
 
-import DAO.course.ILanguageDAO;
-import DAO.course.LanguageDAO;
+import dao.course.ILanguageDAO;
+import dao.course.LanguageDAO;
 import java.util.List;
 import java.util.Optional;
 import model.course.Language;

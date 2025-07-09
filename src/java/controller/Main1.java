@@ -4,10 +4,10 @@
  */
 package controller;
 
-import DAO.Lesson.LessonDAOImpl;
-import DAO.LessonItem.LessonItemDAOImpl;
-import DAO.Module.ModuleDAOImpl;
-import DAO.course.CourseDAOImpl;
+import dao.lesson.LessonDAOImpl;
+import dao.lessonItem.LessonItemDAOImpl;
+import dao.module.ModuleDAOImpl;
+import dao.course.CourseDAOImpl;
 import java.util.Optional;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;

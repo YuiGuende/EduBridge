@@ -8,8 +8,8 @@ package service.course;
 import agentAi.GroqService;
 import java.util.List;
 import java.util.stream.Collectors;
-import DAO.course.CourseDAOImpl;
-import DAO.course.ICourseDAO;
+import dao.course.CourseDAOImpl;
+import dao.course.ICourseDAO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -84,6 +84,7 @@ public class CourseServiceImpl implements CourseService {
         )).collect(Collectors.joining("\n\n"));
     }
 
+    @Override
     public List<Course> getAllCourses() {
         return courseDAO.findAll();
     }

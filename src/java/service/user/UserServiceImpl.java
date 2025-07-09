@@ -4,13 +4,9 @@
  */
 package service.user;
 
-import DAO.GenericDAO;
-import DAO.user.UserDAOImpl;
-import dal.*;
+import dao.GenericDAO;
+import dao.user.UserDAOImpl;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.*;
 import model.user.Instructor;
 import model.user.User;
 
