@@ -19,4 +19,8 @@ public interface IUserService {
     boolean signup(User user);
 
     boolean signupForInstructor(User user, Instructor instructor);
+    
+    User findById(Long id);
+    
+    
 }

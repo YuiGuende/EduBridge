@@ -90,7 +90,10 @@ public class AddCourseServlet extends HttpServlet {
         Language language=languageOp.get();
         
 
-        Course course = new Course(title, headline, description , coCloudinaryUtil.upload(filePart), CourseStatus.DRAFT);
+        Course course = new Course(title, headline, description ,
+//                coCloudinaryUtil.upload(filePart)
+               "check" ,
+                CourseStatus.DRAFT);
         language.setCourses(Arrays.asList(course));
         course.setLanguage(language);
         course.setCourseFor(courseFors);

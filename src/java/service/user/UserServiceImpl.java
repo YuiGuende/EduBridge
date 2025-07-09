@@ -54,4 +54,11 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
+    @Override
+    public User findById(Long id) {
+        return userDAO.findById(id);
+    }
+    
+    
+
 }

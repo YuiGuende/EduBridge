@@ -8,16 +8,17 @@ import java.util.List;
 import java.util.Set;
 import model.user.Instructor;
 import model.course.courseContent.Module;
+import model.notification.Comment;
+import model.notification.ReportTarget;
 
 @Entity
 @Table(name = "courses")
-public class Course {
+public class Course extends ReportTarget {
 //annotation
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
     @Column(name = "title", nullable = false, length = 255, columnDefinition = "nvarchar(255)")
     private String title;
 
@@ -67,7 +68,7 @@ public class Course {
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "instructor_id"))
     private List<Instructor> instructors = new ArrayList<>();
-    
+
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @OrderBy("index ASC")
     private List<Module> modules = new ArrayList<>();
@@ -98,6 +99,9 @@ public class Course {
 
     @Column(name = "updated_by", length = 100, columnDefinition = "nvarchar(255)")
     private String updatedBy;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
     @Embedded
     @Column(nullable = true)
@@ -135,7 +139,7 @@ public class Course {
     }
 
     public Course(Long id, String title, String headline, String description, String thumbnailUrl, CourseStatus courseStatus) {
-        this.id = id;
+        super(id);
         this.title = title;
         this.headline = headline;
         this.description = description;
@@ -146,7 +150,7 @@ public class Course {
     }
 
     public Course(Long id, String title, String headline, String description, String thumbnailUrl, CourseStatus courseStatus, int estimatedTime) {
-        this.id = id;
+        super(id);
         this.title = title;
         this.headline = headline;
         this.description = description;
@@ -182,6 +186,22 @@ public class Course {
 
     public int getEstimatedTime() {
         return estimatedTime;
+    }
+
+    public List<Instructor> getInstructors() {
+        return instructors;
+    }
+
+    public void setInstructors(List<Instructor> instructors) {
+        this.instructors = instructors;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     public void setEstimatedTime(int estimatedTime) {
@@ -328,14 +348,13 @@ public class Course {
     }
 
     // Getters and Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
     public String getTitle() {
         return title;
     }
@@ -503,7 +522,6 @@ public class Course {
     @Override
     public String toString() {
         return "Course{"
-                + "id=" + id
                 + ", title='" + title + '\''
                 + ", headline='" + headline + '\''
                 + ", primaryLanguage=" + (primaryLanguage != null ? primaryLanguage.getName() : null)
