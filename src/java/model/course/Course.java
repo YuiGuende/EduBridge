@@ -26,7 +26,8 @@ public class Course extends ReportTarget {
     @Column(name = "headline", nullable = false, length = 500, columnDefinition = "nvarchar(255)")
     private String headline;
 
-    @Column(name = "description", columnDefinition = "nvarchar(255)")
+    @Lob
+    @Column(name = "description", columnDefinition = "nvarchar(max)")
     private String description;
 
     @ElementCollection
@@ -193,7 +194,6 @@ public class Course extends ReportTarget {
         this.discountPrice = discountPrice;
         this.version = version;
     }
-    
 
     // JPA Lifecycle callbacks
     @PrePersist
