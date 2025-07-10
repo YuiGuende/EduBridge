@@ -84,7 +84,7 @@ public class CartServiceImpl implements CartService {
             removeFromCart(session, courseId);
             return;
         }
-                ShoppingCart cart = getOrCreateCart(session);
+      ShoppingCart cart = getOrCreateCart(session);
         cart.updateQuantity(courseId, quantity);
         saveCart(session, cart);
     }
