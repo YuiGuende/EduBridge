@@ -1,0 +1,136 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : May 24, 2025, 9:45:06 AM
+    Author     : DELL
+*/
+body, html{
+    margin: 0;
+    padding: 0;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+.header{
+    z-index: 1000;
+    width: 100%;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 8px rgba(26, 42, 108, 0.4);
+    align-items: center;
+    position: sticky;
+    top: 0;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-bottom: 30px !important;
+}
+.logo img{
+    width: 60%;
+    height: 90px;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+}
+
+.search-container {
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    overflow: hidden;
+    background-color: #fff;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-right: 10px;
+    transition: border 0.3s ease;
+}
+.search-container:focus-within {
+    border: 1.5px solid #1A2A6C;
+}
+
+.search-container input {
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+}
+.search-button {
+    border-radius: 25px;
+    background-color: white;
+    color: rgb(0, 0, 0);
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+    width: 50px;
+}
+
+.search-button:hover {
+    background-color: #1A2A6C;
+    color: #FFFFFF;
+}
+
+.search-button i {
+    font-size: 16px;
+}
+.startBtn{
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-left: 0 !important;
+}
+#loginBtn, #signupBtn{
+    width: 22%;
+    padding: 1%;
+    font-weight: bold;
+    align-items: center;
+    border: 1px solid #1a2a6c;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s ease-in-out;
+}
+#loginBtn{
+    background: none;
+    color: #1a2a6c;
+}
+#signupBtn{
+    background: #1a2a6c;
+    color: white;
+}
+#signupBtn:hover{
+    background: #03479e;
+}
+#loginBtn:hover{
+    background: #03479e;
+    color: white;
+}
+
+footer{
+    width: 100%;
+    margin-top: 20px;
+    background-color: #1A2A6C;
+    padding: 1%;
+    text-align: center;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+footer img{
+    width: 10%;
+}
+footer h6{
+    margin: 0;
+}
+
