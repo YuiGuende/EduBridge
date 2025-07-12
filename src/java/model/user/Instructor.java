@@ -65,6 +65,9 @@ public class Instructor implements Serializable {
     @OneToOne(optional = false)
     private User user;
 
+    @OneToOne
+    private InstructorBankInfo instructorBankInfo;
+    
     public Instructor() {
     }
 
@@ -94,6 +97,14 @@ public class Instructor implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public InstructorBankInfo getInstructorBankInfo() {
+        return instructorBankInfo;
+    }
+
+    public void setInstructorBankInfo(InstructorBankInfo instructorBankInfo) {
+        this.instructorBankInfo = instructorBankInfo;
     }
 
     public String getBio() {

@@ -62,7 +62,7 @@ public class CartService implements ICartService {
     @Override
     public CartDTO getCartDTO(HttpSession session) {
         List<CartItemDTO> items = getCartItemsFromSession(session);
-        System.out.println("item1 " +items.get(0).getTitle());
+       
         // Tính subtotal (trước thuế, chưa discount)
         double subtotal = items.stream()
                 .mapToDouble(item -> item.getDiscountedPrice() != 0 ? item.getDiscountedPrice() : item.getOriginalPrice())
