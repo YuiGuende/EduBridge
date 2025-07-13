@@ -21,25 +21,25 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Ng??i nh?n th�ng b�o (b?t bu?c)
+    
     @ManyToOne
     @JoinColumn(name = "receiver_id", nullable = false)
     private User receiver;
 
-    // Ng??i g?i th�ng b�o (c� th? null n?u h? th?ng g?i)
+    
     @ManyToOne
     @JoinColumn(name = "sender_id")
     private User sender;
 
-    // N?i dung th�ng b�o
+   
     @Column(nullable = false)
     private String message;
 
-    // Tr?ng th�i ?� ??c hay ch?a
+   
     @Column(name = "is_read", nullable = false)
     private boolean read = false;
 
-    // Link h�nh ??ng ?i k�m th�ng b�o (tu? ch?n)
+    
     private String targetUrl;
 
     @Column(name = "created_at")
@@ -48,7 +48,7 @@ public class Notification {
     @Enumerated(EnumType.STRING)
     private NotificationType type;
 
-    // Constructors, getter, setter...
+  
     public Notification() {
     }
 

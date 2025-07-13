@@ -1,7 +1,6 @@
 package model.course;
 
 import jakarta.persistence.*;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -15,11 +14,7 @@ import model.notification.ReportTarget;
 @Entity
 @Table(name = "courses")
 public class Course extends ReportTarget {
-//annotation
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
     @Column(name = "title", nullable = false, length = 255, columnDefinition = "nvarchar(255)")
     private String title;
 
@@ -114,6 +109,12 @@ public class Course extends ReportTarget {
     @Version
     private Long version;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "course")
+    private List<CourseInstructor> courseInstructorList = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "course")
+    private List<CourseLearner> courseLearnerList = new ArrayList<>();
+
     // Constructors
     public Course() {
     }
@@ -193,6 +194,22 @@ public class Course extends ReportTarget {
         this.price = price;
         this.discountPrice = discountPrice;
         this.version = version;
+    }
+
+    public List<CourseLearner> getCourseLearnerList() {
+        return courseLearnerList;
+    }
+
+    public void setCourseLearnerList(List<CourseLearner> courseLearnerList) {
+        this.courseLearnerList = courseLearnerList;
+    }
+
+    public List<CourseInstructor> getCourseInstructorList() {
+        return courseInstructorList;
+    }
+
+    public void setCourseInstructorList(List<CourseInstructor> courseInstructorList) {
+        this.courseInstructorList = courseInstructorList;
     }
 
     // JPA Lifecycle callbacks

@@ -217,13 +217,13 @@ public class CourseDAOImpl extends GenericDAO<Course> implements ICourseDAO {
             return query.getSingleResult().intValue();
         }
     }
-    
-     public List<Course> findCoursesByDynamicSql(String sql) {
+
+    public List<Course> findCoursesByDynamicSql(String sql) {
         EntityManager em = JpaConfig.getEntityManager();
         System.out.println("sql to be processes" + sql);
         List<Course> results = new ArrayList<>();
         try {
-            results=em.createNativeQuery(sql, Course.class).getResultList();
+            results = em.createNativeQuery(sql, Course.class).getResultList();
 //            for (Course result : results) {
 //                 Hibernate.initialize(result.getLanguages());
 //                 
@@ -234,6 +234,26 @@ public class CourseDAOImpl extends GenericDAO<Course> implements ICourseDAO {
             return List.of();
         } finally {
             em.close();
+        }
+    }
+
+    @Override
+    public List<Course> findCoursesLimited(int limit) {
+        try (EntityManager em = getEntityManager()) {
+            TypedQuery<Course> query = em.createQuery("SELECT c FROM Course c ORDER BY FUNCTION('NEWID')", Course.class);
+            query.setMaxResults(limit);
+            return query.getResultList();
+        }
+    }
+
+    @Override
+    public List<Course> findByTag(String tagName, int limit) {
+        try (EntityManager em = getEntityManager()) {
+            String jpql = "SELECT DISTINCT c FROM Course c JOIN c.tags t WHERE t.name = :tagName";
+            TypedQuery<Course> query = em.createQuery(jpql, Course.class);
+            query.setParameter("tagName", tagName);
+            query.setMaxResults(limit);
+            return query.getResultList();
         }
     }
 }

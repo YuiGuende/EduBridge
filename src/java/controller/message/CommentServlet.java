@@ -34,21 +34,23 @@ public class CommentServlet extends HttpServlet {
             // 1. L?y th�ng tin comment t? request
             String content = req.getParameter("content");
             Long courseId = Long.valueOf(req.getParameter("courseId"));
-            Long learnerId = Long.valueOf(req.getParameter("learnerId")); // gi? s? truy?n v�o
 
+//            Long learnerId = Long.valueOf(req.getParameter("learnerId")); // gi? s? truy?n v�o
             Course c = courseService.findCourse(courseId);
             if (c == null) {
                 throw new Exception("course not found!");
             }
-            User u = userService.findById(learnerId);
+
+            HttpSession session = req.getSession(false);
+            User u = (session != null) ? (User) session.getAttribute("user") : null;
             if (c == null) {
                 throw new Exception("user not found!");
             }
-            commentSerivce.save(new Comment(u, c, content)); 
+            commentSerivce.save(new Comment(u, c, content));
 
             //gửi thông báo tới từng ins của course
             for (Instructor instructor : c.getInstructors()) {
-                String message = "Bạn có bình luận mới từ học viên có id:" + learnerId + "Nội dung: " + content;
+                String message = "Bạn có bình luận mới từ học viên có id:" + u.getId() + "Nội dung: " + content;
                 NotificationSocket.sendNotificationToUser(instructor.getId(), message);
             }
 

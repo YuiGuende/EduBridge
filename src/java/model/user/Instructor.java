@@ -66,8 +66,9 @@ public class Instructor implements Serializable {
     private User user;
 
     @OneToOne
+    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     private InstructorBankInfo instructorBankInfo;
-    
+
     public Instructor() {
     }
 
@@ -196,5 +197,5 @@ public class Instructor implements Serializable {
     public void setCourseInstructorList(List<CourseInstructor> courseInstructorList) {
         this.courseInstructorList = courseInstructorList;
     }
-    
+
 }

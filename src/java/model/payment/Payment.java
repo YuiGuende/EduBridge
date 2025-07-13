@@ -10,12 +10,15 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 import jakarta.persistence.OneToMany;
 
 import jakarta.persistence.SequenceGenerator;
 import java.util.ArrayList;
 import java.util.List;
+import model.user.User;
 
 @Entity
 public class Payment {
@@ -51,6 +54,10 @@ public class Payment {
     @OneToMany(mappedBy = "payment", cascade = CascadeType.ALL)
     private List<PaymentDetail> paymentDetails = new ArrayList<>();
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+
     public Payment() {
     }
 
@@ -82,6 +89,14 @@ public class Payment {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getPaymentMethod() {

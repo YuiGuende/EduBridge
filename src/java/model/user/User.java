@@ -25,6 +25,7 @@ import java.util.Date;
  *
  * @author DELL
  */
+
 @Entity
 @Table(name = "[user]")
 @jakarta.xml.bind.annotation.XmlRootElement
@@ -53,14 +54,19 @@ public class User implements Serializable {
     @Basic(optional = false)
     @Column(name = "password")
     private String password;
+    
     @Basic(optional = false)
     @Column(name = "role")
     private String role;
+    
+    
     @Column(name = "created_at", updatable = false, insertable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Instructor instructor;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    private Learner learner;
 
     public User() {
     }
@@ -82,6 +88,14 @@ public class User implements Serializable {
         this.email = email;
         this.password = password;
         this.role = role;
+    }
+
+    public Learner getLearner() {
+        return learner;
+    }
+
+    public void setLearner(Learner learner) {
+        this.learner = learner;
     }
 
     public Long getId() {
@@ -164,5 +178,5 @@ public class User implements Serializable {
     public String toString() {
         return "User{" + "id=" + id + ", fullname=" + fullname + ", email=" + email + ", password=" + password + ", role=" + role + '}';
     }
-    
+
 }

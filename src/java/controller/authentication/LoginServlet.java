@@ -63,8 +63,9 @@ public class LoginServlet extends HttpServlet {
             String email = request.getParameter("email").trim();
             String password = request.getParameter("password").trim();
             String remember = request.getParameter("remember");
-
+            System.out.println("email" + email);
             Optional<User> userLogin = userService.login(email, password);
+            System.out.println("user" + userLogin.get().getFullname());
             if (userLogin.isPresent()) {
                 User u = userLogin.get();
 
@@ -113,6 +114,7 @@ public class LoginServlet extends HttpServlet {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
             request.setAttribute("error", "An error occurs during login");
             request.getRequestDispatcher("login/login.jsp").forward(request, response);
         }

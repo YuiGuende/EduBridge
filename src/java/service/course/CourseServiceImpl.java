@@ -4,7 +4,6 @@
  */
 package service.course;
 
-
 import agentAi.GroqService;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,7 +24,6 @@ import model.course.Course;
 import agentAi.GroqService;
 
 public class CourseServiceImpl implements CourseService {
-
 
     private final GroqService groqService = new GroqService();
 
@@ -160,8 +158,27 @@ public class CourseServiceImpl implements CourseService {
             emf.close();
         } catch (Exception e) {
             System.err.println("JPA test failed: " + e.getMessage());
-            
+
             e.printStackTrace();
         }
     }
+
+    
+
+    @Override
+    public List<Course> findRelatedCourses(Course currentCourse, int limit) {
+        if (currentCourse.getTags() != null && !currentCourse.getTags().isEmpty()) {
+            String firstTag = currentCourse.getTags().get(0).getName();
+            return courseDAO.findByTag(firstTag, limit);
+        }
+
+        // Fallback: dùng phương thức mới
+        return courseDAO.findCoursesLimited(limit);
+    }
+
+    @Override
+    public List<Course> findCoursesLimited(int limit) {
+        return courseDAO.findCoursesLimited(limit);
+    }
+
 }

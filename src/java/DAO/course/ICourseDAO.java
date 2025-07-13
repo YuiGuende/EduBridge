@@ -18,4 +18,8 @@ public interface ICourseDAO {
     List<Course> findCoursesByKeywordAndStatus(int instructorId, String keyword, String status, int offset, int limit);
 
     int countCourses(int instructorId, String status, String keyword);
+
+    public List<Course> findCoursesLimited(int limit);
+
+    public List<Course> findByTag(String tagName, int limit);
 }

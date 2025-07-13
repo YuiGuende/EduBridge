@@ -41,7 +41,7 @@ public class CourseInstructor implements Serializable {
     private Date created;
     @JoinColumn(name = "course_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private Course_1 course;
+    private Course course;
     @JoinColumn(name = "instructor_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Instructor instructor;
@@ -73,11 +73,11 @@ public class CourseInstructor implements Serializable {
         this.created = created;
     }
 
-    public Course_1 getCourse() {
+    public Course getCourse() {
         return course;
     }
 
-    public void setCourse(Course_1 course) {
+    public void setCourse(Course course) {
         this.course = course;
     }
 
@@ -113,5 +113,5 @@ public class CourseInstructor implements Serializable {
     public String toString() {
         return "model.course.CourseInstructor[ courseInstructorPK=" + courseInstructorPK + " ]";
     }
-    
+
 }

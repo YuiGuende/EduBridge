@@ -2,6 +2,7 @@ package service.payment;
 
 import config.VNPayConfig;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import model.course.Course;
 
 import java.io.UnsupportedEncodingException;
@@ -10,8 +11,11 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.payment.Payment;
 import model.payment.PaymentDetail;
+import model.user.User;
 
 public class VNPayService {
 
@@ -84,18 +88,20 @@ public class VNPayService {
                 }
             }
         }
+
         Payment payment = new Payment("VNPay", LocalDate.now(), totalAmount, 0, vnp_TxnRef, Payment.PaymentStatus.PENDING);
         for (Course c : selectedCourses) {
             PaymentDetail detail = new PaymentDetail(payment, c, c.getDiscountPrice() != 0 ? c.getDiscountPrice() : c.getPrice());
             payment.getPaymentDetails().add(detail);
         }
-
+        HttpSession session = request.getSession(false);
+        User u = (session != null) ? (User) session.getAttribute("user") : null;
+        payment.setUser(u);
         paymentService.save(payment); // cần có PaymentDAO
         String queryUrl = query.toString();
         String vnp_SecureHash = config.hmacSHA512(config.secretKey, hashData.toString());
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
         return config.vnp_PayUrl + "?" + queryUrl;
-
     }
 
 }

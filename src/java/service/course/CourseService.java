@@ -28,6 +28,10 @@ public interface CourseService {
     int countCoursesOfInstructor(int instructorID, String status, String keyword);
 
     public List<Course> sortCourses(List<Course> courses, String sort);
+    
+    public List<Course> findRelatedCourses(Course currentCourse, int limit);
+    
+    public List<Course> findCoursesLimited(int limit);
 
 
 }
