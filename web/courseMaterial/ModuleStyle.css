@@ -1,0 +1,156 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Jun 1, 2025, 8:19:49 AM
+    Author     : LEGION
+*/
+
+/*.right-body{
+    border: solid 1px #7889ce;
+    height: 100vh;
+    overflow-y: hidden;
+}*/
+#course-information{
+    border: solid 1px #7889ce;
+    border-radius: 3px;
+    background-color: rgba(1, 129, 129, 0.077);
+}
+#course-information a{
+    color: #1A2A6C !important;
+    /*    font-weight: bold;*/
+
+}
+
+.dropdown-toggle::after {
+    display: none !important;
+}
+.dropdown-lesson-item{
+    /*     transition: padding-left 0.2s ease;*/
+    margin-left:  15px;
+    color: black !important;
+    display: flex !important;
+    flex-direction: row !important;
+}
+.lesson-item-type{
+    color: gray !important;
+    font-size: smaller;
+}
+.lesson-item-title p{
+    margin: 0px;
+}
+/*.dropdown-item:hover{
+     padding-left: 20px;
+}*/
+.nav-link:hover {
+    background-color: rgba(1, 129, 129, 0.077);
+    border-radius: 5px;
+
+}
+
+.dropdown-toggle[aria-expanded="true"] .dropdown-icon {
+    transform: rotate(90deg);
+}
+
+.dropdown-icon {
+    display: inline-block;
+    transition: transform 0.9s ease;
+}
+
+#dropdown-module {
+    /*    margin-left: 13px;*/
+    overflow: hidden;
+    max-height: 0;
+    /* transition-duration: 287ms; */
+    transition: max-height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.bi {
+    color: #1A2A6C ;
+}
+
+#dropdown-module.show {
+    max-height: 2000px;
+}
+
+.dropdown-module {
+    border-radius: 5px;
+    border: solid #7889ce 1px;
+}
+.dropdown-adding-item{
+    border-radius: 5px;
+    border: solid #7889ce 1px;
+}
+#dropdown-adding-item.show {
+    max-height: 2000px;
+}
+
+#dropdown-adding-item {
+    /*    margin-left: 13px;*/
+    overflow: hidden;
+    max-height: 0;
+    /* transition-duration: 287ms; */
+    transition: max-height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+/*.left-item{
+    gap: 10px;
+    display: flex;
+    flex-direction: row;
+    
+}*/
+.module-name{
+    font-size: large ;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 15px !important;
+}
+
+.content-left{
+    margin-left: 15px;
+    display: flex;
+    flex-direction: row;
+}
+.left-content-text{
+    font-size: smaller;
+    color: gray !important;
+}
+
+.hr-left{
+    border-top: 1px solid black !important;
+    padding: 0px !important;
+    margin-top: 15px !important;
+}
+
+.bi .bi-check-circle-fill{
+    color: green !important;
+}
+
+.btns{
+    margin-left: auto;
+    margin-right: 0;
+
+}
+.edit-btn{
+    border: 1.5px solid #7889ce;
+    background-color: white;
+    border-radius: 5px;
+    width: 70px;
+    transition: background-color 0.2s ease;
+}
+.edit-btn:hover {
+    background-color: #1a2a7b;
+    color: #FFFFFF;
+}
+.dropdown-menu{
+    z-index: 1000;
+}
+.add-lesson-dropdown .btn{
+    margin-left: auto !important;
+    margin-right: 0 !important;
+}
+
+.add-lesson-dropdown .btn:hover{
+    background-color: #0d7455 ;
+}

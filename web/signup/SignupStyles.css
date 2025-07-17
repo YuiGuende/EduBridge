@@ -1,0 +1,78 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : May 24, 2025, 3:01:40 PM
+    Author     : DELL
+*/
+body, html{
+    margin: 0;
+    padding: 0;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+.signup-form {
+    width: 100%;
+    padding: 2% !important;
+}
+.signup-form h1{
+    text-align: center;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #1A2A6C;
+}
+.signup-form img{
+    width: 90%;
+    height: 600px;
+}
+
+.signup-form form{
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+}
+/*.signup-form input{
+    display: flex;
+    width: 70%;
+    padding: 7px;
+    margin: 7px auto;
+    border-radius: 7px;
+    border: 1px solid #ccc;
+}*/
+/*button{
+    display: flex !important;
+    width: 70%;
+    margin: 7px auto !important;
+    font-weight: bold !important;
+    justify-content: center !important;
+}*/
+.signup-form-right p{
+    text-align: center;
+    color: red;
+    font-weight: 600;
+}
+.form-control.is-invalid,
+.form-select.is-invalid,
+.form-control.is-valid,
+.form-select.is-valid {
+    background-image: none !important;
+    background-position: unset !important;
+    background-repeat: no-repeat !important;
+    padding-right: 0.75rem !important;
+    box-shadow: none !important; /* Nếu muốn bỏ luôn viền sáng */
+}
+
+.was-validated .form-control:invalid,
+.was-validated .form-select:invalid,
+.was-validated .form-control:valid,
+.was-validated .form-select:valid {
+    background-image: none !important;
+    background-position: unset !important;
+    padding-right: 0.75rem !important;
+}

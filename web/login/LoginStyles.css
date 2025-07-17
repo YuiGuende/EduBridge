@@ -10,107 +10,43 @@ body, html{
     margin: 0;
     padding: 0;
 }
-.header{
-    width: 100%;
-    background-color: #1A2A6C;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    margin-bottom: 50px !important;
-}
-.logo img{
-    width: 80%;
-}
-
-.search-container {
+body {
+    font-family: Arial, Helvetica, sans-serif !important;
     display: flex;
-    border: 1px solid #ccc;
-    border-radius: 25px;
-    overflow: hidden;
-    background-color: #fff;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    margin-right: 10px;
-}
-
-.search-container input {
-    flex: 1;
-    padding: 10px 15px;
-    border: none;
-    outline: none;
-    font-size: 16px;
-}
-
-.search-button {
-    border-radius: 25px;
-    background-color: white;
-    color: rgb(0, 0, 0);
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.3s;
-    width: 50px;
-}
-
-.search-button:hover {
-    background-color: #e7e6e6;
-}
-
-.search-button i {
-    font-size: 16px;
-}
-.startBtn{
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    padding-left: 0 !important;
-}
-#loginBtn, #signupBtn{
-    width: 25%;
-    padding: 2%;
-    background: none;
-    color: white;
-    align-items: center;
-    border: 2px solid white;
-    font-size: 1.1rem;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: background-color 0.2s, color 0.2s ease-in-out, border 0.2s ease-in-out;
-}
-#loginBtn:hover, #signupBtn:hover{
-    background-color: rgba(255, 255, 255, 0.2);
+    flex-direction: column;
+    min-height: 100vh;
 }
 .login-form {
     width: 100%;
-    padding: 2% !important;
+    padding: 2% 5% !important;
 }
 .login-form h1{
     text-align: center;
     margin-top: 0;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
+    font-weight: bold;
+    color: #1A2A6C;
 }
 .login-form img{
-    width: 100%;
-    height: 500px;
+    width: 90%;
+    height: 530px;
 }
 
 .login-form form{
     display: flex;
     flex-direction: column;
-    padding: 0 50px;
+    padding: 0 10px;
 }
-.login-form input{
+/*form > input{
     display: flex;
     width: 70%;
     padding: 10px 7px;
     margin: 10px auto;
     border-radius: 7px;
     border: 1px solid #ccc;
+}*/
+form > label{
+    margin: 10px 0;
 }
 #signinBtn{
     border: none;
@@ -118,71 +54,40 @@ body, html{
     color: white;
     cursor: pointer;
     transition: background-color 0.2s;
+    font-weight: bold;
 }
 #signinBtn:hover{
     background-color: #1a3aa6;
 }
-.separator {
-    position: relative;
+#successMsg{
+    color: green;
     text-align: center;
-    color: #888;
+    font-weight: 600;
 }
-
-.separator span {
-    background: #fff;
-    padding: 0 10px;
-    position: relative;
-    z-index: 1;
-}
-
-.separator::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background: #ccc;
-    z-index: 0;
-}
-.other-options{
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-}
-.other-options button {
-    width: 7%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    transition: 0.3s ease;
-    border-width: 2px;
-    padding: 10px;
-}
-.btn-outline-linkedln {
-    border: 2px solid #0077B5 !important;
-    color: #0077b5 !important;
-}
-
-.btn-outline-linkedln:hover {
-    background-color: #0077B5 !important;
-    color: #fff !important;
-}
-.footer{
-    margin-top: 20px;
-    background-color: #1A2A6C;
-    padding: 1%;
+#errorMsg{
+    color: red;
     text-align: center;
-    color: white;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    font-weight: 600;
 }
-.footer img{
-    width: 10%;
+.login-form-right {
+/*    padding: 0 % !important;*/
 }
-.footer h6{
-    margin: 0;
+.form-control.is-invalid,
+.form-select.is-invalid,
+.form-control.is-valid,
+.form-select.is-valid {
+    background-image: none !important;
+    background-position: unset !important;
+    background-repeat: no-repeat !important;
+    padding-right: 0.75rem !important;
+    box-shadow: none !important; /* Nếu muốn bỏ luôn viền sáng */
+}
+
+.was-validated .form-control:invalid,
+.was-validated .form-select:invalid,
+.was-validated .form-control:valid,
+.was-validated .form-select:valid {
+    background-image: none !important;
+    background-position: unset !important;
+    padding-right: 0.75rem !important;
 }
