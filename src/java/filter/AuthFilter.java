@@ -17,6 +17,10 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import model.user.User;
 
 /**
  *
@@ -24,196 +28,138 @@ import jakarta.servlet.http.HttpSession;
  */
 public class AuthFilter implements Filter {
 
-    private static final boolean debug = true;
+    private static final String LEARNER = "learner";
+    private static final String INS = "instructor";
+    private static final String AD = "Admin";
+    private static final String LOGIN_PAGE = "login";
+    private static final String LOGOUT_PAGE = "logout";
+    private static final String SINGUP_PAGE = "signup";
+    private static final boolean DEBUG = true;
 
-    // The filter configuration object we are associated with.  If
-    // this value is null, this filter instance is not currently
-    // configured.
+    private static final Set<String> ADMIN_FUNC = new HashSet<>();
+    private static final Set<String> LEARNER_FUNC = new HashSet<>();
+    private static final Set<String> INSTRUCTOR_FUNC = new HashSet<>();
+    private static final Set<String> GUEST_FUNC = new HashSet<>();
+    private static final Set<String> STATIC_RESOURCES = new HashSet<>(Arrays.asList(
+            ".css", ".js", ".jpg", ".jpeg", ".png", ".gif", ".woff", ".svg", "webp"
+    ));
+
     private FilterConfig filterConfig = null;
 
     public AuthFilter() {
+        // Các tài nguyên cho admin
+        ADMIN_FUNC.add(LOGIN_PAGE);
+        ADMIN_FUNC.add("courses");
+        ADMIN_FUNC.add("dashboard");
+        ADMIN_FUNC.add("instructors");
+        ADMIN_FUNC.add(LOGOUT_PAGE);
+
+        // Các tài nguyên cho learner thông thường
+        LEARNER_FUNC.add("home-learner");
+        LEARNER_FUNC.add(LOGOUT_PAGE);
+        LEARNER_FUNC.add("learn-course");
+        LEARNER_FUNC.add("lessons-learner");
+        LEARNER_FUNC.add("course-detail");
+        LEARNER_FUNC.add("cart");
+        LEARNER_FUNC.add("checkout");
+        LEARNER_FUNC.add("vnpay-return");
+        LEARNER_FUNC.add("report");
+        LEARNER_FUNC.add("comment");
+        LEARNER_FUNC.add("notification");
+
+        //Các tài nguyên cho instructor
+        INSTRUCTOR_FUNC.add(LOGOUT_PAGE);
+        INSTRUCTOR_FUNC.add("home-instructor");
+        INSTRUCTOR_FUNC.add("total-courses");
+        INSTRUCTOR_FUNC.add("view-course");
+        INSTRUCTOR_FUNC.add("add-course");
+        INSTRUCTOR_FUNC.add("course");
+        INSTRUCTOR_FUNC.add("add-lesson");
+        INSTRUCTOR_FUNC.add("add-lesson-item");
+        INSTRUCTOR_FUNC.add("lesson");
+        INSTRUCTOR_FUNC.add("module");
+        INSTRUCTOR_FUNC.add("comment");
+        INSTRUCTOR_FUNC.add("notification");
+
+        //Các tài nguyên cho guest
+        GUEST_FUNC.add("home-learner");
+        GUEST_FUNC.add(LOGIN_PAGE);
+        GUEST_FUNC.add(SINGUP_PAGE);
+        GUEST_FUNC.add("login-google");
+        GUEST_FUNC.add("course-detail");
+        GUEST_FUNC.add("");
+        
     }
 
-    private void doBeforeProcessing(ServletRequest request, ServletResponse response)
-            throws IOException, ServletException {
-        if (debug) {
-            log("LoginFilter:DoBeforeProcessing");
-        }
-
-        // Write code here to process the request and/or response before
-        // the rest of the filter chain is invoked.
-        // For example, a logging filter might log items on the request object,
-        // such as the parameters.
-        /*
-	for (Enumeration en = request.getParameterNames(); en.hasMoreElements(); ) {
-	    String name = (String)en.nextElement();
-	    String values[] = request.getParameterValues(name);
-	    int n = values.length;
-	    StringBuffer buf = new StringBuffer();
-	    buf.append(name);
-	    buf.append("=");
-	    for(int i=0; i < n; i++) {
-	        buf.append(values[i]);
-	        if (i < n-1)
-	            buf.append(",");
-	    }
-	    log(buf.toString());
-	}
-         */
-    }
-
-    private void doAfterProcessing(ServletRequest request, ServletResponse response)
-            throws IOException, ServletException {
-        if (debug) {
-            log("LoginFilter:DoAfterProcessing");
-        }
-
-        // Write code here to process the request and/or response after
-        // the rest of the filter chain is invoked.
-        // For example, a logging filter might log the attributes on the
-        // request object after the request has been processed.
-        /*
-	for (Enumeration en = request.getAttributeNames(); en.hasMoreElements(); ) {
-	    String name = (String)en.nextElement();
-	    Object value = request.getAttribute(name);
-	    log("attribute: " + name + "=" + value.toString());
-
-	}
-         */
-        // For example, a filter might append something to the response.
-        /*
-	PrintWriter respOut = new PrintWriter(response.getWriter());
-	respOut.println("<P><B>This has been appended by an intrusive filter.</B>");
-         */
-    }
-
-    /**
-     *
-     * @param request The servlet request we are processing
-     * @param response The servlet response we are creating
-     * @param chain The filter chain we are processing
-     *
-     * @exception IOException if an input/output error occurs
-     * @exception ServletException if a servlet error occurs
-     */
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response,
-            FilterChain chain)
-            throws IOException, ServletException {
-        HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse res = (HttpServletResponse) response;
-        String[] allowedURIs = {"login", "signup", "home.jsp", "about.jsp", "resources", "css", "js"};
-        String uri = req.getRequestURI();
+    public void init(FilterConfig filterConfig) throws ServletException {
+        this.filterConfig = filterConfig;
+        if (DEBUG) {
+            System.out.println("AuthenFilter initialized.");
+        }
+    }
 
-        for (String s : allowedURIs) {
-            if (uri.contains(s)) {
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
+
+        try {
+            HttpServletRequest req = (HttpServletRequest) request;
+            HttpServletResponse res = (HttpServletResponse) response;
+            String uri = req.getRequestURI();
+
+            // Cho phép truy cập các tài nguyên tĩnh và trang login
+            if (isStaticResource(uri) || uri.endsWith(LOGIN_PAGE) || uri.endsWith(SINGUP_PAGE) || uri.endsWith("signup-instructor")) {
                 chain.doFilter(request, response);
                 return;
             }
-        }
 
-        HttpSession session = req.getSession(false);
-        if (session == null || session.getAttribute("user") == null) {
-            res.sendRedirect("login.jsp?timeout=true");
-        } else {
-            chain.doFilter(request, response);
-        }
-    }
+            // Lấy tên tài nguyên
+            int index = uri.lastIndexOf("/");
+            String resource = uri.substring(index + 1);
 
-    /**
-     * Return the filter configuration object for this filter.
-     */
-    public FilterConfig getFilterConfig() {
-        return (this.filterConfig);
-    }
-
-    /**
-     * Set the filter configuration object for this filter.
-     *
-     * @param filterConfig The filter configuration object
-     */
-    public void setFilterConfig(FilterConfig filterConfig) {
-        this.filterConfig = filterConfig;
-    }
-
-    /**
-     * Destroy method for this filter
-     */
-    public void destroy() {
-    }
-
-    /**
-     * Init method for this filter
-     */
-    public void init(FilterConfig filterConfig) {
-        this.filterConfig = filterConfig;
-        if (filterConfig != null) {
-            if (debug) {
-                log("LoginFilter:Initializing filter");
+            HttpSession session = req.getSession(false);
+            if (session == null || session.getAttribute("user") == null) {
+//                if (GUEST_FUNC.contains(resource)) {
+//                    chain.doFilter(request, response);
+//                    return;
+//                } else {
+                    res.sendRedirect(req.getContextPath() + "/login");
+                    return;
+//                }
             }
+
+            User user = (User) session.getAttribute("user");
+            String role = user.getRole();
+
+            // Phân quyền truy cập theo role
+            if (LEARNER.equalsIgnoreCase(role) && LEARNER_FUNC.contains(resource)) {
+                chain.doFilter(request, response);
+            } else if (INS.equalsIgnoreCase(role) && INSTRUCTOR_FUNC.contains(resource)) {
+                chain.doFilter(request, response);
+            } else if (AD.equalsIgnoreCase(role) && ADMIN_FUNC.contains(resource)) {
+                chain.doFilter(request, response);
+            } else {
+                res.sendRedirect(req.getContextPath() + "/login");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();  // Nên dùng logger thực tế
+            ((HttpServletResponse) response).sendRedirect(LOGIN_PAGE);
         }
     }
 
-    /**
-     * Return a String representation of this object.
-     */
     @Override
-    public String toString() {
-        if (filterConfig == null) {
-            return ("LoginFilter()");
-        }
-        StringBuffer sb = new StringBuffer("LoginFilter(");
-        sb.append(filterConfig);
-        sb.append(")");
-        return (sb.toString());
+    public void destroy() {
+        // Clean up nếu cần
     }
 
-    private void sendProcessingError(Throwable t, ServletResponse response) {
-        String stackTrace = getStackTrace(t);
-
-        if (stackTrace != null && !stackTrace.equals("")) {
-            try {
-                response.setContentType("text/html");
-                PrintStream ps = new PrintStream(response.getOutputStream());
-                PrintWriter pw = new PrintWriter(ps);
-                pw.print("<html>\n<head>\n<title>Error</title>\n</head>\n<body>\n"); //NOI18N
-
-                // PENDING! Localize this for next official release
-                pw.print("<h1>The resource did not process correctly</h1>\n<pre>\n");
-                pw.print(stackTrace);
-                pw.print("</pre></body>\n</html>"); //NOI18N
-                pw.close();
-                ps.close();
-                response.getOutputStream().close();
-            } catch (Exception ex) {
-            }
-        } else {
-            try {
-                PrintStream ps = new PrintStream(response.getOutputStream());
-                t.printStackTrace(ps);
-                ps.close();
-                response.getOutputStream().close();
-            } catch (Exception ex) {
+    private boolean isStaticResource(String uri) {
+        for (String ext : STATIC_RESOURCES) {
+            if (uri.endsWith(ext)) {
+                return true;
             }
         }
-    }
-
-    public static String getStackTrace(Throwable t) {
-        String stackTrace = null;
-        try {
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            t.printStackTrace(pw);
-            pw.close();
-            sw.close();
-            stackTrace = sw.getBuffer().toString();
-        } catch (Exception ex) {
-        }
-        return stackTrace;
-    }
-
-    public void log(String msg) {
-        filterConfig.getServletContext().log(msg);
+        return false;
     }
 
 }

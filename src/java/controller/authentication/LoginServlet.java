@@ -100,10 +100,10 @@ public class LoginServlet extends HttpServlet {
                         response.sendRedirect("home-learner");
                         break;
                     case "instructor":
-                        request.getRequestDispatcher("home-instructor").forward(request, response);
+                        response.sendRedirect("home-instructor");
                         break;
                     default:
-                        request.getRequestDispatcher("home/admin.jsp").forward(request, response);
+                        response.sendRedirect("admin/dashboard");
                         break;
                 }
             } else {
