@@ -1,0 +1,86 @@
+body {
+    background: #eef3f9 !important;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', sans-serif;
+}
+.container-fluid{
+    padding: 0 5% !important;
+    min-height: 100vh;
+    margin-bottom: 30px;
+}
+/*.signup-container {
+    max-width: 650px;
+    width: 100%;
+    padding: 30px;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}*/
+.left-side {
+    padding: 5%;
+}
+.right-side {
+    background: white !important;
+    padding: 30px !important;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    height: max-content;
+}
+h1{
+    color: #1A2A6C !important;
+    font-weight: bold !important;
+    font-size: 4.5rem !important;
+
+}
+
+/* Giảm khoảng cách label và input */
+.form-label {
+    margin-bottom: 0.25rem !important; /* mặc định Bootstrap là 0.5rem */
+    font-size: 0.95rem;
+}
+
+/* Tùy chọn: thu nhỏ input nếu muốn */
+.form-control {
+    padding-top: 0.4rem !important; 
+    padding-bottom: 0.4rem !important; 
+    font-size: 0.95rem;
+}
+
+/* Nếu dùng icon trong input (như mắt ở password), giảm chiều cao input */
+.form-control::placeholder {
+    font-size: 0.9rem;
+}
+
+/* Nếu dùng layout nhiều cột */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+.form-control,
+.form-select {
+    border-radius: 10px;
+}
+.form-control.is-invalid,
+.form-select.is-invalid,
+.form-control.is-valid,
+.form-select.is-valid {
+    background-image: none !important;
+    background-position: unset !important;
+    background-repeat: no-repeat !important;
+    padding-right: 0.75rem !important;
+    box-shadow: none !important; /* Nếu muốn bỏ luôn viền sáng */
+}
+
+.was-validated .form-control:invalid,
+.was-validated .form-select:invalid,
+.was-validated .form-control:valid,
+.was-validated .form-select:valid {
+    background-image: none !important;
+    background-position: unset !important;
+    padding-right: 0.75rem !important;
+}

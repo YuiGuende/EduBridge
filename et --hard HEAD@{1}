@@ -1,0 +1,46 @@
+[33md288029[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mduong_jpa[m[33m, [m[1;31morigin/main[m[33m)[m HEAD@{0}: reset: moving to origin/main
+[33mae0ba19[m HEAD@{1}: commit: update ins dashboard
+[33m9229564[m[33m ([m[1;31morigin/duong_jpa[m[33m)[m HEAD@{2}: commit: remove secret and refactor login
+[33m9cb0650[m HEAD@{3}: reset: moving to HEAD~1
+[33m090532a[m HEAD@{4}: reset: moving to HEAD~1
+[33mb887316[m HEAD@{5}: reset: moving to HEAD~1
+[33m02882f9[m HEAD@{6}: reset: moving to HEAD~1
+[33mfc34dae[m HEAD@{7}: commit: remove secret and refactor login
+[33m02882f9[m HEAD@{8}: reset: moving to HEAD~1
+[33m09b4eb6[m HEAD@{9}: commit: update secret
+[33m02882f9[m HEAD@{10}: rebase (finish): returning to refs/heads/duong_jpa
+[33m02882f9[m HEAD@{11}: commit: merge new jpa newest
+[33mb887316[m HEAD@{12}: commit: merge new jpa new
+[33m090532a[m HEAD@{13}: commit: merge new jpa
+[33m9cb0650[m HEAD@{14}: pull --rebase origin main (start): checkout 9cb0650a187c4cf7bc5365cb542b837a0894d7f2
+[33md379fe9[m HEAD@{15}: rebase (abort): returning to refs/heads/duong_jpa
+[33m9cb0650[m HEAD@{16}: pull --rebase origin main (start): checkout 9cb0650a187c4cf7bc5365cb542b837a0894d7f2
+[33md379fe9[m HEAD@{17}: commit: update social login
+[33m09a2e1c[m HEAD@{18}: commit: update jpa (newest)
+[33mae992e4[m[33m ([m[1;32mduong[m[33m)[m HEAD@{19}: checkout: moving from duong to duong_jpa
+[33mae992e4[m[33m ([m[1;32mduong[m[33m)[m HEAD@{20}: commit: update jpa
+[33mb9026b2[m HEAD@{21}: checkout: moving from duong to duong
+[33mb9026b2[m HEAD@{22}: commit: update jpa
+[33m26ed433[m HEAD@{23}: rebase (finish): returning to refs/heads/duong
+[33m26ed433[m HEAD@{24}: rebase (continue): update new
+[33m575210b[m HEAD@{25}: rebase (pick): update view course
+[33m82477fe[m HEAD@{26}: rebase (continue): update instructor course
+[33m26660f6[m HEAD@{27}: pull origin main --rebase (start): checkout 26660f6a2f3ce8c4d8b6cb43152a0e58c182a378
+[33mb83ed42[m HEAD@{28}: commit: update new
+[33mf89464e[m[33m ([m[1;32mmain[m[33m)[m HEAD@{29}: 
+[33ma23086a[m[33m ([m[1;31morigin/duong[m[33m)[m HEAD@{30}: commit: update view course
+[33mf89464e[m[33m ([m[1;32mmain[m[33m)[m HEAD@{31}: checkout: moving from main to duong
+[33mf89464e[m[33m ([m[1;32mmain[m[33m)[m HEAD@{32}: commit: update view course
+[33m6c66677[m HEAD@{33}: commit: update instructor course
+[33ma6d7bc3[m HEAD@{34}: pull origin main: Fast-forward
+[33m5ea994e[m[33m ([m[1;31morigin/saving[m[33m, [m[1;32msaving[m[33m)[m HEAD@{35}: checkout: moving from main to main
+[33m5ea994e[m[33m ([m[1;31morigin/saving[m[33m, [m[1;32msaving[m[33m)[m HEAD@{36}: checkout: moving from main to main
+[33m5ea994e[m[33m ([m[1;31morigin/saving[m[33m, [m[1;32msaving[m[33m)[m HEAD@{37}: commit: fixing
+[33mbda74bd[m HEAD@{38}: pull origin main: updating HEAD
+[33mbda74bd[m HEAD@{39}: checkout: moving from main to main
+[33mbda74bd[m HEAD@{40}: pull origin main: updating HEAD
+[33mbda74bd[m HEAD@{41}: commit: update signup be
+[33m5502488[m HEAD@{42}: commit: update bold
+[33meb6efa0[m HEAD@{43}: commit: update login new
+[33meedb7c3[m HEAD@{44}: commit: update login
+[33me11b8eb[m HEAD@{45}: checkout: moving from master to main
