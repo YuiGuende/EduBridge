@@ -109,7 +109,7 @@ public class AuthFilter implements Filter {
             String uri = req.getRequestURI();
 
             // Cho phép truy cập các tài nguyên tĩnh và trang login
-            if (isStaticResource(uri) || uri.endsWith(LOGIN_PAGE) || uri.endsWith(SINGUP_PAGE) || uri.endsWith("signup-instructor")) {
+            if (isStaticResource(uri) || uri.endsWith(LOGIN_PAGE) || uri.endsWith(SINGUP_PAGE) || uri.endsWith("signup-instructor") || uri.endsWith("home-learner")) {
                 chain.doFilter(request, response);
                 return;
             }

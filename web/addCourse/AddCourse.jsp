@@ -140,6 +140,22 @@
 
                 </div>
                 <hr/>
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price</label>
+                    <input type="number" class="form-control" id="price" name="price" placeholder="Enter course price" min="0" step="0.01" required>
+                    <div class="invalid-feedback">
+                        Please enter a valid price.
+                    </div>
+                </div>
+                <hr/>
+                <div class="mb-3">
+                    <label for="dcPrice" class="form-label">Discount Price</label>
+                    <input type="number" class="form-control" id="price" name="dcPrice" placeholder="Enter course discount price" min="0" step="0.01" required>
+                    <div class="invalid-feedback">
+                        Please enter a valid price.
+                    </div>
+                </div>
+                <hr/>
                 <h5 >Thumbnail</h5>
                 <input type="file" name="image" accept="image/*" class="form-control" onchange="validateImage()" required/><br/>
                 <hr/>

@@ -28,20 +28,11 @@
                     <i class="fa fa-search"></i>
                 </button>                
             </div>
-            <c:if test="${empty user}">
-                <div class="startBtn col-md-4 row">
-                    <button id="loginBtn">Log In</button>
-                    <button id="signupBtn">Sign Up</button>
-                </div>
-            </c:if>
-            <c:if test="${not empty user && user.role == 'learner'}">
-                <i class="fa-solid fa-cart-shopping"></i>
-            </c:if >
-            <c:if test="${not empty user}">
-                <i class="far fa-envelope"></i>
-                <i class="fa-regular fa-bell"></i>
-                <i class="fa-solid fa-circle-user"></i>
-            </c:if >
+            <div class="startBtn col-md-4 row">
+                <button id="loginBtn">Log In</button>
+                <button id="signupBtn">Sign Up</button>
+                <button id="signupInsBtn">Sign Up Instructor</button>
+            </div>
         </header>    
     </body>
     <script>
@@ -51,5 +42,9 @@
         document.getElementById("signupBtn").onclick = function () {
             window.location.href = "${pageContext.request.contextPath}/signup";
         };
+        document.getElementById("signupInsBtn").onclick = function () {
+            window.location.href = "${pageContext.request.contextPath}/signup-instructor";
+        };
     </script>
+
 </html>

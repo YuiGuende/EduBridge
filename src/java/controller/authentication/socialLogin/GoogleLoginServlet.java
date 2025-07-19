@@ -28,7 +28,7 @@ import service.user.UserServiceImpl;
  */
 public class GoogleLoginServlet extends HttpServlet {
 
-    private static final String CLIENT_ID = "975399677929-35j8qjkastop507e5d4gc6r3bielu4ur.apps.googleusercontent.com";
+    private static final String CLIENT_ID = "";
     private static final String CLIENT_SECRET = "";
     private static final String REDIRECT_URI = "http://localhost:9999/EduBridge/login-google";
     private IUserService userService;

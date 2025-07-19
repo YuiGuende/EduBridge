@@ -130,16 +130,18 @@ public class AddCourseServlet extends HttpServlet {
                 String tagName = (selectedTag != null && !selectedTag.isBlank()) ? selectedTag : newTag;
                 System.out.println("Tag name: " + tagName);
                 if (tagName != null && !tagName.isBlank()) {
-                    System.out.println("Tag name to be search "+tagName);
+                    System.out.println("Tag name to be search " + tagName);
                     Tag tag = tagService.getTagByNameAndType(tagName, TagType.valueOf(typeName));
-                    System.out.println("Tag found by service "+tag.toString());
                     if (tag == null) {
                         tag = new Tag(); // Dùng lại biến tag
                         tag.setName(tagName);
                         tag.setType(TagType.valueOf(typeName));
                         tag = tagService.save(tag);
                     }
-
+                    double price = Double.parseDouble(request.getParameter("price"));
+                    course.setPrice(price);
+                    double dcPrice = Double.parseDouble(request.getParameter("dcPrice"));
+                    course.setDiscountPrice(dcPrice);
                     course.addTag(tag); // Bây giờ tag luôn != null
                 }
             }
