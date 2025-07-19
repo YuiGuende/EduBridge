@@ -11,7 +11,7 @@ import java.util.Date;
 
 public class CourseLearnerServiceImpl implements ICourseLearnerService {
 
-    private ICourseLearnerDAO courseLearnerDAO = new CourseLearnerDAOImpl();
+    private CourseLearnerDAOImpl courseLearnerDAO = new CourseLearnerDAOImpl();
 
     @Override
     public void enrollLearnerToCourse(Long learnerId, Long courseId) {
@@ -30,7 +30,7 @@ public class CourseLearnerServiceImpl implements ICourseLearnerService {
             learner.setId(learnerId);
             cl.setLearner(learner);
 
-            courseLearnerDAO.insert(cl);
+            courseLearnerDAO.save(cl);
         }
     }
 

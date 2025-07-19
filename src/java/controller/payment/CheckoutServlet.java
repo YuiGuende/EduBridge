@@ -26,7 +26,6 @@ import service.payment.VNPayService;
 @WebServlet("/checkout")
 public class CheckoutServlet extends HttpServlet {
 
-
     private final CartService cartService = new CartService();
     private CourseService courseService = new CourseServiceImpl();
     private final VNPayService vnpayService = new VNPayService();
@@ -34,18 +33,55 @@ public class CheckoutServlet extends HttpServlet {
     private ICourseLearnerService courseLearnerService = new CourseLearnerServiceImpl();
 
     @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        String[] selectedIds = req.getParameterValues("selectedCourseIds");
+
+        if (selectedIds == null || selectedIds.length == 0) {
+            resp.sendRedirect("cart"); // Hoặc về lại cart
+            return;
+        }
+
+        List<Course> selectedCourses = new ArrayList<>();
+        double total = 0;
+
+        for (String idStr : selectedIds) {
+            try {
+                Long id = Long.valueOf(idStr);
+                Course course = courseService.findCourse(id);
+                if (course != null) {
+                    selectedCourses.add(course);
+                    total += course.getDiscountPrice();
+                }
+            } catch (NumberFormatException ignored) {
+            }
+        }
+
+        if (selectedCourses.isEmpty()) {
+            resp.sendRedirect("cart");
+            return;
+        }
+        User u = (User) session.getAttribute("user");
+        req.setAttribute("learner", u);
+        req.setAttribute("selectedCourses", selectedCourses);
+        req.setAttribute("total", total);
+
+        req.getRequestDispatcher("checkout/checkout.jsp").forward(req, resp);
+    }
+
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         try {
             String[] selectedIds = req.getParameterValues("selectedCourseIds");
-            
+
             if (selectedIds == null || selectedIds.length == 0) {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "No courses selected");
                 return;
             }
 
             User u = (session != null) ? (User) session.getAttribute("user") : null;
-            if(u==null){
+            if (u == null) {
                 resp.sendRedirect("login");
                 return;
             }

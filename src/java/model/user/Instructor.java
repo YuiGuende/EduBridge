@@ -64,7 +64,7 @@ public class Instructor implements Serializable {
     @Column(name = "avatar_url")
     private String avatarUrl;
     @OneToOne
-    @MapsId // CHÌA KHÓA: LẤY id từ User
+    @MapsId 
     @JoinColumn(name = "id")
     private User user;
     @OneToMany(mappedBy = "createdBy")

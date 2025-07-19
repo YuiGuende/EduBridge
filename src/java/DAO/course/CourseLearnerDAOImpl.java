@@ -13,10 +13,6 @@ public class CourseLearnerDAOImpl extends GenericDAO<CourseLearner> implements I
         super(CourseLearner.class);
     }
 
-    @Override
-    public void insert(CourseLearner courseLearner) {
-        super.save(courseLearner);
-    }
 
     @Override
     public boolean exists(Long courseId, Long learnerId) {

@@ -40,10 +40,10 @@ public class VNPayReturnServlet extends HttpServlet {
                 courseLearnerService.enrollLearnerToCourse(learnerId, courseId);
             });
 
-            resp.getWriter().println("Thanh toán thành công!");
+            req.getRequestDispatcher("checkout/success.jsp").forward(req, resp);
         } else {
             payment.setPaymentStatus(Payment.PaymentStatus.CANCELED);
-            resp.getWriter().println("Thanh toán thất bại hoặc bị hủy.");
+            req.getRequestDispatcher("checkout/fail.jsp").forward(req, resp);
         }
 
         paymentService.update(payment);

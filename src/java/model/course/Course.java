@@ -26,21 +26,21 @@ public class Course extends ReportTarget {
     @Column(name = "description", columnDefinition = "nvarchar(max)")
     private String description;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "course_requirements",
             joinColumns = @JoinColumn(name = "course_id"))
 
     @Column(name = "requirement", length = 1000, columnDefinition = "nvarchar(max)")
     private List<String> requirements = new ArrayList<>();
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "course_target_audience",
             joinColumns = @JoinColumn(name = "course_id"))
 
     @Column(name = "target_audience", length = 1000, columnDefinition = "nvarchar(max)")
     private List<String> courseFor = new ArrayList<>();
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "course_learning_outcomes",
             joinColumns = @JoinColumn(name = "course_id"))
 
@@ -48,7 +48,7 @@ public class Course extends ReportTarget {
     private List<String> learningOutcomes = new ArrayList<>();
 
     // Thay đổi từ ManyToOne thành ManyToMany
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "course_languages",
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "language_id"))

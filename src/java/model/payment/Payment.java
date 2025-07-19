@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -51,7 +52,7 @@ public class Payment {
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
 
-    @OneToMany(mappedBy = "payment", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "payment", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<PaymentDetail> paymentDetails = new ArrayList<>();
 
     @ManyToOne(optional = false)

@@ -68,6 +68,8 @@ public class AuthFilter implements Filter {
         LEARNER_FUNC.add("report");
         LEARNER_FUNC.add("comment");
         LEARNER_FUNC.add("notification");
+        LEARNER_FUNC.add("success.jsp");
+        LEARNER_FUNC.add("fail.jsp");
 
         //Các tài nguyên cho instructor
         INSTRUCTOR_FUNC.add(LOGOUT_PAGE);
@@ -90,7 +92,7 @@ public class AuthFilter implements Filter {
         GUEST_FUNC.add("login-google");
         GUEST_FUNC.add("course-detail");
         GUEST_FUNC.add("");
-        
+
     }
 
     @Override
@@ -126,8 +128,9 @@ public class AuthFilter implements Filter {
 //                    chain.doFilter(request, response);
 //                    return;
 //                } else {
-                    res.sendRedirect(req.getContextPath() + "/login");
-                    return;
+                res.sendRedirect(req.getContextPath() + "/logout");
+                res.sendRedirect(req.getContextPath() + "/login");
+                return;
 //                }
             }
 
@@ -163,6 +166,5 @@ public class AuthFilter implements Filter {
         }
         return false;
     }
-
 
 }

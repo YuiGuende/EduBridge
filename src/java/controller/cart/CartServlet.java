@@ -19,6 +19,7 @@ public class CartServlet extends HttpServlet {
             throws ServletException, IOException {
         // Chỉ dùng GET để hiển thị giỏ hàng
         String action = req.getParameter("action");
+        if (action == null) action = "";
         switch (action) {
             case "add":
                 req.getRequestDispatcher("cart/add-to-cart.jsp").forward(req, resp);
@@ -69,6 +70,5 @@ public class CartServlet extends HttpServlet {
         req.setAttribute("cartDTO", cartService.getCartDTO(session));
         req.getRequestDispatcher("cart/cart.jsp").forward(req, resp);
 
-        // Sau khi xử lý xong thì redirect về trang cart
     }
 }

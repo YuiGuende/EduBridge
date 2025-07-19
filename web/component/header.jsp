@@ -6,7 +6,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<jsp:useBean id="user" class="model.user.User" scope="session" />
+<%@ page session="true" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -20,42 +20,37 @@
     <body>
         <header class="header row">
             <div class="logo col-md-2">
-
-                <img src="${pageContext.request.contextPath}/resource/images/logo.png" alt="logo"/>
+                <a href="<c:choose>
+                       <c:when test="${sessionScope.user.role eq 'admin'}">${pageContext.request.contextPath}/admin/dashboard</c:when>
+                       <c:when test="${sessionScope.user.role eq 'instructor'}">${pageContext.request.contextPath}/home-instructor</c:when>
+                       <c:when test="${sessionScope.user.role eq 'learner'}">${pageContext.request.contextPath}/home-learner</c:when>
+                       <c:otherwise>${pageContext.request.contextPath}/</c:otherwise>
+                   </c:choose>">
+                    <img src="${pageContext.request.contextPath}/resource/images/logo.png" alt="logo"/>
+                </a>
             </div>
-            <div class="search-container col-md-6">
-                <input type="text" placeholder="Search">
-                <button class="search-button">
-                    <i class="fa fa-search"></i>
-                </button>                
+            <div class="col-md-10 row">
+                <c:choose>
+                    <c:when test="${empty sessionScope.user}">
+                        <%@ include file="nav/guestNavFragment.jsp" %>
+                    </c:when>
+                    <c:otherwise>
+                        <c:choose>
+                            <c:when test="${sessionScope.user.role eq 'admin'}">
+                                <%@ include file="nav/adminNavFragment.jsp" %>
+                            </c:when>
+                            <c:when test="${sessionScope.user.role eq 'instructor'}">
+                                <%@ include file="nav/instructorNavFragment.jsp" %>
+                            </c:when>
+                            <c:otherwise>
+                                <%@ include file="nav/learnerNavFragment.jsp" %>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:otherwise>
+                </c:choose>
             </div>
+        </header>  
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-            <c:if test="${empty user}">
-                <div class="startBtn col-md-4 row">
-                    <button id="loginBtn">Log In</button>
-                    <button id="signupBtn">Sign Up</button>
-                </div>
-            </c:if>
-            <c:if test="${not empty user && user.role == 'learner'}">
-                <i class="fa-solid fa-cart-shopping"></i>
-            </c:if >
-            <c:if test="${not empty user}">
-                <i class="far fa-envelope"></i>
-                <i class="fa-regular fa-bell"></i>
-                <i class="fa-solid fa-circle-user"></i>
-            </c:if >
-        </header>    
     </body>
-    <script>
-        document.getElementById("loginBtn").onclick = function () {
-            window.location.href = "${pageContext.request.contextPath}/login";
-        };
-        document.getElementById("signupBtn").onclick = function () {
-            window.location.href = "${pageContext.request.contextPath}/signup";
-        };
-        document.getElementById("signupInsBtn").onclick = function () {
-            window.location.href = "${pageContext.request.contextPath}/signup-instructor";
-        };
-
-    </script>
 </html>

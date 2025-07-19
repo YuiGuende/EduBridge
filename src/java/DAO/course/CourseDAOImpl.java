@@ -157,10 +157,11 @@ public class CourseDAOImpl extends GenericDAO<Course> implements ICourseDAO {
     @Override
     public List<Course> getCoursesByTag(Tag tag) {
         try (EntityManager em = getEntityManager()) {
-            String jpql = "SELECT DISTINCT c FROM Course c JOIN c.tags t WHERE t.name = :name AND t.type = :type";
+            String jpql = "SELECT DISTINCT c FROM Course c JOIN c.tags t WHERE t.name = :name AND t.type = :type AND c.status = :status";
             TypedQuery<Course> query = em.createQuery(jpql, Course.class);
             query.setParameter("name", tag.getName());
             query.setParameter("type", tag.getType());
+            query.setParameter("status", CourseStatus.PUBLIC);
             return query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();

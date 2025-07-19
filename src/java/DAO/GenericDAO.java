@@ -51,7 +51,8 @@ public class GenericDAO<T> extends BaseDAO {
 
     public T save(T entity) {
         EntityTransaction tx = null;
-        try (EntityManager em = getEntityManager();) {
+        EntityManager em = getEntityManager();
+        try {
             tx = em.getTransaction();
             tx.begin();
             if (entityClass.getMethod("getId").invoke(entity) == null) {
@@ -66,12 +67,15 @@ public class GenericDAO<T> extends BaseDAO {
                 tx.rollback();
             }
             throw new RuntimeException("Error saving " + entityClass.getSimpleName() + ": " + e.getMessage(), e);
+        } finally {
+            em.close();
         }
     }
 
     public void insert(T entity) {
         EntityTransaction tx = null;
-        try (EntityManager em = getEntityManager()) {
+        EntityManager em = getEntityManager();
+        try {
             tx = em.getTransaction();
             tx.begin();
             em.persist(entity);
@@ -82,12 +86,15 @@ public class GenericDAO<T> extends BaseDAO {
             }
             e.printStackTrace();
             throw new RuntimeException("Error inserting " + entityClass.getSimpleName() + ": " + e.getMessage(), e);
+        } finally {
+            em.close();
         }
     }
 
     public T update(T entity) {
         EntityTransaction tx = null;
-        try (EntityManager em = getEntityManager()) {
+        EntityManager em = getEntityManager();
+        try {
             tx = em.getTransaction();
             tx.begin();
             T managedEntity = em.merge(entity);
@@ -98,12 +105,15 @@ public class GenericDAO<T> extends BaseDAO {
                 tx.rollback();
             }
             throw new RuntimeException("Error updating " + entityClass.getSimpleName() + ": " + e.getMessage(), e);
+        } finally {
+            em.close();
         }
     }
 
     public void deleteById(Long id) {
         EntityTransaction tx = null;
-        try (EntityManager em = getEntityManager()) {
+        EntityManager em = getEntityManager();
+        try {
             tx = em.getTransaction();
             T entity = em.find(entityClass, id);
             if (entity != null) {
@@ -119,12 +129,15 @@ public class GenericDAO<T> extends BaseDAO {
             }
             e.printStackTrace();
             throw e;
+        } finally {
+            em.close();
         }
     }
 
     public void delete(T entity) {
         EntityTransaction tx = null;
-        try (EntityManager em = getEntityManager()) {
+        EntityManager em = getEntityManager();
+        try {
             tx = em.getTransaction();
             T managedEntity = em.merge(entity);
             em.remove(managedEntity);
@@ -135,6 +148,8 @@ public class GenericDAO<T> extends BaseDAO {
             }
             e.printStackTrace();
             throw new RuntimeException("Error deleting " + entityClass.getSimpleName() + ": " + e.getMessage(), e);
+        } finally {
+            em.close();
         }
     }
 
