@@ -13,6 +13,7 @@ public class CommentDAOImpl extends GenericDAO<Comment> implements ICommentDAO {
     public CommentDAOImpl() {
         super(Comment.class);
     }
+
  @Override
     public List<Comment> findCommentsWithFilters(String course, String user, int offset, int limit) {
         try (EntityManager em = getEntityManager()) {

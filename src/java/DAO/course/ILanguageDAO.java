@@ -14,4 +14,11 @@ import model.course.Language;
  */
 public interface ILanguageDAO {
 
+
+    Optional<Language> findByCode(String code);
+
+    Optional<Language> findByName(String name);
+
+    List<Language> findByNameContaining(String name);
+
 }

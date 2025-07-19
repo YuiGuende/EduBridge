@@ -57,11 +57,12 @@ public class HomeLearnerServlet extends HttpServlet {
 //                response.sendError(404, "Tag not found");
 //                return;
 //            }
-            List<Course> courses = courseService.getCoursesByTag(tag);
-            request.setAttribute("courses", courses);
-            if (courses.isEmpty()) {
-                request.setAttribute("error", "null");
+
+            List<Course> courses = null;
+            if (tag != null) {
+                courses = courseService.getCoursesByTag(tag);
             }
+            request.setAttribute("courses", courses);
             if (tagType == TagType.ROLE) {
                 request.getRequestDispatcher("/homeLearner/roleCoursesFragment.jsp").forward(request, response);
             } else {

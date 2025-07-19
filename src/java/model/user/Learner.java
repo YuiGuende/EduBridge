@@ -30,13 +30,18 @@ public class Learner implements Serializable {
     private String bio;
 
     @OneToOne(optional = false)
+
+    @MapsId
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     private User user;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "learner")
     private List<CourseLearner> courseLearnerList;
 
-    public Learner() {}
+
+    public Learner() {
+    }
+
 
     public Learner(Long id) {
         this.id = id;

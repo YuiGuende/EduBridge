@@ -33,7 +33,6 @@ public interface IReportService {
     List<Report> findByType(ReportType type);
 
     void markAsSeen(Long reportId);
-    
     List<Report> getRecentReports(int limit);
     int getPendingReportsCount();
 

@@ -1,0 +1,91 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Jul 19, 2025, 12:09:14 PM
+    Author     : DELL
+*/
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f9f9f9;
+}
+
+.checkout-container {
+    min-width: 60%;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.checkout-container h2 {
+    text-align: center;
+    color: #1A2A6C;
+    margin-bottom: 1.5rem;
+}
+
+.learner-info {
+    margin-bottom: 2rem;
+    padding: 1rem 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #f1f4fa;
+}
+
+.learner-info h3 {
+    margin-top: 0;
+    color: #1A2A6C;
+}
+
+.learner-info p {
+    margin: 0.4rem 0;
+    font-size: 0.95rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+}
+
+table th {
+    background: #1A2A6C;
+    color: #fff;
+    text-align: left;
+}
+
+table td {
+    background: #fff;
+}
+
+table td:last-child {
+    text-align: right;
+}
+
+.btn-checkout {
+    display: block;
+    width: 200px;
+    margin: 0 auto;
+    background: #1A2A6C;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 0;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.btn-checkout:hover {
+    background: #142052;
+}

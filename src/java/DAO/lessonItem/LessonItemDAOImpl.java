@@ -203,6 +203,7 @@ public class LessonItemDAOImpl extends GenericDAO<LessonItem> implements ILesson
             em.close();
         }
     }
+
 //
 //    @Override
 //    public long count() {
@@ -311,6 +312,5 @@ public class LessonItemDAOImpl extends GenericDAO<LessonItem> implements ILesson
             em.close();
         }
     }
-
 
 }

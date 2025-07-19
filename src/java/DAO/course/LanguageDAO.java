@@ -71,6 +71,8 @@ public class LanguageDAO extends GenericDAO<Language> implements ILanguageDAO {
 //            em.close();
 //        }
 //    }
+
+    @Override
     public Optional<Language> findByCode(String code) {
         try (EntityManager em = getEntityManager();) {
             TypedQuery<Language> query = em.createQuery(
@@ -86,6 +88,8 @@ public class LanguageDAO extends GenericDAO<Language> implements ILanguageDAO {
         }
     }
 
+
+    @Override
     public Optional<Language> findByName(String name) {
         try (EntityManager em = getEntityManager();) {
             TypedQuery<Language> query = em.createQuery(
@@ -101,6 +105,8 @@ public class LanguageDAO extends GenericDAO<Language> implements ILanguageDAO {
         }
     }
 
+
+    @Override
     public List<Language> findByNameContaining(String name) {
         try (EntityManager em = getEntityManager();) {
             TypedQuery<Language> query = em.createQuery(

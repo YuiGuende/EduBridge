@@ -24,7 +24,7 @@ public class CourseModuleFilter implements Filter {
                 Long courseId = Long.valueOf(courseIdParam);
                 Course course = courseService.findCourse(courseId);
                 int numOfModule = course.getModules().size();
-                request.setAttribute("courseId",courseId);
+                request.setAttribute("courseId", courseId);
                 request.setAttribute("numOfModule", numOfModule);
             } catch (Exception e) {
                 request.setAttribute("numOfModule", 0); // fallback n?u l?i

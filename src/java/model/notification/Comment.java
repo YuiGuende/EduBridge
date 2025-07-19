@@ -12,7 +12,6 @@ public class Comment extends ReportTarget {
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    private Long id;
-
     // Ng??i g?i comment (h?c vi�n)
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -21,7 +20,7 @@ public class Comment extends ReportTarget {
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
-    
+
     private int rating;
 
     @Column(nullable = false, columnDefinition = "TEXT")
@@ -55,11 +54,8 @@ public class Comment extends ReportTarget {
     public void setRating(int rating) {
         this.rating = rating;
     }
-    
-    
 
     // Getters and setters
-  
     public User getUser() {
         return user;
     }
@@ -92,11 +88,9 @@ public class Comment extends ReportTarget {
         this.createdAt = createdAt;
     }
 
-
     @Override
     public String toString() {
-        return "Comment{"  + ", user=" + user + ", course=" + course + ", content=" + content + ", createdAt=" + createdAt + '}';
+        return "Comment{" + ", user=" + user + ", course=" + course + ", content=" + content + ", createdAt=" + createdAt + '}';
     }
-    
-    
+
 }

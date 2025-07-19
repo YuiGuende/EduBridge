@@ -78,6 +78,7 @@ public class AddLessonItem extends HttpServlet {
         if (type == null) {
             type = "";
         }
+
         System.out.println("post is called");
         switch (type) {
             case "video":
@@ -181,6 +182,7 @@ public class AddLessonItem extends HttpServlet {
 
     private void getAddVideoPage(HttpServletRequest request, HttpServletResponse response) {
         try {
+
             long lessonId = Long.parseLong(request.getParameter("lessonId"));
             Optional<Lesson> lessonOp = lessonService.findById(lessonId);
             if (lessonOp.isEmpty()) {

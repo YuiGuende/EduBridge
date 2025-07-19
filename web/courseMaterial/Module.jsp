@@ -145,7 +145,7 @@
                                             </div>
                                             <c:forEach var="lessonItem" items="${lesson.lessonItems}">
                                                 <a class="nav-link dropdown-toggle" href="#" role="button" onclick="toggleLesson(this)">
-                                                   
+
                                                     <span class="lesson-title"> ${lessonItem.title}</span>
                                                 </a>
                                             </c:forEach>

@@ -8,6 +8,7 @@ import DAO.GenericDAO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import java.util.List;
+import model.course.CourseStatus;
 import model.course.Tag;
 import model.course.TagType;
 
@@ -24,9 +25,11 @@ public class TagDAOImpl extends GenericDAO<Tag> implements ITagDAO {
     @Override
     public List<Tag> findTagsByType(TagType type) {
         try (EntityManager em = getEntityManager()) {
-            String jpql = "SELECT t FROM Tag t WHERE t.type = :type";
+
+            String jpql = "SELECT DISTINCT t FROM Tag t JOIN t.courses c WHERE t.type = :type AND c.status = :status";
             TypedQuery<Tag> query = em.createQuery(jpql, Tag.class);
             query.setParameter("type", type);
+            query.setParameter("status", CourseStatus.PUBLIC);
             return query.getResultList();
         }
     }

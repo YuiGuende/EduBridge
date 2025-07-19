@@ -186,6 +186,13 @@
                                 <i class="fas fa-edit me-2 text-primary"></i>
                                 Edit Course Information
                             </h1>
+                            <form action="notification" method="POST" class="d-inline-block ms-auto">
+                                <input type="hidden" name="action" value="requestValidation" />
+                                <input type="hidden" name="id" value="${course.id}" />
+                                <button type="submit" class="btn btn-warning">
+                                    <i class="fas fa-paper-plane me-1"></i> Request validation
+                                </button>
+                            </form>
                             <c:if test="${course.status == 'DRAFT'}">
                                 <form action="notification" method="POST" class="d-inline-block ms-auto">
                                     <input type="hidden" name="action" value="requestValidation" />

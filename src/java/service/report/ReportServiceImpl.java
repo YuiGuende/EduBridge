@@ -85,7 +85,6 @@ public class ReportServiceImpl implements IReportService {
         reportDAO.markAsSeen(reportId);
     }
 
-
     @Override
     public List<ReportListDTO> getReportsList(String type, String status, String targetType, int page, int pageSize) {
         int offset = (page - 1) * pageSize;

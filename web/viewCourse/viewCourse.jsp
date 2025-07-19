@@ -46,6 +46,10 @@
                             <div class="course-meta">
                                 <div class="meta-item">
                                     <span class="rating">
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/duong_jpa
                                         <c:out value="${course.rate.rate}" default="0.0"/>
                                     </span>
                                     <div class="rating-stars">
@@ -70,6 +74,10 @@
 
                                 <div class="meta-item">
                                     <i class="fas fa-users"></i>
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/duong_jpa
                                     <span>${studentNum} students enrolled</span>
                                 </div>
 
@@ -215,6 +223,10 @@
                         </button>
                     </div>
                 </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/duong_jpa
                 <div class="content-block">
                     <h3 class="section-title">
                         <i class="fas fa-bullseye"></i>

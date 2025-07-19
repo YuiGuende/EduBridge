@@ -15,7 +15,7 @@ public interface IModuleDAO {
     List<Module> findPreviewModules();
 
     List<Module> findByTitleContaining(String title);
-    
+
     Module findByIndexAndCourseId(int index, Long courseId);
 
     Module findByIdWithLessons(Long id);
@@ -24,11 +24,8 @@ public interface IModuleDAO {
 
     Module findPreviousModule(Module currentModule);
 
-    // Utility Methods
-
     long countByCourse(Course course);
+
     public void deleteById(Long id);
-    
-    
 
 }

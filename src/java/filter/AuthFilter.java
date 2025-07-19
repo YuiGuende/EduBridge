@@ -34,6 +34,9 @@ public class AuthFilter implements Filter {
     private static final String LOGIN_PAGE = "login";
     private static final String LOGOUT_PAGE = "logout";
     private static final String SINGUP_PAGE = "signup";
+    private static final String LOGIN_GOOGLE = "login-google";
+    private static final String SINGUP_INS = "signup-instructor";
+    private static final String HOME_PAGE = "";
     private static final boolean DEBUG = true;
 
     private static final Set<String> ADMIN_FUNC = new HashSet<>();
@@ -48,6 +51,7 @@ public class AuthFilter implements Filter {
 
     public AuthFilter() {
         // Các tài nguyên cho admin
+
         ADMIN_FUNC.add(LOGIN_PAGE);
         ADMIN_FUNC.add("courses");
         ADMIN_FUNC.add("dashboard");
@@ -66,6 +70,8 @@ public class AuthFilter implements Filter {
         LEARNER_FUNC.add("report");
         LEARNER_FUNC.add("comment");
         LEARNER_FUNC.add("notification");
+        LEARNER_FUNC.add("success.jsp");
+        LEARNER_FUNC.add("fail.jsp");
 
         //Các tài nguyên cho instructor
         INSTRUCTOR_FUNC.add(LOGOUT_PAGE);
@@ -88,7 +94,6 @@ public class AuthFilter implements Filter {
         GUEST_FUNC.add("login-google");
         GUEST_FUNC.add("course-detail");
         GUEST_FUNC.add("");
-        
     }
 
     @Override
@@ -109,7 +114,7 @@ public class AuthFilter implements Filter {
             String uri = req.getRequestURI();
 
             // Cho phép truy cập các tài nguyên tĩnh và trang login
-            if (isStaticResource(uri) || uri.endsWith(LOGIN_PAGE) || uri.endsWith(SINGUP_PAGE) || uri.endsWith("signup-instructor") || uri.endsWith("home-learner")) {
+            if (isStaticResource(uri) || uri.endsWith(LOGIN_PAGE) || uri.endsWith(SINGUP_PAGE) || uri.endsWith(SINGUP_INS) || uri.endsWith(LOGIN_GOOGLE) || uri.endsWith(LOGOUT_PAGE) || uri.endsWith(HOME_PAGE)) {
                 chain.doFilter(request, response);
                 return;
             }
@@ -124,8 +129,10 @@ public class AuthFilter implements Filter {
 //                    chain.doFilter(request, response);
 //                    return;
 //                } else {
-                    res.sendRedirect(req.getContextPath() + "/login");
-                    return;
+
+                res.sendRedirect(req.getContextPath() + "/logout");
+                res.sendRedirect(req.getContextPath() + "/login");
+                return;
 //                }
             }
 

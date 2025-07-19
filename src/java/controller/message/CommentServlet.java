@@ -6,7 +6,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 import model.course.Course;
-import model.course.Rate;
 import model.notification.Comment;
 import model.user.Instructor;
 import model.user.User;

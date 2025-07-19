@@ -121,7 +121,7 @@ public class GoogleLoginServlet extends HttpServlet {
                     Learner learner = new Learner();
                     userService.signup(user, learner);
                     session.setAttribute("user", user);
-                    request.getRequestDispatcher("home/learner.jsp").forward(request, response);
+                    response.sendRedirect("home-learner");
                 } else if ("learner".equals(existingUser.getRole())) {
                     session.setAttribute("user", existingUser);
                     forwardByRole(existingUser.getRole(), request, response);
@@ -157,13 +157,13 @@ public class GoogleLoginServlet extends HttpServlet {
             throws ServletException, IOException {
         switch (role) {
             case "learner":
-                request.getRequestDispatcher("home/learner.jsp").forward(request, response);
+                response.sendRedirect("home-learner");
                 break;
             case "instructor":
-                request.getRequestDispatcher("home/instructor.jsp").forward(request, response);
+                response.sendRedirect("home-instructor");
                 break;
             case "admin":
-                request.getRequestDispatcher("home/admin.jsp").forward(request, response);
+                response.sendRedirect("admin/dashboard");
                 break;
             default:
                 response.sendRedirect("login");

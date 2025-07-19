@@ -196,7 +196,6 @@ public class LessonServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", "Error saving lesson: " + e.getMessage());
-
             getAddLessonPage(request, response);
         }
     }

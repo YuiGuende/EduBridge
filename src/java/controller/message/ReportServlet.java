@@ -74,7 +74,6 @@ public class ReportServlet extends HttpServlet {
                 return;
             }
             User currentUser = userService.findById(sessionUser.getId()); // ← Truy vấn User từ DB
-
             Long targetId = Long.valueOf(request.getParameter("targetId"));
             String reason = request.getParameter("reason");
             ReportType type = ReportType.valueOf(request.getParameter("type"));
@@ -85,14 +84,11 @@ public class ReportServlet extends HttpServlet {
                 throw new Exception("Course not found!");
             }
             Report report = new Report(currentUser, course, reason, type);  // vì Course extends ReportTarget
-
             reportService.save(report);
-
             // Gửi thông báo đến admin id = 999
             String message = "Bạn có báo cáo mới từ người dùng ID: " + currentUser.getId()
                     + " - Loại: " + type.name();
             NotificationSocket.sendNotificationToUser(999L, message);
-
             response.sendRedirect("course-detail?id="+targetId);
 
         } catch (Exception e) {

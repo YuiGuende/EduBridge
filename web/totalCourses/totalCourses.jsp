@@ -39,6 +39,10 @@
                     </form>
                 </div>
                 <a href="add-course" class="col-md-1 createBtn"><i class="fas fa-plus" style="color: #fcfcfc;"></i>Create</a>
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/duong_jpa
                 <form method="get" action="total-courses" class="col-md-2 row">
                     <input type="hidden" name="action" value="${action}" />
                     <input type="hidden" name="keyword" value="${keyword}" />
@@ -75,6 +79,10 @@
                                 <a href="view-course?id=${course.id}" class="btn btn-outline-primary btn-sm">
                                     <i class="fas fa-eye"></i> View
                                 </a>
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/duong_jpa
                                 <a href="course?id=${course.id}" class="btn btn-outline-secondary btn-sm">
                                     <i class="fas fa-edit"></i> Edit
                                 </a>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="3.0" xmlns="https://jakarta.ee/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence                                  https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
+<<<<<<< HEAD
   <persistence-unit name="EduBridgePU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>model.Instructor</class>
@@ -23,4 +24,29 @@
       <property name="eclipselink.ddl-generation.output-mode" value="database"/>
     </properties>
   </persistence-unit>
+=======
+    <persistence-unit name="EduBridgePU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>model.Instructor</class>
+        <class>model.User</class>
+        <class>model.course.Language</class>
+        <class>model.course.Course</class>
+        <class>model.course.CourseInstructor</class>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <shared-cache-mode>NONE</shared-cache-mode>
+        <properties>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=EduBridge_database;encrypt=true;trustServerCertificate=true;encrypt=true;trustServerCertificate=true"/>
+            <property name="jakarta.persistence.jdbc.user" value="sa"/>
+            <property name="jakarta.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+            <property name="jakarta.persistence.jdbc.password" value="123456"/>
+            <!-- Optional: bật log -->
+<!--            <property name="eclipselink.id-validation" value="NULL"/>
+            <property name="eclipselink.logging.level" value="FINE"/>
+            <property name="eclipselink.logging.parameters" value="true"/>
+            <property name="jakarta.persistence.schema-generation.database.action" value="update"/>
+            <property name="eclipselink.ddl-generation" value="create-tables"/>
+            <property name="eclipselink.ddl-generation.output-mode" value="database"/>-->
+        </properties> 
+    </persistence-unit>
+>>>>>>> origin/duong_jpa
 </persistence>

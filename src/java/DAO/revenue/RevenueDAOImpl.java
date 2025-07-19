@@ -230,7 +230,6 @@ public class RevenueDAOImpl extends BaseDAO implements IRevenueDAO {
             }
             return fullWeekRevenue;
         }
-
     }
 
 }

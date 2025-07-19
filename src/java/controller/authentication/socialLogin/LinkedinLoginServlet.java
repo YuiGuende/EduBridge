@@ -29,7 +29,7 @@ import service.user.UserServiceImpl;
  */
 public class LinkedinLoginServlet extends HttpServlet {
 
-    private static final String CLIENT_ID = "";
+    private static final String CLIENT_ID = "867yqxfh8u77hs";
     private static final String CLIENT_SECRET = "";
     private static final String REDIRECT_URI = "http://localhost:9999/EduBridge/login-linkedin";
 

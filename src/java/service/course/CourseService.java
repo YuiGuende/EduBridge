@@ -36,11 +36,13 @@ public interface CourseService {
     public List<Course> findRelatedCourses(Course currentCourse, int limit);
     
     public List<Course> findCoursesLimited(int limit);
+
     List<Course> sortCourses(List<Course> courses, String sort);
 
     List<Course> getTrendingCourses();
     
     List<Course> getCoursesByTag(Tag tag);
+
     List<Comment> getSortedCommentsByCourse(Long courseId);
      int getTotalCoursesCount();
     List<RecentActivityDTO> getRecentActivities(int limit);

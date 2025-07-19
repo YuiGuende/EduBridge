@@ -8,15 +8,11 @@ import model.course.courseContent.LessonItem;
 public interface ILessonItemDAO {
 
 //    Optional<LessonItem> findById(Long id);
-
     List<LessonItem> findAll();
 
 //    LessonItem update(LessonItem lessonItem);
-
 //    void delete(LessonItem lessonItem);
-
 //    void deleteById(Long id);
-
     // Specialized Queries
     List<LessonItem> findByLesson(Lesson lesson);
 
@@ -36,12 +32,7 @@ public interface ILessonItemDAO {
 
     List<LessonItem> findByModuleId(Long moduleId);
 
-    // Utility Methods
-//    long count();
-
     long countByLesson(Lesson lesson);
-//    long countByType(LessonItemType type);
 
-//    boolean exists(Long id);
     LessonItem findById(Long id);
 }

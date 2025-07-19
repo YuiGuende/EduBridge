@@ -17,6 +17,4 @@ public abstract class BaseDAO {
     protected static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("EduBridgePU");
 
     public abstract EntityManager getEntityManager();
-
-
 }

@@ -129,7 +129,6 @@ public class SignupInstructorServlet extends HttpServlet {
             CloudinaryUtil cloudinary = new CloudinaryUtil();
             avatarUrl = cloudinary.upload(filePart);
         }
-
         String accountName = request.getParameter("accountName");
         String accountNumber = request.getParameter("accountNumber");
         String bankName = request.getParameter("bankName");

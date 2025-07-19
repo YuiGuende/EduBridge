@@ -108,6 +108,7 @@ public class CourseServiceImpl implements CourseService {
         return courseDAO.findCoursesByKeywordAndStatus(instructorID, keyword, status, offset, limit);
     }
 
+
     @Override
     public List<Course> sortCourses(List<Course> courses, String sort) {
         if (courses == null) {

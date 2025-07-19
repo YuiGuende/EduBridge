@@ -64,12 +64,12 @@ public class Instructor implements Serializable {
     @Column(name = "avatar_url")
     private String avatarUrl;
     @OneToOne
-    @MapsId // CHÌA KHÓA: LẤY id từ User
+
+    @MapsId 
     @JoinColumn(name = "id")
     private User user;
     @OneToMany(mappedBy = "createdBy")
     private List<Course> coursesCreated;
-
 
     @OneToOne(mappedBy = "instructor", cascade = CascadeType.ALL, orphanRemoval = true)
     private InstructorBankInfo instructorBankInfo;
@@ -96,7 +96,7 @@ public class Instructor implements Serializable {
         this.linkedinProfile = linkedinProfile;
         this.avatarUrl = avatarUrl;
     }
-    
+
     public Instructor(Long id,String bio, int experienceYears, String specialization, String educationLevel, String linkedinProfile, String avatarUrl) {
        this.id = id;
         this.bio = bio;
@@ -106,8 +106,6 @@ public class Instructor implements Serializable {
         this.linkedinProfile = linkedinProfile;
         this.avatarUrl = avatarUrl;
     }
-    
-    
 
     public Long getId() {
         return id;

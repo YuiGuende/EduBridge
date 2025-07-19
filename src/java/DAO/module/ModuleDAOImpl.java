@@ -16,11 +16,6 @@ public class ModuleDAOImpl extends GenericDAO<Module> implements IModuleDAO {
         super(entityClass);
     }
 
-//    @Override
-//    public EntityManager getEntityManager() {
-//        return emf.createEntityManager();
-//    }
-
     @Override
     public Module save(Module module) {
         EntityManager em = getEntityManager();
@@ -123,101 +118,7 @@ public class ModuleDAOImpl extends GenericDAO<Module> implements IModuleDAO {
             em.close();
         }
     }
-//    @Override
-//    public Module save(Module module) {
-//        EntityManager em = getEntityManager();
-//        try {
-//            em.getTransaction().begin();
-//            if (module.getId() == null) {
-//                em.persist(module);
-//            } else {
-//                module = em.merge(module);
-//            }
-//            em.getTransaction().commit();
-//            return module;
-//        } catch (Exception e) {
-//            if (em.getTransaction().isActive()) {
-//                em.getTransaction().rollback();
-//            }
-//            throw new RuntimeException("Error saving module: " + e.getMessage(), e);
-//        } finally {
-//            em.close();
-//        }
-//    }
-//    @Override
-//    public Optional<Module> findModuleById(Long id) {
-//        try (EntityManager em = getEntityManager();) {
-//            Module module = em.find(Module.class, id);
-//            return Optional.ofNullable(module);
-//        }
-//    }
 
-//    @Override
-//    public List<Module> findAll() {
-//        EntityManager em = getEntityManager();
-//        try {
-//            TypedQuery<Module> query = em.createQuery(
-//                    "SELECT m FROM Module m ORDER BY m.course.title, m.index",
-//                    Module.class);
-//            return query.getResultList();
-//        } finally {
-//            em.close();
-//        }
-//    }
-//    @Override
-//    public Module update(Module module) {
-//        EntityManager em = getEntityManager();
-//        try {
-//            em.getTransaction().begin();
-//            Module updatedModule = em.merge(module);
-//            em.getTransaction().commit();
-//            return updatedModule;
-//        } catch (Exception e) {
-//            if (em.getTransaction().isActive()) {
-//                em.getTransaction().rollback();
-//            }
-//            throw new RuntimeException("Error updating module: " + e.getMessage(), e);
-//        } finally {
-//            em.close();
-//        }
-//    }
-//    @Override
-//    public void delete(Module module) {
-//        EntityManager em = getEntityManager();
-//        try {
-//            em.getTransaction().begin();
-//            Module managedModule = em.merge(module);
-//            em.remove(managedModule);
-//            em.getTransaction().commit();
-//        } catch (Exception e) {
-//            if (em.getTransaction().isActive()) {
-//                em.getTransaction().rollback();
-//            }
-//            throw new RuntimeException("Error deleting module: " + e.getMessage(), e);
-//        } finally {
-//            em.close();
-//        }
-//    }
-//
-//    @Override
-//    public void deleteById(Long id) {
-//        EntityManager em = getEntityManager();
-//        try {
-//            em.getTransaction().begin();
-//            Module module = em.find(Module.class, id);
-//            if (module != null) {
-//                em.remove(module);
-//            }
-//            em.getTransaction().commit();
-//        } catch (Exception e) {
-//            if (em.getTransaction().isActive()) {
-//                em.getTransaction().rollback();
-//            }
-//            throw new RuntimeException("Error deleting module by ID: " + e.getMessage(), e);
-//        } finally {
-//            em.close();
-//        }
-//    }
     @Override
     public List<Module> findByCourse(Course course) {
         try (EntityManager em = getEntityManager();) {

@@ -3,6 +3,7 @@ package DAO.course;
 import DAO.GenericDAO;
 import jakarta.persistence.*;
 
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class CourseDAOImpl extends GenericDAO<Course> implements ICourseDAO {
             StringBuilder jpql = new StringBuilder("SELECT c FROM Course c JOIN c.createdBy ci "
                     + "WHERE ci.id = :instructorId");
             CourseStatus enumStatus = null;
+
             if (status != null && !"all".equals(status)) {
                 try {
                     enumStatus = CourseStatus.valueOf(status.toUpperCase());
@@ -68,6 +70,7 @@ public class CourseDAOImpl extends GenericDAO<Course> implements ICourseDAO {
             StringBuilder jpql = new StringBuilder("SELECT c FROM Course c JOIN c.createdBy ci "
                     + "WHERE ci.id = :instructorId AND c.title LIKE :keyword");
             CourseStatus enumStatus = null;
+
             if (status != null && !"all".equals(status)) {
                 try {
                     enumStatus = CourseStatus.valueOf(status.toUpperCase());
@@ -149,10 +152,12 @@ public class CourseDAOImpl extends GenericDAO<Course> implements ICourseDAO {
     @Override
     public List<Course> getCoursesByTag(Tag tag) {
         try (EntityManager em = getEntityManager()) {
-            String jpql = "SELECT DISTINCT c FROM Course c JOIN c.tags t WHERE t.name = :name AND t.type = :type";
+
+            String jpql = "SELECT DISTINCT c FROM Course c JOIN c.tags t WHERE t.name = :name AND t.type = :type AND c.status = :status";
             TypedQuery<Course> query = em.createQuery(jpql, Course.class);
             query.setParameter("name", tag.getName());
             query.setParameter("type", tag.getType());
+            query.setParameter("status", CourseStatus.PUBLIC);
             return query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();

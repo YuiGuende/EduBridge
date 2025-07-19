@@ -9,17 +9,11 @@ public interface ILessonDAO {
 
     // CRUD Operations
 //    Lesson save(Lesson lesson);
-
 //    Optional<Lesson> findById(Long id);
-
 //    List<Lesson> findAll();
-
 //    Lesson update(Lesson lesson);
-
 //    void delete(Lesson lesson);
-
 //    void deleteById(Long id);
-
     // Specialized Queries
     List<Lesson> findByModule(Module module);
 
@@ -39,10 +33,6 @@ public interface ILessonDAO {
 
     List<Lesson> findByDurationRange(int minDuration, int maxDuration);
 
-    // Utility Methods
-//    long count();
-
     long countByModule(Module module);
 
-//    boolean exists(Long id);
 }

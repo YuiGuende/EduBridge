@@ -32,14 +32,6 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="course-header-content">
-                            <nav aria-label="breadcrumb" class="mb-3">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="home-instructor">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><a href="total-courses">Courses</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">${course.title}</li>
-                                </ol>
-                            </nav>
-
                             <h1 class="course-title">${course.title}</h1>
                             <p class="course-headline">${course.headline}</p>
 
@@ -162,7 +154,7 @@
                                     </a>
                                 </c:when>
                                 <c:otherwise>
-                                    <form action="${pageContext.request.contextPath}/cart" method="post" class="add-to-cart-form">
+                                    <form action="cart" method="post" class="add-to-cart-form">
                                         <input type="hidden" name="id" value="${course.id}" />
                                         <input type="hidden" name="action" value="add" />
                                         <button type="submit" class="btn btn-primary btn-add-to-cart">
@@ -347,8 +339,7 @@
         </div>
         <jsp:include page="/report.jsp" />
         <%@ include file="/component/footer.jsp" %>   
-        <!-- Bootstrap JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
         <!-- Custom JS -->
         <script>
             // Course Viewer JavaScript
