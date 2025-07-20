@@ -10,11 +10,11 @@ package model.course;
  * @author LEGION
  */
 public enum LearningStatus {
-    NOT_STARTED,    // Ch?a b?t ??u
-    IN_PROGRESS,    // ?ang h?c
-    COMPLETED,      // ?ã hoàn thành
-    FAILED,         // Không ??t (n?u có bài ki?m tra)
-    PASSED,         // ?ã qua (n?u có bài ki?m tra)
-    DROPPED,        // B? h?c
+    NOT_STARTED,   
+    IN_PROGRESS,    
+    COMPLETED,   
+    FAILED,     
+    PASSED,        
+    DROPPED,       
     PAUSED  
 }

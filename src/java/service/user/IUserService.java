@@ -12,6 +12,7 @@ import model.user.Instructor;
 import model.user.InstructorBankInfo;
 import model.user.Learner;
 import model.user.User;
+import model.user.UserStatus;
 
 /**
  *
@@ -25,14 +26,14 @@ public interface IUserService {
 
     User findById(Long id);
 
-    
+    void updateUserStatus(Long id, UserStatus status); // Cập nhật trạng thái người dùng
+
     void signupForInstructor(User user, Instructor instructor, InstructorBankInfo bankInfo);
-    
 
     boolean isEmailExists(String emails);
 
     User findUserByEmail(String email);
-    
+
     Double getAverageRateByInstructor(Long instructorId);
 
     int getActiveInstructorsCount();
@@ -40,8 +41,7 @@ public interface IUserService {
     int getTotalStudentsCount();
 
     // Instructor management
-    List<InstructorListDTO> getInstructorsList(String name, String email, String specialization, int page, int pageSize);
-
+//    List<InstructorListDTO> getInstructorsList(String name, String email, String specialization, int page, int pageSize);
     int getInstructorsCount(String name, String email, String specialization);
 
     Instructor findInstructorById(Long id);
@@ -68,4 +68,6 @@ public interface IUserService {
     List<User> findAll();
 
     User findByEmail(String email);
+    
+    
 }

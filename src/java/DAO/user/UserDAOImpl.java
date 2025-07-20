@@ -11,6 +11,7 @@ import jakarta.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 import model.user.User;
+import model.user.UserStatus;
 
 /**
  *
@@ -20,6 +21,28 @@ public class UserDAOImpl extends GenericDAO<User> implements IUserDAO {
 
     public UserDAOImpl(Class<User> entityClass) {
         super(entityClass);
+    }
+
+    @Override
+    public void updateStatus(Long id, UserStatus status) {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            User user = em.find(User.class, id);
+            if (user != null) {
+                user.setStatus(status);
+                em.merge(user);
+            }
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            e.printStackTrace();
+            throw e;
+        } finally {
+            em.close();
+        }
     }
 
     @Override

@@ -1,6 +1,5 @@
 package controller.admin;
 
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -9,243 +8,264 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
+import service.user.UserServiceImpl;
+import util.JSPUtils;
+
+import model.DTO.InstructorDetailDTO;
 import model.DTO.InstructorListDTO;
 import model.user.Instructor;
-import service.notification.INotificationService;
-import service.notification.NotificationServiceImpl;
-import service.user.IUserService;
-import service.user.UserServiceImpl;
+import model.user.User;
+import model.user.UserStatus; // Import UserStatus
+import service.user.IInstructorService;
+import service.user.InstructorServiceImpl;
 
-@WebServlet(name = "AdminInstructorServlet", urlPatterns = {"/admin/instructors"})
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import service.user.IUserService;
+
+@WebServlet("/admin/instructors")
 public class AdminInstructorServlet extends HttpServlet {
-    
+
+    private static final Logger LOGGER = Logger.getLogger(AdminInstructorServlet.class.getName());
+    private IInstructorService instructorService;
     private IUserService userService;
-    private INotificationService notificationService;
-    
+
     @Override
     public void init() throws ServletException {
-        this.userService = new UserServiceImpl();
-        this.notificationService = new NotificationServiceImpl();
+        super.init();
+        instructorService = new InstructorServiceImpl();
+        userService = new UserServiceImpl();
     }
-    
+
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-        
-        if ("view".equals(action)) {
-            viewInstructorDetails(request, response);
-        } else if ("edit".equals(action)) {
-            getInstructorForEdit(request, response);
-        } else {
-            listInstructors(request, response);
+        if (action == null) {
+            action = "list";
+        }
+
+        switch (action) {
+            case "list":
+                listInstructors(request, response);
+                break;
+            case "view":
+                viewInstructor(request, response);
+                break;
+            case "createForm":
+                showCreateForm(request, response);
+                break;
+            case "editForm":
+                showEditForm(request, response);
+                break;
+            default:
+                listInstructors(request, response);
+                break;
         }
     }
-    
+
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-        
-        if ("updateStatus".equals(action)) {
-            updateInstructorStatus(request, response);
-        } else if ("update".equals(action)) {
-            updateInstructor(request, response);
+        if (action == null) {
+            action = "list";
+        }
+
+        switch (action) {
+            case "create":
+                createInstructor(request, response);
+                break;
+            case "update":
+                updateInstructor(request, response);
+                break;
+            case "updateStatus": // Action mới để cập nhật trạng thái
+                updateInstructorStatus(request, response);
+                break;
+            default:
+                listInstructors(request, response);
+                break;
         }
     }
-    
-    private void listInstructors(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        try {
-            // Get search parameters
-            String name = request.getParameter("name");
-            String email = request.getParameter("email");
-            String specialization = request.getParameter("specialization");
-            
-            // Pagination
-            int page = 1;
-            int pageSize = 10;
-            
+
+    private void listInstructors(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int page = 1;
+        int size = 10;
+        UserStatus statusFilter = UserStatus.ACTIVE; // Mặc định chỉ hiển thị ACTIVE
+
+        if (request.getParameter("page") != null) {
             try {
                 page = Integer.parseInt(request.getParameter("page"));
             } catch (NumberFormatException e) {
+                LOGGER.log(Level.WARNING, "Invalid page number format: " + request.getParameter("page"), e);
                 page = 1;
             }
-            
-            // Get instructors with filters
-            List<InstructorListDTO> instructors = userService.getInstructorsList(name, email, specialization, page, pageSize);
-            int totalInstructors = userService.getInstructorsCount(name, email, specialization);
-            int totalPages = (int) Math.ceil((double) totalInstructors / pageSize);
-            
-            request.setAttribute("instructors", instructors);
-            request.setAttribute("totalInstructors", totalInstructors);
-            request.setAttribute("totalPages", totalPages);
-            request.setAttribute("currentPage", page);
-            
-            request.getRequestDispatcher("/admin/instructors.jsp").forward(request, response);
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            request.setAttribute("errorMessage", "Error loading instructors: " + e.getMessage());
-            request.getRequestDispatcher("/admin/error.jsp").forward(request, response);
         }
+        if (request.getParameter("size") != null) {
+            try {
+                size = Integer.parseInt(request.getParameter("size"));
+            } catch (NumberFormatException e) {
+                LOGGER.log(Level.WARNING, "Invalid page size format: " + request.getParameter("size"), e);
+                size = 10;
+            }
+        }
+        if (request.getParameter("statusFilter") != null) {
+            try {
+                statusFilter = UserStatus.valueOf(request.getParameter("statusFilter").toUpperCase());
+            } catch (IllegalArgumentException e) {
+                LOGGER.log(Level.WARNING, "Invalid status filter: " + request.getParameter("statusFilter"), e);
+                statusFilter = UserStatus.ACTIVE; // Fallback
+            }
+        }
+
+        List<InstructorListDTO> instructors = instructorService.getInstructorsWithPaginationAndStatus(page, size, statusFilter);
+        long totalInstructors = instructorService.getTotalInstructorsByStatus(statusFilter);
+        int totalPages = (int) Math.ceil((double) totalInstructors / size);
+
+        request.setAttribute("instructors", instructors);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("pageSize", size);
+        request.setAttribute("statusFilter", statusFilter.name()); // Truyền tên enum sang JSP
+
+        // Generate pagination URLs
+        List<String> pageUrls = new ArrayList<>();
+        for (int i = 1; i <= totalPages; i++) {
+            pageUrls.add(JSPUtils.buildPaginationUrl(request.getRequestURI(), request.getParameterMap(), i, size, "statusFilter", statusFilter.name()));
+        }
+        request.setAttribute("pageUrls", pageUrls);
+
+        request.getRequestDispatcher("/admin/instructors.jsp").forward(request, response);
     }
-    
-    private void viewInstructorDetails(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
+
+    private void viewInstructor(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Long id = null;
         try {
-            Long instructorId = Long.parseLong(request.getParameter("id"));
-            Instructor instructor = userService.findInstructorById(instructorId);
-            
-            if (instructor == null) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Instructor not found");
-                return;
-            }
-            
-            // Generate HTML for modal content
-            StringBuilder html = new StringBuilder();
-            html.append("<div class='row'>");
-            html.append("<div class='col-md-4 text-center'>");
-            if (instructor.getAvatarUrl() != null && !instructor.getAvatarUrl().isEmpty()) {
-                html.append("<img src='").append(instructor.getAvatarUrl()).append("' class='img-fluid rounded-circle mb-3' style='width: 150px; height: 150px; object-fit: cover;'>");
-            } else {
-                html.append("<div class='bg-secondary rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center text-white' style='width: 150px; height: 150px;'>");
-                html.append("<i class='fas fa-user fa-3x'></i></div>");
-            }
-            html.append("</div>");
-            html.append("<div class='col-md-8'>");
-            html.append("<h4>").append(instructor.getUser().getFullname()).append("</h4>");
-            html.append("<p class='text-muted'>").append(instructor.getUser().getEmail()).append("</p>");
-            html.append("<hr>");
-            html.append("<p><strong>Specialization:</strong> ").append(instructor.getSpecialization()).append("</p>");
-            html.append("<p><strong>Experience:</strong> ").append(instructor.getExperienceYears()).append(" years</p>");
-            html.append("<p><strong>Education:</strong> ").append(instructor.getEducationLevel()).append("</p>");
-            if (instructor.getLinkedinProfile() != null && !instructor.getLinkedinProfile().isEmpty()) {
-                html.append("<p><strong>LinkedIn:</strong> <a href='").append(instructor.getLinkedinProfile()).append("' target='_blank'>View Profile</a></p>");
-            }
-            html.append("<p><strong>Courses Created:</strong> ").append(instructor.getCoursesCreated().size()).append("</p>");
-            if (instructor.getBio() != null && !instructor.getBio().isEmpty()) {
-                html.append("<p><strong>Bio:</strong></p>");
-                html.append("<p>").append(instructor.getBio()).append("</p>");
-            }
-            html.append("</div></div>");
-            
-            response.setContentType("text/html");
-            response.getWriter().write(html.toString());
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error loading instructor details");
+            id = Long.parseLong(request.getParameter("id"));
+        } catch (NumberFormatException e) {
+            LOGGER.log(Level.WARNING, "Invalid instructor ID format: " + request.getParameter("id"), e);
+            response.sendRedirect(request.getContextPath() + "/admin/instructors?error=" + JSPUtils.encodeURL("Invalid instructor ID."));
+            return;
+        }
+
+        InstructorDetailDTO instructorOptional = new InstructorDetailDTO(instructorService.getInstructorById(id));
+        if (instructorOptional != null) {
+            request.setAttribute("instructor", instructorOptional);
+            request.getRequestDispatcher("/admin/instructor-details.jsp").forward(request, response);
+        } else {
+            response.sendRedirect(request.getContextPath() + "/admin/instructors?error=" + JSPUtils.encodeURL("Instructor not found."));
         }
     }
-    
-    private void getInstructorForEdit(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        response.setContentType("application/json");
-        PrintWriter out = response.getWriter();
-        Gson gson = new Gson();
-        
+
+    private void showCreateForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/admin/instructor-form.jsp").forward(request, response);
+    }
+
+    private void createInstructor(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String fullname = request.getParameter("fullname");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String bio = request.getParameter("bio");
+
+        User newUser = new User(fullname, email, password, "INSTRUCTOR");
+        // Status được set mặc định là ACTIVE trong constructor của User
+        User savedUser = userService.save(newUser);
+
+        Instructor newInstructor = new Instructor();
+        newInstructor.setUser(savedUser);
+        newInstructor.setBio(bio);
+        instructorService.saveInstructor(newInstructor);
+
+        response.sendRedirect(request.getContextPath() + "/admin/instructors?message=" + JSPUtils.encodeURL("Instructor created successfully!"));
+    }
+
+    private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Long id = null;
         try {
-            Long instructorId = Long.parseLong(request.getParameter("id"));
-            Instructor instructor = userService.findInstructorById(instructorId);
-            
-            if (instructor == null) {
-                out.print(gson.toJson(new ApiResponse(false, "Instructor not found")));
-                return;
-            }
-            
-            out.print(gson.toJson(instructor));
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            out.print(gson.toJson(new ApiResponse(false, "Error: " + e.getMessage())));
+            id = Long.parseLong(request.getParameter("id"));
+        } catch (NumberFormatException e) {
+            LOGGER.log(Level.WARNING, "Invalid instructor ID format for edit: " + request.getParameter("id"), e);
+            response.sendRedirect(request.getContextPath() + "/admin/instructors?error=" + JSPUtils.encodeURL("Invalid instructor ID for editing."));
+            return;
+        }
+
+        InstructorDetailDTO instructorOptional = new InstructorDetailDTO(instructorService.getInstructorById(id));
+        if (instructorOptional != null) {
+            request.setAttribute("instructor", instructorOptional);
+            request.getRequestDispatcher("/admin/instructor-form.jsp").forward(request, response);
+        } else {
+            response.sendRedirect(request.getContextPath() + "/admin/instructors?error=" + JSPUtils.encodeURL("Instructor not found for editing."));
         }
     }
-    
-    private void updateInstructorStatus(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        response.setContentType("application/json");
-        PrintWriter out = response.getWriter();
-        Gson gson = new Gson();
-        
+
+    private void updateInstructor(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Long id = null;
         try {
-            Long instructorId = Long.parseLong(request.getParameter("instructorId"));
-            String status = request.getParameter("status");
-            
-            boolean success = userService.updateUserRole(instructorId, status);
-            
-            if (success) {
-                // Send notification to instructor
-                String message = "DISABLED".equals(status) ? 
-                    "Your instructor account has been disabled by admin." :
-                    "Your instructor account has been reactivated.";
-                    
-                notificationService.sendNotificationToUser(instructorId, message, "/instructor/profile");
-                
-                out.print(gson.toJson(new ApiResponse(true, "Instructor status updated successfully")));
-            } else {
-                out.print(gson.toJson(new ApiResponse(false, "Failed to update instructor status")));
+            id = Long.parseLong(request.getParameter("id"));
+        } catch (NumberFormatException e) {
+            LOGGER.log(Level.WARNING, "Invalid instructor ID format for update: " + request.getParameter("id"), e);
+            response.sendRedirect(request.getContextPath() + "/admin/instructors?error=" + JSPUtils.encodeURL("Invalid instructor ID for update."));
+            return;
+        }
+
+        InstructorDetailDTO instructorDTO = new InstructorDetailDTO(instructorService.getInstructorById(id));
+
+        if (instructorDTO != null) {
+
+            User userOptional = userService.findById(instructorDTO.getId());
+            if (userOptional != null) {
+                User user = userOptional;
+                user.setFullname(request.getParameter("fullname"));
+                user.setEmail(request.getParameter("email"));
+                // Password update is optional, only if provided
+                String newPassword = request.getParameter("password");
+                if (newPassword != null && !newPassword.isEmpty()) {
+                    user.setPassword(newPassword);
+                }
+                userService.save(user);
             }
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            out.print(gson.toJson(new ApiResponse(false, "Error: " + e.getMessage())));
+
+            Instructor instructor = new Instructor();
+            instructor.setId(instructorDTO.getId());
+            instructor.setBio(request.getParameter("bio"));
+            instructor.setUser(userService.findById(instructorDTO.getId()));
+            instructor.setEducationLevel(request.getParameter("educationLevel"));
+            instructor.setSpecialization(request.getParameter("specialization"));
+            instructor.setAvatarUrl(request.getParameter("avatarUrl"));
+            instructor.setLinkedinProfile(request.getParameter("linkedinProfile"));
+            instructor.setExperienceYears(Integer.parseInt(request.getParameter("experienceYears")));
+            instructorService.saveInstructor(instructor);
+
+            response.sendRedirect(request.getContextPath() + "/admin/instructors?message=" + JSPUtils.encodeURL("Instructor updated successfully!"));
+        } else {
+            response.sendRedirect(request.getContextPath() + "/admin/instructors?error=" + JSPUtils.encodeURL("Instructor not found for update."));
         }
     }
-    
-    private void updateInstructor(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        response.setContentType("application/json");
-        PrintWriter out = response.getWriter();
-        Gson gson = new Gson();
-        
+
+    private void updateInstructorStatus(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Long id = null;
+        UserStatus newStatus = null;
         try {
-            Long instructorId = Long.parseLong(request.getParameter("instructorId"));
-            String fullname = request.getParameter("fullname");
-            String email = request.getParameter("email");
-            String specialization = request.getParameter("specialization");
-            int experienceYears = Integer.parseInt(request.getParameter("experienceYears"));
-            String educationLevel = request.getParameter("educationLevel");
-            String linkedinProfile = request.getParameter("linkedinProfile");
-            String bio = request.getParameter("bio");
-            
-            boolean success = userService.updateInstructor(instructorId, fullname, email, specialization, 
-                                                         experienceYears, educationLevel, linkedinProfile, bio);
-            
-            if (success) {
-                out.print(gson.toJson(new ApiResponse(true, "Instructor updated successfully")));
-            } else {
-                out.print(gson.toJson(new ApiResponse(false, "Failed to update instructor")));
-            }
-            
+            id = Long.parseLong(request.getParameter("id"));
+            newStatus = UserStatus.valueOf(request.getParameter("status").toUpperCase());
+        } catch (NumberFormatException e) {
+            LOGGER.log(Level.WARNING, "Invalid instructor ID format for status update: " + request.getParameter("id"), e);
+            response.sendRedirect(request.getContextPath() + "/admin/instructors?error=" + JSPUtils.encodeURL("Invalid instructor ID for status update."));
+            return;
+        } catch (IllegalArgumentException e) {
+            LOGGER.log(Level.WARNING, "Invalid status value: " + request.getParameter("status"), e);
+            response.sendRedirect(request.getContextPath() + "/admin/instructors?error=" + JSPUtils.encodeURL("Invalid status value provided."));
+            return;
+        }
+
+        try {
+            instructorService.updateInstructorStatus(id, newStatus);
+            response.sendRedirect(request.getContextPath() + "/admin/instructors?message=" + JSPUtils.encodeURL("Instructor status updated to " + newStatus.name() + " successfully!"));
         } catch (Exception e) {
-            e.printStackTrace();
-            out.print(gson.toJson(new ApiResponse(false, "Error: " + e.getMessage())));
+            LOGGER.log(Level.SEVERE, "Error updating instructor status for ID: " + id + " to " + newStatus.name(), e);
+            response.sendRedirect(request.getContextPath() + "/admin/instructors?error=" + JSPUtils.encodeURL("Failed to update instructor status: " + e.getMessage()));
         }
-    }
-    
-    // Helper class for JSON responses
-    private static class ApiResponse {
-        private boolean success;
-        private String message;
-        
-        public ApiResponse(boolean success, String message) {
-            this.success = success;
-            this.message = message;
-        }
-        
-        // Getters
-        public boolean isSuccess() { return success; }
-        public String getMessage() { return message; }
     }
 }

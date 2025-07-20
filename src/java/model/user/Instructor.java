@@ -10,6 +10,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
@@ -48,7 +49,8 @@ public class Instructor implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-    @Column(name = "bio")
+
+    @Column(name = "bio", length = 4000)
     private String bio;
     @Basic(optional = false)
     @Column(name = "experience_years")
@@ -65,9 +67,10 @@ public class Instructor implements Serializable {
     private String avatarUrl;
     @OneToOne
 
-    @MapsId 
+    @MapsId
     @JoinColumn(name = "id")
     private User user;
+
     @OneToMany(mappedBy = "createdBy")
     private List<Course> coursesCreated;
 
@@ -97,8 +100,8 @@ public class Instructor implements Serializable {
         this.avatarUrl = avatarUrl;
     }
 
-    public Instructor(Long id,String bio, int experienceYears, String specialization, String educationLevel, String linkedinProfile, String avatarUrl) {
-       this.id = id;
+    public Instructor(Long id, String bio, int experienceYears, String specialization, String educationLevel, String linkedinProfile, String avatarUrl) {
+        this.id = id;
         this.bio = bio;
         this.experienceYears = experienceYears;
         this.specialization = specialization;

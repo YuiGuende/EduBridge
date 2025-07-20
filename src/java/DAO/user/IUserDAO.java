@@ -7,6 +7,7 @@ package DAO.user;
 import java.util.List;
 import java.util.Optional;
 import model.user.User;
+import model.user.UserStatus;
 
 /**
  *
@@ -38,4 +39,5 @@ public interface IUserDAO {
 
     Double getAverageRateByInstructor(Long instructorId);
 
+    void updateStatus(Long id, UserStatus status);
 }

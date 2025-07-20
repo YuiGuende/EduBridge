@@ -137,17 +137,72 @@ package util;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
+import java.lang.System.Logger.Level;
 import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Map; // Keep this import if other methods use Map
+import java.util.logging.*;
 
 public class JSPUtils {
 
+    public static String encodeURL(String value) {
+        try {
+            return URLEncoder.encode(value, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            return value; // Fallback to unencoded if encoding fails
+        }
+    }
+
+    public static String buildPaginationUrl(String baseUrl, Map<String, String[]> paramsMap, int page, int pageSize, String additionalParamName, String additionalParamValue) {
+        StringBuilder url = new StringBuilder(baseUrl);
+        url.append("?");
+
+        boolean firstParam = true;
+
+        // Add existing parameters, excluding 'page' and 'size'
+        for (Map.Entry<String, String[]> entry : paramsMap.entrySet()) {
+            String paramName = entry.getKey();
+            if (!"page".equals(paramName) && !"size".equals(paramName) && (additionalParamName == null || !additionalParamName.equals(paramName))) {
+                for (String paramValue : entry.getValue()) {
+                    if (!firstParam) {
+                        url.append("&");
+                    }
+                    try {
+                        url.append(URLEncoder.encode(paramName, "UTF-8")).append("=").append(URLEncoder.encode(paramValue, "UTF-8"));
+                    } catch (UnsupportedEncodingException e) {
+//                        LOGGER.log(Level., "Error encoding URL parameter: " + paramName, e);
+                    }
+                    firstParam = false;
+                }
+            }
+        }
+
+        // Add page and size parameters
+        if (!firstParam) {
+            url.append("&");
+        }
+        url.append("page=").append(page);
+        url.append("&size=").append(pageSize);
+
+        // Add additional parameter if provided
+        if (additionalParamName != null && additionalParamValue != null) {
+            url.append("&");
+            try {
+                url.append(URLEncoder.encode(additionalParamName, "UTF-8")).append("=").append(URLEncoder.encode(additionalParamValue, "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+//                LOGGER.log(Level.SEVERE, "Error encoding additional URL parameter: " + additionalParamName, e);
+            }
+        }
+
+        return url.toString();
+    }
+
     /**
      * Encodes a string for safe display in HTML to prevent XSS attacks.
+     *
      * @param text The string to encode.
      * @return The HTML-encoded string.
      */
@@ -159,13 +214,27 @@ public class JSPUtils {
         StringBuilder sb = new StringBuilder();
         for (char c : encodedText.toCharArray()) {
             switch (c) {
-                case '<': sb.append("&lt;"); break;
-                case '>': sb.append("&gt;"); break;
-                case '&': sb.append("&amp;"); break;
-                case '"': sb.append("&quot;"); break;
-                case '\'': sb.append("&#39;"); break; // Apostrophe
-                case '/': sb.append("&#x2F;"); break; // Forward slash
-                default: sb.append(c); break;
+                case '<':
+                    sb.append("&lt;");
+                    break;
+                case '>':
+                    sb.append("&gt;");
+                    break;
+                case '&':
+                    sb.append("&amp;");
+                    break;
+                case '"':
+                    sb.append("&quot;");
+                    break;
+                case '\'':
+                    sb.append("&#39;");
+                    break; // Apostrophe
+                case '/':
+                    sb.append("&#x2F;");
+                    break; // Forward slash
+                default:
+                    sb.append(c);
+                    break;
             }
         }
         return sb.toString();
@@ -173,6 +242,7 @@ public class JSPUtils {
 
     /**
      * Encodes a string for safe use in URL parameters.
+     *
      * @param text The string to encode.
      * @return The URL-encoded string.
      */
@@ -189,8 +259,9 @@ public class JSPUtils {
     }
 
     /**
-     * Converts a LocalDateTime object to a java.util.Date object.
-     * Useful for JSTL fmt:formatDate tag.
+     * Converts a LocalDateTime object to a java.util.Date object. Useful for
+     * JSTL fmt:formatDate tag.
+     *
      * @param localDateTime The LocalDateTime to convert.
      * @return The converted java.util.Date.
      */
@@ -202,7 +273,9 @@ public class JSPUtils {
     }
 
     /**
-     * Builds a pagination URL by preserving existing query parameters and including pageSize from request attributes.
+     * Builds a pagination URL by preserving existing query parameters and
+     * including pageSize from request attributes.
+     *
      * @param request The HttpServletRequest.
      * @param page The target page number.
      * @return The constructed URL with updated page and pageSize parameters.

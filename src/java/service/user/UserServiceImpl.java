@@ -21,6 +21,7 @@ import model.user.InstructorBankInfo;
 import model.user.InstructorBankInfo;
 import model.user.Learner;
 import model.user.User;
+import model.user.UserStatus;
 
 /**
  *
@@ -86,28 +87,28 @@ public class UserServiceImpl implements IUserService {
         return learnerDAO.countActiveLearners();
     }
 
-    @Override
-    public List<InstructorListDTO> getInstructorsList(String name, String email, String specialization, int page, int pageSize) {
-        int offset = (page - 1) * pageSize;
-        List<Instructor> instructors = instructorDAO.findInstructorsWithFilters(name, email, specialization, offset, pageSize);
-
-        List<InstructorListDTO> instructorDTOs = new ArrayList<>();
-        for (Instructor instructor : instructors) {
-            InstructorListDTO dto = new InstructorListDTO();
-            dto.setId(instructor.getId());
-            dto.setUser(instructor.getUser());
-            dto.setSpecialization(instructor.getSpecialization());
-            dto.setExperienceYears(instructor.getExperienceYears());
-            dto.setEducationLevel(instructor.getEducationLevel());
-            dto.setLinkedinProfile(instructor.getLinkedinProfile());
-            dto.setBio(instructor.getBio());
-            dto.setAvatarUrl(instructor.getAvatarUrl());
-            dto.setCoursesCreated(instructor.getCoursesCreated());
-            instructorDTOs.add(dto);
-        }
-
-        return instructorDTOs;
-    }
+//    @Override
+//    public List<InstructorListDTO> getInstructorsList(String name, String email, String specialization, int page, int pageSize) {
+//        int offset = (page - 1) * pageSize;
+//        List<Instructor> instructors = instructorDAO.findInstructorsWithFilters(name, email, specialization, offset, pageSize);
+//
+//        List<InstructorListDTO> instructorDTOs = new ArrayList<>();
+//        for (Instructor instructor : instructors) {
+//            InstructorListDTO dto = new InstructorListDTO();
+//            dto.setId(instructor.getId());
+//            dto.setUser(instructor.getUser());
+//            dto.setSpecialization(instructor.getSpecialization());
+//            dto.setExperienceYears(instructor.getExperienceYears());
+//            dto.setEducationLevel(instructor.getEducationLevel());
+//            dto.setLinkedinProfile(instructor.getLinkedinProfile());
+//            dto.setBio(instructor.getBio());
+//            dto.setAvatarUrl(instructor.getAvatarUrl());
+//            dto.setCoursesCreated(instructor.getCoursesCreated());
+//            instructorDTOs.add(dto);
+//        }
+//
+//        return instructorDTOs;
+//    }
 
     @Override
     public int getInstructorsCount(String name, String email, String specialization) {
@@ -221,6 +222,11 @@ public class UserServiceImpl implements IUserService {
     @Override
     public Double getAverageRateByInstructor(Long instructorId) {
         return userDAO.getAverageRateByInstructor(instructorId);
+    }
+    
+    @Override
+    public void updateUserStatus(Long id, UserStatus status) {
+        userDAO.updateStatus(id, status);
     }
 
 }

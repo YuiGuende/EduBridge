@@ -12,12 +12,12 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin-style.css">
     </head>
     <body>
-
+        <jsp:include page="components/admin-header.jsp" />
 
         <div class="container-fluid">
             <div class="row">
 
-
+                <%@ include file="components/admin-sidebar.jsp" %>
                 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                         <h1 class="h2">
@@ -25,7 +25,6 @@
                             Course Management
                         </h1>
                     </div>
-
                     <!-- Search and Filter -->
                     <div class="card mb-4">
                         <div class="card-body">
@@ -111,8 +110,8 @@
                                                     <div class="text-muted small">${course.headline}</div>
                                                 </td>
                                                 <td>
-                                                    
-                                                         ${course.createdBy}
+
+                                                    ${course.createdBy}
                                                 </td>
                                                 <td>
                                                     <c:choose>
@@ -277,13 +276,13 @@
 
                                                                             function disableCourse(courseId) {
                                                                                 if (confirm('Are you sure you want to disable this course?')) {
-                                                                                    updateCourseStatus(courseId, 'ARCHIVE');
+                                                                                    submitStatusUpdate(courseId, 'ARCHIVE');
                                                                                 }
                                                                             }
 
                                                                             function enableCourse(courseId) {
                                                                                 if (confirm('Are you sure you want to enable this course?')) {
-                                                                                    updateCourseStatus(courseId, 'PUBLIC');
+                                                                                    submitStatusUpdate(courseId, 'PUBLIC');
                                                                                 }
                                                                             }
 

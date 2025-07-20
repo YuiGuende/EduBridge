@@ -127,17 +127,7 @@ public class AdminCourseServlet extends HttpServlet {
 
             if (success) {
                 // Send notification to instructor
-                Course course = courseService.findById(courseId);
-                if (course != null) {
-                    String message = createStatusUpdateMessage(newStatus, reason);
-                    notificationService.sendNotificationToInstructor(
-                            course.getCreatedBy().getId(),
-                            message,
-                            "/instructor/courses?id=" + courseId
-                    );
-                }
-
-                out.print(gson.toJson(new ApiResponse(true, "Course status updated successfully")));
+                listCourses(request, response);
             } else {
                 out.print(gson.toJson(new ApiResponse(false, "Failed to update course status")));
             }

@@ -9,6 +9,8 @@ import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -65,10 +67,16 @@ public class User implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Instructor instructor;
 
+    @Basic(optional = false)
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING) // Sử dụng EnumType.STRING để lưu tên enum vào DB
+    private UserStatus status;
+
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Learner learner;
 
     public User() {
+        this.status = UserStatus.ACTIVE;
     }
 
     public User(Long id) {
@@ -88,6 +96,14 @@ public class User implements Serializable {
         this.email = email;
         this.password = password;
         this.role = role;
+    }
+
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
     }
 
     public Learner getLearner() {

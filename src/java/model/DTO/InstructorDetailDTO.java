@@ -2,51 +2,65 @@ package model.DTO;
 
 import model.user.Instructor;
 import java.util.Date;
-import model.user.User;
+import java.util.List;
+import java.util.stream.Collectors;
 import model.user.UserStatus;
 
-public class InstructorListDTO {
+public class InstructorDetailDTO {
 
     private Long id;
     private String fullname;
     private String email;
-    private String specialization;
+    private String bio;
     private int experienceYears;
+    private String specialization;
     private String educationLevel;
+    private String linkedinProfile;
     private String avatarUrl;
     private Date createdAt;
-    private UserStatus status;
+    private String role; // From User entity
+    private List<CourseInstructorDTO> courses; // New field for courses
+    private UserStatus status; // Thay đổi kiểu dữ liệu thành UserStatus
 
-    public InstructorListDTO() {
-    }
-
-    public InstructorListDTO(User user) { // Constructor nhận User
-        this.id = user.getId();
-        this.fullname = user.getFullname();
-        this.email = user.getEmail();
-        this.createdAt = user.getCreatedAt();
-        this.status = user.getStatus(); // Lấy status từ User
-    }
-
-    public InstructorListDTO(Instructor instructor) {
+    public InstructorDetailDTO(Instructor instructor) {
         this.id = instructor.getId();
         if (instructor.getUser() != null) {
             this.fullname = instructor.getUser().getFullname();
             this.email = instructor.getUser().getEmail();
             this.createdAt = instructor.getUser().getCreatedAt();
+            this.role = instructor.getUser().getRole();
+            this.status = instructor.getUser().getStatus(); // Lấy status từ Use
         } else {
             this.fullname = "N/A";
             this.email = "N/A";
             this.createdAt = null;
+            this.role = "N/A";
+            this.status = UserStatus.ACTIVE; // Lấy status từ Use
         }
-        this.specialization = instructor.getSpecialization();
+        this.bio = instructor.getBio();
         this.experienceYears = instructor.getExperienceYears();
+        this.specialization = instructor.getSpecialization();
         this.educationLevel = instructor.getEducationLevel();
+        this.linkedinProfile = instructor.getLinkedinProfile();
         this.avatarUrl = instructor.getAvatarUrl();
+        if (instructor.getCoursesCreated() != null) {
+            this.courses = instructor.getCoursesCreated().stream()
+                    .map(CourseInstructorDTO::new)
+                    .collect(Collectors.toList());
+        }
+
     }
 
     public UserStatus getStatus() {
         return status;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public List<CourseInstructorDTO> getCourses() {
+        return courses;
     }
 
     // Getters
@@ -62,16 +76,24 @@ public class InstructorListDTO {
         return email;
     }
 
-    public String getSpecialization() {
-        return specialization;
+    public String getBio() {
+        return bio;
     }
 
     public int getExperienceYears() {
         return experienceYears;
     }
 
+    public String getSpecialization() {
+        return specialization;
+    }
+
     public String getEducationLevel() {
         return educationLevel;
+    }
+
+    public String getLinkedinProfile() {
+        return linkedinProfile;
     }
 
     public String getAvatarUrl() {
@@ -82,7 +104,7 @@ public class InstructorListDTO {
         return createdAt;
     }
 
-    // Setters (optional, typically DTOs don't need setters if only used for display)
+    // Setters (optional)
     public void setId(Long id) {
         this.id = id;
     }
@@ -95,16 +117,24 @@ public class InstructorListDTO {
         this.email = email;
     }
 
-    public void setSpecialization(String specialization) {
-        this.specialization = specialization;
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 
     public void setExperienceYears(int experienceYears) {
         this.experienceYears = experienceYears;
     }
 
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
+    }
+
     public void setEducationLevel(String educationLevel) {
         this.educationLevel = educationLevel;
+    }
+
+    public void setLinkedinProfile(String linkedinProfile) {
+        this.linkedinProfile = linkedinProfile;
     }
 
     public void setAvatarUrl(String avatarUrl) {
