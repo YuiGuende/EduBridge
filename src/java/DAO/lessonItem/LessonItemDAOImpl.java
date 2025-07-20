@@ -16,7 +16,6 @@ public class LessonItemDAOImpl extends GenericDAO<LessonItem> implements ILesson
         super(entityClass);
     }
 
-
 //    @Override
 //    public LessonItem save(LessonItem lessonItem) {
 //        EntityManager em = getEntityManager();
@@ -38,7 +37,6 @@ public class LessonItemDAOImpl extends GenericDAO<LessonItem> implements ILesson
 //            em.close();
 //        }
 //    }
-
 //    @Override
 //    public Optional<LessonItem> findById(Long id) {
 //        EntityManager em = getEntityManager();
@@ -49,7 +47,6 @@ public class LessonItemDAOImpl extends GenericDAO<LessonItem> implements ILesson
 //            em.close();
 //        }
 //    }
-
     @Override
     public List<LessonItem> findAll() {
         EntityManager em = getEntityManager();
@@ -80,7 +77,6 @@ public class LessonItemDAOImpl extends GenericDAO<LessonItem> implements ILesson
 //            em.close();
 //        }
 //    }
-
 //    @Override
 //    public void delete(LessonItem lessonItem) {
 //        EntityManager em = getEntityManager();
@@ -98,7 +94,6 @@ public class LessonItemDAOImpl extends GenericDAO<LessonItem> implements ILesson
 //            em.close();
 //        }
 //    }
-
 //    @Override
 //    public void deleteById(Long id) {
 //        EntityManager em = getEntityManager();
@@ -118,7 +113,6 @@ public class LessonItemDAOImpl extends GenericDAO<LessonItem> implements ILesson
 //            em.close();
 //        }
 //    }
-
     @Override
     public List<LessonItem> findByLesson(Lesson lesson) {
         EntityManager em = getEntityManager();
@@ -175,7 +169,6 @@ public class LessonItemDAOImpl extends GenericDAO<LessonItem> implements ILesson
 //            em.close();
 //        }
 //    }
-
     @Override
     public List<LessonItem> findByTitleContaining(String title) {
         EntityManager em = getEntityManager();
@@ -216,7 +209,6 @@ public class LessonItemDAOImpl extends GenericDAO<LessonItem> implements ILesson
 //            em.close();
 //        }
 //    }
-
     @Override
     public long countByLesson(Lesson lesson) {
         EntityManager em = getEntityManager();
@@ -249,7 +241,6 @@ public class LessonItemDAOImpl extends GenericDAO<LessonItem> implements ILesson
 //    public boolean exists(Long id) {
 //        return findById(id).isPresent();
 //    }
-
     @Override
     public LessonItem findNextLessonItem(LessonItem currentItem) {
         EntityManager em = getEntityManager();
@@ -308,6 +299,24 @@ public class LessonItemDAOImpl extends GenericDAO<LessonItem> implements ILesson
                     LessonItem.class);
             query.setParameter("moduleId", moduleId);
             return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public LessonItem findById(Long id) {
+        EntityManager em = getEntityManager();
+        try {
+            return em.createQuery("""
+            SELECT li FROM LessonItem li
+            JOIN FETCH li.lesson l
+            JOIN FETCH l.module m
+            JOIN FETCH m.course c
+            WHERE li.id = :id
+        """, LessonItem.class)
+                    .setParameter("id", id)
+                    .getSingleResult();
         } finally {
             em.close();
         }

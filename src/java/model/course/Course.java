@@ -26,7 +26,6 @@ public class Course extends ReportTarget {
     @Column(name = "description", columnDefinition = "nvarchar(max)")
     private String description;
 
-
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "course_requirements",
             joinColumns = @JoinColumn(name = "course_id"))
@@ -44,7 +43,6 @@ public class Course extends ReportTarget {
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "course_learning_outcomes",
             joinColumns = @JoinColumn(name = "course_id"))
-
 
     @Column(name = "learning_outcome", length = 1000, columnDefinition = "nvarchar(max)")
     private List<String> learningOutcomes = new ArrayList<>();
@@ -73,7 +71,7 @@ public class Course extends ReportTarget {
             inverseJoinColumns = @JoinColumn(name = "instructor_id"))
     private List<Instructor> instructors = new ArrayList<>();
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @OrderBy("index ASC")
     private List<Module> modules = new ArrayList<>();
 
@@ -110,7 +108,7 @@ public class Course extends ReportTarget {
 
     @Embedded
     @Column(nullable = true)
-    private Rate rate= new Rate();
+    private Rate rate = new Rate();
 
     @Column(name = "price")
     private double price;
@@ -405,20 +403,6 @@ public class Course extends ReportTarget {
         return modules.size();
     }
 
-    public int getTotalLessons() {
-        return modules.stream()
-                .mapToInt(module -> module.getLessons().size())
-                .sum();
-    }
-
-    // Getters and Setters
-//    public Long getId() {
-//        return id;
-//    }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
     public String getTitle() {
         return title;
     }
@@ -536,7 +520,7 @@ public class Course extends ReportTarget {
     }
 
     public String getPublishedTimeFormatted() {
-        if(publishedTime==null){
+        if (publishedTime == null) {
             return "";
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -599,6 +583,12 @@ public class Course extends ReportTarget {
 
     public void setVersion(Long version) {
         this.version = version;
+    }
+
+    public int getTotalLessons() {
+        return modules.stream()
+                .mapToInt(module -> module.getLessons() != null ? module.getLessons().size() : 0)
+                .sum();
     }
 
     @Override

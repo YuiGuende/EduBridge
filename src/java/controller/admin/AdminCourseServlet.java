@@ -99,10 +99,10 @@ public class AdminCourseServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         Course course = courseService.findCourse(Long.valueOf(id));
 
-        if (course == null) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Course not found");
-            return;
-        }
+//        if (course == null) {
+//            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Course not found");
+//            return;
+//        }
 
         request.setAttribute("course", course);
         request.getRequestDispatcher("/admin/viewCourse.jsp").forward(request, response);

@@ -4,12 +4,17 @@ import DAO.GenericDAO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import model.notification.Report;
-import model.notification.ReportTarget;
-import model.user.User;
-
-import java.util.List;
+import model.notification.ReportTargetType;
 import model.notification.ReportType;
+import model.user.User;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class ReportDAOImpl extends GenericDAO<Report> implements IReportDAO {
 
@@ -18,10 +23,40 @@ public class ReportDAOImpl extends GenericDAO<Report> implements IReportDAO {
     }
 
     @Override
+    public Report save(Report report) {
+        return super.save(report);
+    }
+
+    @Override
+    public Report update(Report report) {
+        return super.update(report);
+    }
+
+    @Override
+    public void delete(Report report) {
+        super.delete(report);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        super.deleteById(id);
+    }
+
+    @Override
+    public List<Report> findAll() {
+        return super.findAll();
+    }
+
+    @Override
+    public long count() {
+        return super.count();
+    }
+
+    @Override
     public List<Report> findByReporter(User user) {
         try (EntityManager em = getEntityManager()) {
             TypedQuery<Report> query = em.createQuery(
-                    "SELECT r FROM Report r WHERE r.reporter = :user ORDER BY r.createdAt DESC",
+                    "SELECT r FROM Report r WHERE r.user = :user ORDER BY r.createdAt DESC",
                     Report.class
             );
             query.setParameter("user", user);
@@ -30,32 +65,34 @@ public class ReportDAOImpl extends GenericDAO<Report> implements IReportDAO {
     }
 
     @Override
-    public List<Report> findByTarget(ReportTarget target) {
+    public List<Report> findByReportedItem(Long reportedItemId, ReportTargetType reportedItemType) {
         try (EntityManager em = getEntityManager()) {
             TypedQuery<Report> query = em.createQuery(
-                    "SELECT r FROM Report r WHERE r.target = :target ORDER BY r.createdAt DESC",
+                    "SELECT r FROM Report r WHERE r.reportedItemId = :reportedItemId AND r.reportedItemType = :reportedItemType ORDER BY r.createdAt DESC",
                     Report.class
             );
-            query.setParameter("target", target);
+            query.setParameter("reportedItemId", reportedItemId);
+            query.setParameter("reportedItemType", reportedItemType);
             return query.getResultList();
         }
     }
 
     @Override
-    public long countByTarget(ReportTarget target) {
+    public long countByReportedItem(Long reportedItemId, ReportTargetType reportedItemType) {
         try (EntityManager em = getEntityManager()) {
             return em.createQuery(
-                    "SELECT COUNT(r) FROM Report r WHERE r.target = :target",
+                    "SELECT COUNT(r) FROM Report r WHERE r.reportedItemId = :reportedItemId AND r.reportedItemType = :reportedItemType",
                     Long.class
-            ).setParameter("target", target)
-                    .getSingleResult();
+            ).setParameter("reportedItemId", reportedItemId)
+             .setParameter("reportedItemType", reportedItemType)
+             .getSingleResult();
         }
     }
 
     @Override
     public List<Report> findBySeen(boolean seen) {
         try (EntityManager em = getEntityManager()) {
-            return em.createQuery("SELECT r FROM Report r WHERE r.seen = :seen", Report.class)
+            return em.createQuery("SELECT r FROM Report r WHERE r.seen = :seen ORDER BY r.createdAt DESC", Report.class)
                     .setParameter("seen", seen)
                     .getResultList();
         }
@@ -64,7 +101,7 @@ public class ReportDAOImpl extends GenericDAO<Report> implements IReportDAO {
     @Override
     public List<Report> findByType(ReportType type) {
         try (EntityManager em = getEntityManager()) {
-            return em.createQuery("SELECT r FROM Report r WHERE r.type = :type", Report.class)
+            return em.createQuery("SELECT r FROM Report r WHERE r.type = :type ORDER BY r.createdAt DESC", Report.class)
                     .setParameter("type", type)
                     .getResultList();
         }
@@ -93,34 +130,27 @@ public class ReportDAOImpl extends GenericDAO<Report> implements IReportDAO {
     }
 
     @Override
-    public List<Report> findReportsWithFilters(String type, String status, String targetType, int offset, int limit) {
+    public List<Report> findReportsWithFilters(ReportType type, Report.ReportStatus status, ReportTargetType targetType, int offset, int limit) {
         try (EntityManager em = getEntityManager()) {
-            StringBuilder jpql = new StringBuilder("SELECT r FROM Report r WHERE 1=1");
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Report> cq = cb.createQuery(Report.class);
+            Root<Report> report = cq.from(Report.class);
+            List<Predicate> predicates = new ArrayList<>();
 
-            if (type != null && !type.trim().isEmpty()) {
-                jpql.append(" AND r.type = :type");
+            if (type != null) {
+                predicates.add(cb.equal(report.get("type"), type));
             }
-            if (status != null && !status.trim().isEmpty()) {
-                jpql.append(" AND r.status = :status");
+            if (status != null) {
+                predicates.add(cb.equal(report.get("status"), status));
             }
-            if (targetType != null && !targetType.trim().isEmpty()) {
-                jpql.append(" AND r.targetType = :targetType");
-            }
-
-            jpql.append(" ORDER BY r.createdAt DESC");
-
-            TypedQuery<Report> query = em.createQuery(jpql.toString(), Report.class);
-
-            if (type != null && !type.trim().isEmpty()) {
-                query.setParameter("type", type);
-            }
-            if (status != null && !status.trim().isEmpty()) {
-                query.setParameter("status", status);
-            }
-            if (targetType != null && !targetType.trim().isEmpty()) {
-                query.setParameter("targetType", targetType);
+            if (targetType != null) {
+                predicates.add(cb.equal(report.get("reportedItemType"), targetType));
             }
 
+            cq.where(predicates.toArray(new Predicate[0]));
+            cq.orderBy(cb.desc(report.get("createdAt")));
+
+            TypedQuery<Report> query = em.createQuery(cq);
             query.setFirstResult(offset);
             query.setMaxResults(limit);
 
@@ -132,33 +162,27 @@ public class ReportDAOImpl extends GenericDAO<Report> implements IReportDAO {
     }
 
     @Override
-    public int countReportsWithFilters(String type, String status, String targetType) {
+    public int countReportsWithFilters(ReportType type, Report.ReportStatus status, ReportTargetType targetType) {
         try (EntityManager em = getEntityManager()) {
-            StringBuilder jpql = new StringBuilder("SELECT COUNT(r) FROM Report r WHERE 1=1");
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+            Root<Report> report = cq.from(Report.class);
+            List<Predicate> predicates = new ArrayList<>();
 
-            if (type != null && !type.trim().isEmpty()) {
-                jpql.append(" AND r.type = :type");
+            if (type != null) {
+                predicates.add(cb.equal(report.get("type"), type));
             }
-            if (status != null && !status.trim().isEmpty()) {
-                jpql.append(" AND r.status = :status");
+            if (status != null) {
+                predicates.add(cb.equal(report.get("status"), status));
             }
-            if (targetType != null && !targetType.trim().isEmpty()) {
-                jpql.append(" AND r.targetType = :targetType");
-            }
-
-            TypedQuery<Long> query = em.createQuery(jpql.toString(), Long.class);
-
-            if (type != null && !type.trim().isEmpty()) {
-                query.setParameter("type", type);
-            }
-            if (status != null && !status.trim().isEmpty()) {
-                query.setParameter("status", status);
-            }
-            if (targetType != null && !targetType.trim().isEmpty()) {
-                query.setParameter("targetType", targetType);
+            if (targetType != null) {
+                predicates.add(cb.equal(report.get("reportedItemType"), targetType));
             }
 
-            return query.getSingleResult().intValue();
+            cq.select(cb.count(report));
+            cq.where(predicates.toArray(new Predicate[0]));
+
+            return em.createQuery(cq).getSingleResult().intValue();
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
@@ -181,8 +205,9 @@ public class ReportDAOImpl extends GenericDAO<Report> implements IReportDAO {
     @Override
     public int countPendingReports() {
         try (EntityManager em = getEntityManager()) {
-            String jpql = "SELECT COUNT(r) FROM Report r WHERE r.status = 'PENDING'";
+            String jpql = "SELECT COUNT(r) FROM Report r WHERE r.status = :status";
             TypedQuery<Long> query = em.createQuery(jpql, Long.class);
+            query.setParameter("status", Report.ReportStatus.PENDING);
             return query.getSingleResult().intValue();
         } catch (Exception e) {
             e.printStackTrace();
@@ -191,7 +216,7 @@ public class ReportDAOImpl extends GenericDAO<Report> implements IReportDAO {
     }
 
     @Override
-    public List<Report> findByStatus(String status) {
+    public List<Report> findByStatus(Report.ReportStatus status) {
         try (EntityManager em = getEntityManager()) {
             String jpql = "SELECT r FROM Report r WHERE r.status = :status ORDER BY r.createdAt DESC";
             TypedQuery<Report> query = em.createQuery(jpql, Report.class);

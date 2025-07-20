@@ -124,7 +124,6 @@
                                                                         <i class="fas fa-star${i <= course.rate.rate ? '' : '-o'}"></i>
                                                                     </c:forEach>
                                                                 </div>
-                                                                
                                                             </div>
                                                         </c:when>
                                                         <c:otherwise>

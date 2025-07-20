@@ -22,7 +22,7 @@
         <title>View Course</title>
     </head>
     <body>
-        <jsp:include page="/component/header.jsp" />
+        <jsp:include page="components/admin-header.jsp" />
 
 
         <c:if test="${course != null}">
@@ -73,7 +73,7 @@
 
                                 <div class="meta-item">
                                     <i class="fas fa-users"></i>
-                                    <span>2,456 students enrolled</span>
+                                    <span>${studentNum} students enrolled</span>
                                 </div>
 
                                 <div class="meta-item">
@@ -153,8 +153,12 @@
                                         <span>${course.createdDateFormatted}</span>
                                     </div>
                                     <div class="status-item">
-                                        <span class="status-label">Price</span>
-                                        <span>$999</span>
+                                        <span class="status-label">Discounted Price</span>
+                                        <span>${course.discountPrice}</span>
+                                    </div>
+                                    <div class="status-item">
+                                        <span class="status-label">Original Price</span>
+                                        <span>${course.price}</span>
                                     </div>
                                     <c:if test="${course.status == 'REQUESTING'}">
                                         <button type="button" class="btn btn-sm btn-outline-success" 
@@ -289,7 +293,7 @@
 
                                                         <div id="lessonItems${moduleStatus.index}${lessonStatus.index}" class="lesson-items" style="display: none;">
                                                             <c:forEach var="item" items="${lesson.lessonItems}">
-                                                                <a href="${pageContext.request.contextPath}/lesson-learner?lessonId=${lesson.id}&lessonItem=${item.id}" class="lesson-item-row">
+                                                                <a href="${pageContext.request.contextPath}/lessons-learner?lessonId=${lesson.id}&lessonItem=${item.id}" class="lesson-item-row">
                                                                     <div class="item-info">
                                                                         <c:choose>
                                                                             <c:when test="${item.type == 'VIDEO'}">

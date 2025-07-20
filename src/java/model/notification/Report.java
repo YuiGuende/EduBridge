@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model.notification;
 
 import jakarta.persistence.Column;
@@ -15,45 +11,52 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
 import model.course.Course;
+import static model.notification.Report.ReportStatus.values;
 import model.user.User;
 
 /**
- *
- * @author LEGION
+ * * * @author LEGION
  */
 @Entity
 @Table(name = "reports")
 public class Report {
 
+    public enum ReportStatus {
+        PENDING, SEEN, RESOLVED;
+
+        public static ReportStatus fromStringIgnoreCase(String value) {
+            for (ReportStatus status : values()) {
+                if (status.name().equalsIgnoreCase(value)) {
+                    return status;
+                }
+            }
+            throw new IllegalArgumentException("Invalid ReportStatus: " + value);
+        }
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
     @ManyToOne
     @JoinColumn(name = "target_id", nullable = false)
     private ReportTarget target;
-
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     private ReportType type;
-
     @Column(name = "seen", nullable = false)
     private boolean seen = false;
-
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
-
-    private String status = "pending";
+    @Enumerated(EnumType.STRING)
+    private ReportStatus status = ReportStatus.PENDING;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "reported_item_type", nullable = false)
+    private ReportTargetType reportedItemType; // Enum for target type (COURSE, COMMENT, INSTRUCTOR, LEARNER)
 
     public Report() {
     }
@@ -65,7 +68,30 @@ public class Report {
         this.type = type;
     }
 
-    // Getters & Setters
+    public Report(User user, ReportTarget target, String content, ReportType type, ReportTargetType reportedItemType) {
+        this.user = user;
+        this.target = target;
+        this.content = content;
+        this.type = type;
+        this.reportedItemType = reportedItemType;
+    }
+
+    public ReportTargetType getReportedItemType() {
+        return reportedItemType;
+    }
+
+    public void setReportedItemType(ReportTargetType reportedItemType) {
+        this.reportedItemType = reportedItemType;
+    }
+
+    public String getTargetType() {
+        if (target instanceof Course) {
+            return "Course";
+        } else {
+            return "Comment";
+        }
+    } // Getters & Setters
+
     public Long getId() {
         return id;
     }
@@ -82,11 +108,11 @@ public class Report {
         this.user = user;
     }
 
-    public String getStatus() {
+    public ReportStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(ReportStatus status) {
         this.status = status;
     }
 
@@ -129,22 +155,9 @@ public class Report {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
-    // Convert LocalDateTime to Date
-
-    public Date getDate() {
-        return Date.from(this.createdAt.atZone(ZoneId.systemDefault()).toInstant());
-    }
 
     @Override
     public String toString() {
-        return "Report{"
-                + "id=" + id
-                + ", user=" + user.getEmail()
-                + ", targetId=" + target.getId()
-                + ", content='" + content + '\''
-                + ", type=" + type
-                + ", seen=" + seen
-                + ", createdAt=" + createdAt
-                + '}';
+        return "Report{" + "id=" + id + ", user=" + user.getEmail() + ", targetId=" + target.getId() + ", content='" + content + '\'' + ", type=" + type + ", seen=" + seen + ", createdAt=" + createdAt + '}';
     }
 }

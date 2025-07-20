@@ -2,8 +2,7 @@ package service.report;
 
 import model.notification.Report;
 import model.user.User;
-import model.notification.ReportTarget;
-
+import model.notification.ReportTargetType;
 import java.util.List;
 import model.DTO.ReportListDTO;
 import model.notification.ReportType;
@@ -24,28 +23,32 @@ public interface IReportService {
 
     List<Report> findByReporter(User user);
 
-    List<Report> findByTarget(ReportTarget target);
+    // Updated methods to use reportedItemId and reportedItemType
+    List<Report> findByReportedItem(Long reportedItemId, ReportTargetType reportedItemType);
 
-    long countByTarget(ReportTarget target);
+    long countByReportedItem(Long reportedItemId, ReportTargetType reportedItemType);
+
+    long count();
 
     List<Report> findBySeen(boolean seen);
 
     List<Report> findByType(ReportType type);
 
     void markAsSeen(Long reportId);
+
     List<Report> getRecentReports(int limit);
+
     int getPendingReportsCount();
 
-    
     // Report management
-    List<ReportListDTO> getReportsList(String type, String status, String targetType, int page, int pageSize);
-    int getReportsCount(String type, String status, String targetType);
+    List<ReportListDTO> getReportsList(ReportType type, Report.ReportStatus status, ReportTargetType targetType, int page, int pageSize);
 
-    boolean updateReportStatus(Long reportId, String status);
+    int getReportsCount(ReportType type, Report.ReportStatus status, ReportTargetType targetType);
+
+    boolean updateReportStatus(Long reportId, Report.ReportStatus status);
+
     boolean deleteReport(Long reportId);
-    
+
     // Report operations
-
-    List<Report> findByStatus(String status);
-
+    List<Report> findByStatus(Report.ReportStatus status);
 }

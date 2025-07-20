@@ -28,7 +28,7 @@ public class Lesson extends CourseComponent implements Serializable {
     @JoinColumn(name = "module_id", nullable = false)
     private Module module;
 
-    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<LessonItem> lessonItems = new ArrayList<>();
 
     public Lesson() {

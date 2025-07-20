@@ -15,11 +15,11 @@ import model.course.Course;
 @Table(name = "modules")
 public class Module extends CourseComponent {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
-    @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @OrderBy("index ASC")
     private List<Lesson> lessons = new ArrayList<>();
 
