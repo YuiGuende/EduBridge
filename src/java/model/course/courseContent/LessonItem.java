@@ -17,8 +17,10 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 import jakarta.persistence.Table;
+import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED) // hoặc SINGLE_TABLE hay TABLE_PER_CLASS tùy ý
@@ -38,6 +40,8 @@ public abstract class LessonItem {
     private Lesson lesson;
 
     private int estimatedDuration;
+    @OneToMany(mappedBy = "lessonItem")
+    private List<LearnerLessonItem> learnerLessonItems;
 
     public LessonItem(int index, Long id, String title, int estimatedDuration) {
         this.index = index;

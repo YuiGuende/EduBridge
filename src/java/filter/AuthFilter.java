@@ -147,6 +147,7 @@ public class AuthFilter implements Filter {
             } else if (AD.equalsIgnoreCase(role) && ADMIN_FUNC.contains(resource)) {
                 chain.doFilter(request, response);
             } else {
+                res.sendRedirect(req.getContextPath() + "/logout");
                 res.sendRedirect(req.getContextPath() + "/login");
             }
         } catch (Exception e) {

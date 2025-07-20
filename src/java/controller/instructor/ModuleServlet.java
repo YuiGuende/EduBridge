@@ -151,7 +151,7 @@ public class ModuleServlet extends HttpServlet {
 
             // Lưu vào database
             moduleService.save(module);
-
+            response.sendRedirect("module");
         } catch (Exception e) {
             e.printStackTrace();
             response.sendRedirect("error.jsp");

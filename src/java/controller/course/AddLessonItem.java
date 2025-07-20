@@ -136,7 +136,7 @@ public class AddLessonItem extends HttpServlet {
             // Gọi Service để lưu video
             videoService.saveVideo(video);
 
-            response.sendRedirect("success.jsp");
+            response.sendRedirect("module");
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -172,7 +172,7 @@ public class AddLessonItem extends HttpServlet {
             // Gọi service để lưu
             readingService.saveReading(reading);
 
-            response.sendRedirect("success.jsp");
+            response.sendRedirect("module");
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", "Failed to add reading material.");

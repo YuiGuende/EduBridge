@@ -14,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -21,6 +22,8 @@ import jakarta.persistence.TemporalType;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
+import model.course.courseContent.LearnerLessonItem;
 
 /**
  *
@@ -67,6 +70,8 @@ public class User implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Learner learner;
+    @OneToMany(mappedBy = "learner")
+    private List<LearnerLessonItem> learnerLessonItems;
 
     public User() {
     }

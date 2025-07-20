@@ -136,7 +136,7 @@ public class LessonServlet extends HttpServlet {
                 System.out.println("module not found!");
             }
             Long moduleId = Long.valueOf(request.getParameter("moduleId"));
-            System.out.println("module id"+moduleId);
+            System.out.println("module id" + moduleId);
             Module module = course.getModules().stream()
                     .filter(m -> m.getId() == moduleId)
                     .findFirst()
@@ -190,6 +190,7 @@ public class LessonServlet extends HttpServlet {
 
             // Lưu lesson
             lessonService.save(lesson);
+            response.sendRedirect("module");
 
             // Chuyển hướng về danh sách bài học của module hoặc trang chi tiết khóa học
 //        response.sendRedirect("lessonList?moduleId=" + moduleId + "&courseId=" + courseId);
