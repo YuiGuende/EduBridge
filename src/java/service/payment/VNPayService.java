@@ -89,7 +89,7 @@ public class VNPayService {
             }
         }
 
-        Payment payment = new Payment("VNPay", LocalDate.now(), totalAmount, 0, vnp_TxnRef, Payment.PaymentStatus.PENDING);
+        Payment payment = new Payment("VNPay", LocalDate.now(), totalAmount/100, 0, vnp_TxnRef, Payment.PaymentStatus.PENDING);
         for (Course c : selectedCourses) {
             PaymentDetail detail = new PaymentDetail(payment, c, c.getDiscountPrice() != 0 ? c.getDiscountPrice() : c.getPrice());
             payment.getPaymentDetails().add(detail);

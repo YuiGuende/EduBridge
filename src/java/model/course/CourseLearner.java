@@ -33,7 +33,19 @@ public class CourseLearner implements Serializable {
     @ManyToOne(optional = false)
     private Learner learner;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "learning_status", nullable = false, length = 20)
+    private LearningStatus learningStatus = LearningStatus.NOT_STARTED;
+
     public CourseLearner() {
+    }
+
+    public LearningStatus getLearningStatus() {
+        return learningStatus;
+    }
+
+    public void setLearningStatus(LearningStatus learningStatus) {
+        this.learningStatus = learningStatus;
     }
 
     public CourseLearner(CourseLearnerPK courseLearnerPK) {

@@ -51,12 +51,6 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link ${request.getRequestURI().endsWith('/admin/orders') ? 'active' : ''}" href="${pageContext.request.contextPath}/admin/orders">
-                        <i class="fas fa-shopping-cart me-2"></i>
-                        Order Management
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link ${request.getRequestURI().endsWith('/admin/payments') ? 'active' : ''}" href="${pageContext.request.contextPath}/admin/payments">
                         <i class="fas fa-credit-card me-2"></i>
                         Payment Management

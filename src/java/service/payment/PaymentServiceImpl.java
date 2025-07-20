@@ -51,4 +51,44 @@ public class PaymentServiceImpl implements IPaymentService {
         return paymentDAO.getTotalLearnersByInstructor(instructorId);
     }
 
+    @Override
+    public void updatePaymentStatus(Long paymentId, Payment.PaymentStatus status) {
+        Payment payment = paymentDAO.findById(paymentId);
+        if (payment != null) {
+            payment.setPaymentStatus(status);
+            paymentDAO.update(payment); // Use update method from DAO 
+        }
+
+    }
+
+    @Override
+    public List<Payment> getAllPayments() {
+        return paymentDAO.findAll();
+    }
+
+    @Override
+    public void deletePayment(Long id) {
+        paymentDAO.deleteById(id);
+    }
+
+    @Override
+    public List<Payment> getPaymentsWithPagination(int page, int size) {
+        return paymentDAO.findWithPagination(page, size);
+    }
+
+    @Override
+    public long getTotalPayments() {
+        return paymentDAO.count();
+    }
+
+    @Override
+    public List<Payment> getPaymentsByStatus(Payment.PaymentStatus status) {
+        return paymentDAO.findPaymentsByStatus(status);
+    }
+
+    @Override
+    public Payment getPaymentById(Long id) {
+        return paymentDAO.findById(id);
+    }
+
 }

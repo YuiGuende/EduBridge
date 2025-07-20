@@ -3,6 +3,7 @@ package DAO.payment;
 import DAO.GenericDAO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import java.util.List;
 import model.payment.Payment;
 import model.payment.Payment.PaymentStatus;
 
@@ -57,6 +58,47 @@ public class PaymentDAOImpl extends GenericDAO<Payment> implements IPaymentDAO {
             Double total = q.getSingleResult();
             return total != null ? total : 0.0;
         }
+    }
+    
+    @Override
+    public List<Payment> findPaymentsByStatus(Payment.PaymentStatus status) {
+        EntityManager em = getEntityManager();
+        TypedQuery<Payment> query = em.createQuery(
+                "SELECT p FROM Payment p WHERE p.paymentStatus = :status", Payment.class);
+        query.setParameter("status", status);
+        List<Payment> payments = query.getResultList();
+        em.close();
+        return payments;
+    }
+
+    @Override
+    public List<Payment> getAllPaymentsByUser(Long userId) {
+        EntityManager em = getEntityManager();
+        TypedQuery<Payment> query = em.createQuery(
+                "SELECT p FROM Payment p WHERE p.user.id = :userId ORDER BY p.paymentDate DESC", Payment.class);
+        query.setParameter("userId", userId);
+        List<Payment> payments = query.getResultList();
+        em.close();
+        return payments;
+    }
+
+
+
+    @Override
+    public List<Payment> findWithPagination(int page, int size) {
+        int offset = (page - 1) * size;
+        return super.findAllWithPagination(offset, size);
+    }
+
+    // These methods were already in the previous version, ensuring they are here for completeness
+    @Override
+    public long countAllPayments() {
+        return super.count();
+    }
+
+    @Override
+    public List<Payment> findPaginatedPayments(int offset, int limit) {
+        return super.findAllWithPagination(offset, limit);
     }
 
 }
