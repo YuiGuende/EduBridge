@@ -10,7 +10,7 @@ import model.DTO.revenue.TotalRevenueDTO;
 import model.DTO.revenue.DailyRevenueDTO;
 import model.DTO.revenue.WeeklyStatsDTO;
 
-public class RevenueService {
+public class RevenueService implements IRevenueService{
 
     private final IRevenueDAO revenueDAO;
 
@@ -18,26 +18,32 @@ public class RevenueService {
         this.revenueDAO = new RevenueDAOImpl();
     }
 
+    @Override
     public TotalRevenueDTO getTotalRevenue(Long instructorId) {
         return revenueDAO.getTotalRevenue(instructorId);
     }
 
+    @Override
     public List<BestSellerCourseDTO> getBestSellers(Long instructorId) {
         return revenueDAO.getBestSellers(instructorId);
     }
 
+    @Override
     public List<MonthlyRevenueDTO> getMonthlyRevenue(Long instructorId) {
         return revenueDAO.getMonthlyRevenue(instructorId);
     }
 
+    @Override
     public List<TopBuyerDTO> getTopBuyers(Long instructorId) {
         return revenueDAO.getTopBuyers(instructorId);
     }
 
+    @Override
     public WeeklyStatsDTO getWeeklyStats(Long instructorId) {
         return revenueDAO.getWeeklyStats(instructorId);
     }
 
+    @Override
     public List<DailyRevenueDTO> getDailyRevenue(Long instructorId) {
         return revenueDAO.getDailyRevenue(instructorId);
     }

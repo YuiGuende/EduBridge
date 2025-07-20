@@ -73,10 +73,10 @@ a{
     color: white;
 }
 .filter-btn {
-    width: 95px;
+    min-width: 80px;
+    width: max-content;
     border: none;
     padding: 8px 10px;
-    margin-right: 2px;
     background-color: #d3d4d6;
     font-weight: bold;
     border-radius: 5px;
@@ -162,3 +162,7 @@ table th {
 
 /* Add a grey background color on mouse-over */
 .paging a:hover:not(.active-page) {background-color: #ddd;}
+.select-sort select{
+    width: 100%;
+    height: 30px;
+}

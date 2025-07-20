@@ -12,10 +12,21 @@ body {
     padding: 0;
     background: #f9f9f9;
 }
+.returnBtn {
+    margin: 0 5%;
+}
+.returnBtn a {
+    text-decoration: none !important;
+    color: #1A2A6C !important;
+    font-weight: bold !important;
+}
 
+.returnBtn a:hover {
+    text-decoration: underline !important;
+}
 .checkout-container {
     min-width: 60%;
-    margin: 40px auto;
+    margin: 30px auto;
     background: #fff;
     border-radius: 8px;
     padding: 2rem;

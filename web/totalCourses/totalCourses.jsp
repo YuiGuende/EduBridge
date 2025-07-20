@@ -23,11 +23,13 @@
                    value='${instructor.id}' />"/>
         <div class="container-fluid">
             <div class="container-header row">
-                <div class="nav col-md-5">
+                <div class="nav col-md-6">
                     <a href="total-courses?action=all" class="filter-btn ${action == 'all' ? 'active' : ''}">All</a>
                     <a href="total-courses?action=public" class="filter-btn ${action == 'public' ? 'active' : ''}">Public</a>
                     <a href="total-courses?action=draft" class="filter-btn ${action == 'draft' ? 'active' : ''}">Draft</a>
                     <a href="total-courses?action=archived" class="filter-btn ${action == 'archived' ? 'active' : ''}">Archived</a>
+                    <a href="total-courses?action=requesting" class="filter-btn ${action == 'requesting' ? 'active' : ''}">Requesting</a>
+                    <a href="total-courses?action=rejected" class="filter-btn ${action == 'rejected' ? 'active' : ''}">Rejected</a>
                 </div>
                 <div class="col-md-4">
                     <form method="get" action="total-courses" class="search-container">
@@ -39,16 +41,12 @@
                     </form>
                 </div>
                 <a href="add-course" class="col-md-1 createBtn"><i class="fas fa-plus" style="color: #fcfcfc;"></i>Create</a>
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/duong_jpa
-                <form method="get" action="total-courses" class="col-md-2 row">
+                <form method="get" action="total-courses" class="select-sort col-md-1">
                     <input type="hidden" name="action" value="${action}" />
                     <input type="hidden" name="keyword" value="${keyword}" />
-                    <label for="sort" class='col-md-6'>Sort by:</label>
-                    <select name="sort" id="sort" onchange="this.form.submit()" class="col-md-6">
-                        <option value="" ${empty sort ? 'selected' : ''}>Auto</option>
+                    <select name="sort" id="sort" onchange="this.form.submit()">
+                        <option value="" ${empty sort ? 'selected' : ''}>Sort by</option>
                         <option value="az" ${sort == 'az' ? 'selected' : ''}>A – Z</option>
                         <option value="za" ${sort == 'za' ? 'selected' : ''}>Z – A</option>
                         <option value="newest" ${sort == 'newest' ? 'selected' : ''}>Newest</option>
@@ -79,10 +77,7 @@
                                 <a href="view-course?id=${course.id}" class="btn btn-outline-primary btn-sm">
                                     <i class="fas fa-eye"></i> View
                                 </a>
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/duong_jpa
                                 <a href="course?id=${course.id}" class="btn btn-outline-secondary btn-sm">
                                     <i class="fas fa-edit"></i> Edit
                                 </a>

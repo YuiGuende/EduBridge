@@ -1,10 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/duong_jpa
+
     <head>
         <title>Báo cáo lạm dụng</title>
         <style>

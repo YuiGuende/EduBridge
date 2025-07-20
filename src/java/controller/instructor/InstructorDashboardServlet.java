@@ -19,13 +19,14 @@ import service.course.CourseService;
 import service.course.CourseServiceImpl;
 import service.payment.IPaymentService;
 import service.payment.PaymentServiceImpl;
+import service.revenue.IRevenueService;
 import service.revenue.RevenueService;
 import service.user.IUserService;
 import service.user.UserServiceImpl;
 
 public class InstructorDashboardServlet extends HttpServlet {
 
-    private final RevenueService revenueService = new RevenueService();
+    private final IRevenueService revenueService = new RevenueService();
     private final IPaymentService paymentService = new PaymentServiceImpl();
     private final CourseService courseService = new CourseServiceImpl();
     private final IUserService userService = new UserServiceImpl();
